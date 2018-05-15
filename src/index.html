@@ -3,17 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="./assets/fontawesome-all.css" />
   </head>
   <body>
-    <div id="test">
-    </div>
+    <div id="app"></div>
   </body>
-
-  <script>
-  import Vue from 'vue';
-import Test from './components/test';
-
-const app = new Vue(Test).$mount('#test');
-app.text = 'Electron Forge with Vue.js!';
-</script>
+  <script type="text/javascript" src="./app.js"></script>
 </html>
