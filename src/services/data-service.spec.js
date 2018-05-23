@@ -51,11 +51,9 @@ describe('test data service methods', () => {
     it('should be able to create an index file with all of the data', async () => {
         const {items, errors} = await buildDataTree(process.env.DATA_PATH);
         const index = buildIndex(items);
-        expect(index).to.be.an('object');
-        each(index, (item, collectionId) => {
-            each(item, (itemData, itemId) => {
-                expect(itemData).to.be.jsonSchema(schema);
-            });
+        expect(index).to.be.an('array');
+        each(index, item => {
+            expect(item.data).to.be.jsonSchema(schema);
         });
     });
 
@@ -65,8 +63,6 @@ describe('test data service methods', () => {
         expect(statDirectory(`${installationTargetFolder}/www`)).to.be.true;
         expect(statDirectory(`${installationTargetFolder}/www/repository`)).to
             .be.true;
-        expect(statDirectory(`${installationTargetFolder}/www/cgi-bin`)).to.be
-            .true;
     });
 
     it('should be able to install the collection viewer', () => {
@@ -92,34 +88,28 @@ describe('test data service methods', () => {
             index
         );
         index = result.index;
-        each(index, (item, collectionId) => {
-            each(item, (item, itemId) => {
-                item.images.map(
-                    image =>
+        each(index, item => {
+            item.data.images.map(
+                image =>
+                    expect(statFile(`${installationTargetFolder}/www/${image}`))
+                        .to.be.true
+            );
+            item.data.media.map(m =>
+                m.files.map(
+                    file =>
                         expect(
-                            statFile(`${installationTargetFolder}/www/${image}`)
+                            statFile(`${installationTargetFolder}/www/${file}`)
                         ).to.be.true
-                );
-                item.media.map(m =>
-                    m.files.map(
-                        file =>
-                            expect(
-                                statFile(
-                                    `${installationTargetFolder}/www/${file}`
-                                )
-                            ).to.be.true
-                    )
-                );
-                item.transcriptions.map(
-                    t =>
-                        expect(
-                            statFile(`${installationTargetFolder}/www/${t.url}`)
-                        ).to.be.true
-                );
-                item.documents.map(d => {
-                    expect(statFile(`${installationTargetFolder}/www/${d.url}`))
-                        .to.be.true;
-                });
+                )
+            );
+            item.data.transcriptions.map(
+                t =>
+                    expect(statFile(`${installationTargetFolder}/www/${t.url}`))
+                        .to.be.true
+            );
+            item.data.documents.map(d => {
+                expect(statFile(`${installationTargetFolder}/www/${d.url}`)).to
+                    .be.true;
             });
         });
         writeIndexFile(`${installationTargetFolder}`, index);

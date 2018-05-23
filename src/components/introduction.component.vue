@@ -9,7 +9,15 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                To get started, please follow the instructions at
+                Please select one of the following options:
+                <nav class="nav flex-column mb-3">
+                    <router-link class="nav-link" to="/loadLibraryBox">
+                        Installing your data onto a LibraryBox
+                    </router-link>
+                    <router-link class="nav-link" to="/configureLibraryBox">
+                        Configuring a new LibraryBox
+                    </router-link>
+                </nav>
             </div>
         </div>
     </div>

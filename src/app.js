@@ -2,25 +2,36 @@
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 Vue.use(VueRouter);
+Vue.use(Vuex);
 
 import IntroductionComponent from './components/introduction.component.vue';
-import Step1Component from './components/step1.component.vue';
-import Step2Component from './components/step2.component.vue';
+import LibraryBoxLoadDataComponent from './components/librarybox-load-data.component.vue';
+import LibraryBoxConfigureComponent from './components/librarybox-configure.component.vue';
+import storeConfiguration from './store';
 const routes = [
     {
         path: '/introduction',
         name: 'introduction',
         component: IntroductionComponent
     },
-    {path: '/step1', name: 'step1', component: Step1Component},
-    {path: '/step2', name: 'step2', component: Step2Component}
+    {
+        path: '/loadLibraryBox',
+        name: 'loadLibraryBox',
+        component: LibraryBoxLoadDataComponent
+    },
+    {
+        path: '/configureLibraryBox',
+        name: 'configureLibraryBox',
+        component: LibraryBoxConfigureComponent
+    }
 ];
 
-const router = new VueRouter({
-    routes
-});
+const router = new VueRouter({routes});
+const store = new Vuex.Store(storeConfiguration);
 
 import App from './components/app';
 App.router = router;
+App.store = store;
 const app = new Vue(App);

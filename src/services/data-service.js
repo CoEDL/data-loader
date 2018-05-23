@@ -1,10 +1,12 @@
 'use strict';
 
-const fs = require('fs');
+// const fs = require('fs');
+const fs = require('fs-extra');
 const util = require('util');
 const readdir = util.promisify(fs.readdir);
 const stat = util.promisify(fs.stat);
 const shell = require('shelljs');
+const {cwd} = require('process');
 
 const {compact, flattenDeep, includes, groupBy, map, each} = require('lodash');
 const {convert} = require('./xml-to-json-service');
@@ -16,7 +18,9 @@ module.exports = {
     buildIndex,
     prepareTarget,
     installTheData,
-    writeIndexFile
+    writeIndexFile,
+    verifyTargetLibraryBoxDisk,
+    installCollectionViewer
 };
 
 const types = {
@@ -37,13 +41,11 @@ function writeIndexFile(target, index) {
 
 function installTheData(dataPath, target, index) {
     let errors = [];
-    each(index, (item, collectionId) => {
-        each(item, (item, itemId) => {
-            item = processImages(dataPath, target, item);
-            item = processTranscriptions(dataPath, target, item);
-            item = processMedia(dataPath, target, item);
-            item = processDocuments(dataPath, target, item);
-        });
+    each(index, item => {
+        item.data = processImages(dataPath, target, item.data);
+        item.data = processTranscriptions(dataPath, target, item.data);
+        item.data = processMedia(dataPath, target, item.data);
+        item.data = processDocuments(dataPath, target, item.data);
     });
     return {index, errors};
 
@@ -133,6 +135,7 @@ function installTheData(dataPath, target, index) {
         item.documents = compact(item.documents);
         return item;
     }
+
     function setup(target, item) {
         const cid = item.collectionId;
         const iid = item.itemId;
@@ -154,19 +157,40 @@ function installTheData(dataPath, target, index) {
 }
 
 function prepareTarget(target) {
-    shell.exec(`rm -rf ${target}/www`);
-    shell.mkdir('-p', `${target}/www/repository`);
-    shell.mkdir('-p', `${target}/www/cgi-bin`);
+    fs.removeSync(`${target}/www`);
+    fs.ensureDirSync(`${target}/www`);
+    fs.ensureDirSync(`${target}/www/repository`);
+    // fs.ensureDirSync(`${target}/www/cgi-bin`);
+}
+
+function installCollectionViewer(target) {
+    fs.copySync(`${cwd()}/src/viewer/`, `${target}/www/`);
+}
+
+async function verifyTargetLibraryBoxDisk(target) {
+    try {
+        const folder = await stat(`${target}`);
+        return folder.isDirectory();
+    } catch (error) {
+        return false;
+    }
 }
 
 function buildIndex(items) {
-    let index = {};
-    const collectionIds = items.map(i => i.collectionId);
-    collectionIds.forEach(c => (index[c] = {}));
-    items.forEach(item => {
-        index[item.collectionId][item.itemId] = readCatalogFile(item);
+    // let index = {};
+    // const collectionIds = items.map(i => i.collectionId);
+    // collectionIds.forEach(c => (index[c] = {}));
+    // items.forEach(item => {
+    //     index[item.collectionId][item.itemId] = readCatalogFile(item);
+    // });
+    // return index;
+    return items.map(item => {
+        return {
+            collectionId: item.collectionId,
+            itemId: item.itemId,
+            data: readCatalogFile(item)
+        };
     });
-    return index;
 }
 
 function createItemDataStructure(path, data) {
