@@ -23,7 +23,7 @@ import {mapState} from 'vuex';
 
 export default {
     computed: mapState({
-        messages: state => state.libraryBoxDataLoad.messages
+        messages: state => state.messages
     }),
     methods: {}
 };

@@ -20,7 +20,8 @@ module.exports = {
     installTheData,
     writeIndexFile,
     verifyTargetLibraryBoxDisk,
-    installCollectionViewer
+    installCollectionViewer,
+    updateLibraryBoxConfigurationFiles
 };
 
 const types = {
@@ -30,6 +31,26 @@ const types = {
     documentTypes: ['pdf'],
     transcriptionTypes: ['eaf', 'trs', 'ixt', 'flextext']
 };
+
+function updateLibraryBoxConfigurationFiles({target, hostname, ssid}) {
+    target = `${target}/LibraryBox/Config`;
+    if (!fs.statSync(target).isDirectory()) {
+        throw new Error(`${target} doesn't look like a LibraryBox disk.`);
+    }
+    [
+        'librarybox_ftp.txt',
+        'librarybox_ftpadmin.txt',
+        'librarybox_ftpanon.txt',
+        'librarybox_ftpsync.txt',
+        'librarybox_shoutbox.txt'
+    ].forEach(file => {
+        fs.writeFileSync(`${target}/${file}`, 'no\n');
+    });
+
+    fs.writeFileSync(`${target}/hostname.txt`, `${hostname}\n`);
+    fs.writeFileSync(`${target}/system_hostname.txt`, `${hostname}\n`);
+    fs.writeFileSync(`${target}/ssid.txt`, `${ssid}\n`);
+}
 
 function writeIndexFile(target, index) {
     fs.writeFileSync(

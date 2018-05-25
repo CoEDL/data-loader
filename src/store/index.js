@@ -5,40 +5,54 @@ import {isArray} from 'lodash';
 export default {
     state: {
         libraryBoxDataLoad: {
-            usbMountPoint: '/Volumes/LB',
-            messages: []
+            usbMountPoint: undefined,
+            hostname: 'catalog.paradisec.offline',
+            ssid: 'PARADISEC Catalog'
         },
-        localDataPath: '/Users/mlarosa/src/librarybox/data2'
+        messages: [],
+        localDataPath: undefined
     },
     mutations: {
         resetLibraryBoxMessages(state) {
-            state.libraryBoxDataLoad.messages = [];
+            state.messages = [];
+        },
+        resetUsbDiskSelection(state) {
+            state.libraryBoxDataLoad.usbMountPoint = undefined;
+        },
+        resetDataPathSelection(state) {
+            state.localDataPath = undefined;
         },
         setLibraryBoxUsbPath(state, path) {
             state.libraryBoxDataLoad.usbMountPoint = path;
         },
-        setLibraryBoxInfoMessage(state, msgs) {
+        setLibraryBoxHostname(state, hostname) {
+            state.libraryBoxDataLoad.hostname = hostname;
+        },
+        setLibraryBoxSsid(state, ssid) {
+            state.libraryBoxDataLoad.ssid = ssid;
+        },
+        setInfoMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
-            state.libraryBoxDataLoad.messages = [
-                ...state.libraryBoxDataLoad.messages,
+            state.messages = [
+                ...state.messages,
                 ...msgs.map(m => {
                     return {type: 'info', msg: m};
                 })
             ];
         },
-        setLibraryBoxCompleteMessage(state, msgs) {
+        setCompleteMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
-            state.libraryBoxDataLoad.messages = [
-                ...state.libraryBoxDataLoad.messages,
+            state.messages = [
+                ...state.messages,
                 ...msgs.map(m => {
                     return {type: 'infoComplete', msg: m};
                 })
             ];
         },
-        setLibraryBoxErrorMessage(state, msgs) {
+        setErrorMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
-            state.libraryBoxDataLoad.messages = [
-                ...state.libraryBoxDataLoad.messages,
+            state.messages = [
+                ...state.messages,
                 ...msgs.map(m => {
                     return {type: 'error', msg: m};
                 })

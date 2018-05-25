@@ -13,7 +13,8 @@ const {
     buildIndex,
     prepareTarget,
     installTheData,
-    writeIndexFile
+    writeIndexFile,
+    updateLibraryBoxConfigurationFiles
 } = require('./data-service');
 const installationTargetFolder = '/tmp/LB/LibraryBox';
 const collectionViewer = './src/viewer';
@@ -21,6 +22,12 @@ const collectionViewer = './src/viewer';
 if (!process.env.DATA_PATH) {
     console.log('Please set DATA_PATH in the environment. It needs to');
     console.log('  point to the location of the datafiles to be loaded.');
+    process.exit();
+}
+
+if (!process.env.LIBRARY_BOX_MOUNTPOINT) {
+    console.log('Please set LIBRARY_BOX_MOUNTPOINT in the environment. It ');
+    console.log('needs to point to the mountpoint of the LibraryBox USB disk.');
     process.exit();
 }
 
@@ -117,6 +124,19 @@ describe('test data service methods', () => {
             statFile(`${installationTargetFolder}/www/repository/index.json`)
         ).to.be.true;
     }).timeout(10000);
+
+    it.only('should be able configure the defaults', () => {
+        expect(
+            statDirectory(
+                `${process.env.LIBRARY_BOX_MOUNTPOINT}/LibraryBox/Config`
+            )
+        ).to.be.true;
+        updateLibraryBoxConfigurationFiles({
+            target: process.env.LIBRARY_BOX_MOUNTPOINT,
+            hostname: 'catalog.paradisec.offline',
+            ssid: 'PARADISEC Catalog'
+        });
+    });
 });
 
 function statFile(file) {

@@ -1,15 +1,5 @@
 <template>
-    <div>
-        <div class="row my-3">
-            <div class="col">
-                Data path: {{localDataPath}}
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col">
-                LibraryBox USB Mount Point: {{usbMountPoint}}
-            </div>
-        </div>
+    <div v-if="usbMountPoint && hostname && ssid && localDataPath">
         <div class="row my-3">
             <div class="col">
                 <div class="form-check">
@@ -45,8 +35,9 @@ import {
     installTheData,
     writeIndexFile,
     verifyTargetLibraryBoxDisk,
-    installCollectionViewer
-} from '../services/data-service';
+    installCollectionViewer,
+    updateLibraryBoxConfigurationFiles
+} from '../../services/data-service';
 
 export default {
     data() {
@@ -57,25 +48,27 @@ export default {
     },
     computed: mapState({
         usbMountPoint: state => state.libraryBoxDataLoad.usbMountPoint,
+        hostname: state => state.libraryBoxDataLoad.hostname,
+        ssid: state => state.libraryBoxDataLoad.ssid,
         localDataPath: state => state.localDataPath
     }),
     components: {},
     methods: {
         logInfo(msg) {
-            this.$store.commit('setLibraryBoxInfoMessage', msg);
+            this.$store.commit('setInfoMessage', msg);
         },
         logError(msg) {
-            this.$store.commit('setLibraryBoxErrorMessage', msg);
+            this.$store.commit('setErrorMessage', msg);
         },
         logComplete(msg) {
-            this.$store.commit('setLibraryBoxCompleteMessage', msg);
+            this.$store.commit('setCompleteMessage', msg);
         },
         async loadTheData() {
             this.loading = true;
             const installationTarget = `${this.usbMountPoint}/LibraryBox`;
             let index;
+            this.$store.commit('resetLibraryBoxMessages');
             setTimeout(async () => {
-                this.$store.commit('resetLibraryBoxMessages');
                 this.logInfo('Verifying the target disk.');
                 if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
                     this.logError(
@@ -96,6 +89,14 @@ export default {
                 this.logInfo('Installing the viewer.');
                 installCollectionViewer(installationTarget);
                 this.logComplete('Viewer installed');
+
+                this.logInfo('Configuring the system.');
+                updateLibraryBoxConfigurationFiles({
+                    target: this.usbMountPoint,
+                    hostname: this.hostname,
+                    ssid: this.ssid
+                });
+                this.logComplete('System configured');
 
                 let errors, result;
                 this.logInfo('Processing the data to be loaded.');
@@ -122,7 +123,7 @@ export default {
                     writeIndexFile(installationTarget, index);
                     this.logComplete('Index file written.');
                 }, 1000);
-            }, 10);
+            }, 100);
         }
     }
 };
