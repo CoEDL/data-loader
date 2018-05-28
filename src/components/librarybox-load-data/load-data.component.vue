@@ -2,11 +2,6 @@
     <div>
         <div class="row my-1">
             <div class="col">
-                Library Box Data Loader
-            </div>
-        </div>
-        <div class="row my-1">
-            <div class="col">
                 <select-usb-component></select-usb-component>
             </div>
         </div>
@@ -26,10 +21,10 @@
             </div>
         </div>
         <div class="row my-1">
-            <div class="col">
+            <div class="col-4">
                 <doit-component></doit-component>
             </div>
-            <div class="col">
+            <div class="col-8">
                 <data-logger-component></data-logger-component>
             </div>
         </div>

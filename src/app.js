@@ -1,5 +1,8 @@
 'use strict';
 
+import fontawesome from '@fortawesome/fontawesome';
+fontawesome.config.autoReplaceSvg = 'nest';
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';

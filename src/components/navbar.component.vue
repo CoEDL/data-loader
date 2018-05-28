@@ -1,6 +1,9 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <back-button-component v-show="showBackButton"></back-button-component>
+    <nav class="navbar navbar-expand-lg navbar-light nav-local-style">
+        <back-button-component
+            class="mx-2"
+            v-show="showBackButton">
+        </back-button-component>
         <a class="navbar-brand">{{title}}</a>
     </nav>
 </template>
@@ -21,6 +24,8 @@ export default {
                 this.title = 'PARADISEC Library Box Data Loader';
             } else if (to.name === 'configureLibraryBox') {
                 this.title = 'PARADISEC Library Box Setup';
+            } else {
+                this.title = 'PARADISEC Data Loader';
             }
             this.showBackButton = to.name !== 'introduction';
         }

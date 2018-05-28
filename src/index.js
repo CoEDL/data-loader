@@ -1,4 +1,5 @@
 import {app, BrowserWindow} from 'electron';
+// require('electron-debug')({showDevTools: true, enabled: true});
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import {enableLiveReload} from 'electron-compile';
 

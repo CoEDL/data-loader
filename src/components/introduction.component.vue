@@ -9,15 +9,29 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                Please select one of the following options:
-                <nav class="nav flex-column mb-3">
-                    <router-link class="nav-link" to="/loadLibraryBox">
-                        Installing your data onto a LibraryBox
-                    </router-link>
-                    <router-link class="nav-link" to="/configureLibraryBox">
-                        Configuring a new LibraryBox
-                    </router-link>
-                </nav>
+                <router-link class="nav-link" to="/loadLibraryBox">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Install Data onto a Library Box</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Do this to install data onto a Library Box. If you wish to add
+                                data be sure to add it to your local data path. Running this
+                                repeatedly does not keep adding to the data on the LibraryBox.
+                            </h6>
+                        </div>
+                    </div>
+                </router-link>
+                <router-link class="nav-link" to="/configureLibraryBox">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Configure your Library Box</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                This only needs to done once when you first set it up.
+                            </h6>
+
+                        </div>
+                    </div>
+                </router-link>
             </div>
         </div>
     </div>

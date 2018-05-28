@@ -2,11 +2,6 @@
     <div>
         <div class="row my-1">
             <div class="col">
-                Library Box Configuration Tool
-            </div>
-        </div>
-        <div class="row my-1">
-            <div class="col">
                 <div class="form-group">
                     <label for="deviceIpAddress">Device IP Address</label>
                     <input type="text" class="form-control" id="deviceIpAddress"

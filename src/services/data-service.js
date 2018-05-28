@@ -6,7 +6,6 @@ const util = require('util');
 const readdir = util.promisify(fs.readdir);
 const stat = util.promisify(fs.stat);
 const shell = require('shelljs');
-const {cwd} = require('process');
 
 const {compact, flattenDeep, includes, groupBy, map, each} = require('lodash');
 const {convert} = require('./xml-to-json-service');
@@ -33,9 +32,15 @@ const types = {
 };
 
 function updateLibraryBoxConfigurationFiles({target, hostname, ssid}) {
+    const originalTarget = target;
     target = `${target}/LibraryBox/Config`;
-    if (!fs.statSync(target).isDirectory()) {
-        throw new Error(`${target} doesn't look like a LibraryBox disk.`);
+
+    try {
+        fs.statSync(target).isDirectory();
+    } catch (error) {
+        throw new Error(
+            `${originalTarget} doesn't look like a LibraryBox disk.`
+        );
     }
     [
         'librarybox_ftp.txt',
@@ -185,7 +190,7 @@ function prepareTarget(target) {
 }
 
 function installCollectionViewer(target) {
-    fs.copySync(`${cwd()}/src/viewer/`, `${target}/www/`);
+    fs.copySync(`${__dirname}/../viewer/`, `${target}/www/`);
 }
 
 async function verifyTargetLibraryBoxDisk(target) {

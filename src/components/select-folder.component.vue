@@ -19,7 +19,9 @@ export default {
             this.folder = dialog.showOpenDialog({
                 properties: ['openDirectory']
             });
-            this.$store.commit(this.name, this.folder[0]);
+            if (this.folder) {
+                this.$store.commit(this.name, this.folder[0]);
+            }
         }
     }
 };

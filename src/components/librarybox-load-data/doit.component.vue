@@ -69,60 +69,70 @@ export default {
             let index;
             this.$store.commit('resetLibraryBoxMessages');
             setTimeout(async () => {
-                this.logInfo('Verifying the target disk.');
-                if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
-                    this.logError(
-                        `${
-                            this.usbMountPoint
-                        } doesn't look like a LibraryBox disk;`
-                    );
-                    this.logError(
-                        `I was expecting to find a folder '${installationTarget}' but it doesn't exist.`
-                    );
-                }
-                this.logComplete('DiskVerified');
+                try {
+                    this.logInfo('Verifying the target disk.');
+                    if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
+                        this.logError(
+                            `${
+                                this.usbMountPoint
+                            } doesn't look like a LibraryBox disk;`
+                        );
+                        this.logError(
+                            `I was expecting to find a folder '${installationTarget}' but it doesn't exist.`
+                        );
+                    }
+                    this.logComplete('DiskVerified');
 
-                this.logInfo('Preparing the target disk.');
-                prepareTarget(installationTarget);
-                this.logComplete('Disk verified');
+                    this.logInfo('Preparing the target disk.');
+                    prepareTarget(installationTarget);
+                    this.logComplete('Disk prepared');
 
-                this.logInfo('Installing the viewer.');
-                installCollectionViewer(installationTarget);
-                this.logComplete('Viewer installed');
+                    this.logInfo('Installing the viewer.');
+                    installCollectionViewer(installationTarget);
+                    this.logComplete('Viewer installed');
 
-                this.logInfo('Configuring the system.');
-                updateLibraryBoxConfigurationFiles({
-                    target: this.usbMountPoint,
-                    hostname: this.hostname,
-                    ssid: this.ssid
-                });
-                this.logComplete('System configured');
+                    this.logInfo('Configuring the system.');
+                    updateLibraryBoxConfigurationFiles({
+                        target: this.usbMountPoint,
+                        hostname: this.hostname,
+                        ssid: this.ssid
+                    });
+                    this.logComplete('System configured');
 
-                let errors, result;
-                this.logInfo('Processing the data to be loaded.');
-                result = await buildDataTree(this.localDataPath);
-                this.logError(result.errors);
-                this.logComplete('Data processed');
-
-                this.logInfo('Building the index.');
-                index = buildIndex(result.items);
-                this.logComplete('Index built');
-
-                this.logInfo('Installing the data (this can take some time).');
-                setTimeout(() => {
-                    result = installTheData(
-                        this.localDataPath,
-                        installationTarget,
-                        index
-                    );
+                    let errors, result;
+                    this.logInfo('Processing the data to be loaded.');
+                    result = await buildDataTree(this.localDataPath);
                     this.logError(result.errors);
-                    this.logComplete('Data installed');
-                    this.loading = false;
+                    this.logComplete('Data processed');
 
-                    this.logInfo('Writing the index file.');
-                    writeIndexFile(installationTarget, index);
-                    this.logComplete('Index file written.');
-                }, 1000);
+                    this.logInfo('Building the index.');
+                    index = buildIndex(result.items);
+                    this.logComplete('Index built');
+
+                    this.logInfo(
+                        'Installing the data (this can take some time).'
+                    );
+                    setTimeout(() => {
+                        result = installTheData(
+                            this.localDataPath,
+                            installationTarget,
+                            index
+                        );
+                        this.logError(result.errors);
+                        this.logComplete('Data installed');
+                        this.loading = false;
+
+                        this.logInfo('Writing the index file.');
+                        writeIndexFile(installationTarget, index);
+                        this.logComplete('Index file written.');
+                        this.logComplete(
+                            'You can now plug the disk into the LibraryBox.'
+                        );
+                    }, 1000);
+                } catch (error) {
+                    this.logError(error.message);
+                    this.loading = false;
+                }
             }, 100);
         }
     }
