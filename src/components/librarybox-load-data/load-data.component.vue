@@ -47,6 +47,9 @@ export default {
             ssid: 'PARADISEC Catalog'
         };
     },
+    beforeMount() {
+        this.$store.commit('resetMessages');
+    },
     components: {
         SelectFolderComponent,
         DataLoggerComponent,

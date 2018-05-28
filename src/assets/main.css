@@ -35,3 +35,7 @@ a:active,
 .btn:active {
     text-decoration: underline;
 }
+
+.strong {
+    color: #ef6c00;
+}

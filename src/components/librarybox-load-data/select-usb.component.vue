@@ -5,9 +5,11 @@
             <h6 class="card-subtitle mb-2 text-muted">
                 Please select the folder where the LibraryBox USB disk is mounted.
             </h6>
-            <p class="card-text">
-                Ensure the LibraryBox disk is plugged in to your computer. If it's not,
-                please plug it in now.
+            <p class="card-text strong">
+                <strong>
+                    Ensure the Library Box USB disk is plugged in to your computer. If it's not,
+                    please plug it in now.
+                </strong>
             </p>
             <select-folder-component name='setLibraryBoxUsbPath'></select-folder-component>
         </div>

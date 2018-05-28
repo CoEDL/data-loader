@@ -13,7 +13,7 @@ export default {
         localDataPath: undefined
     },
     mutations: {
-        resetLibraryBoxMessages(state) {
+        resetMessages(state) {
             state.messages = [];
         },
         resetUsbDiskSelection(state) {

@@ -67,7 +67,6 @@ export default {
             this.loading = true;
             const installationTarget = `${this.usbMountPoint}/LibraryBox`;
             let index;
-            this.$store.commit('resetLibraryBoxMessages');
             setTimeout(async () => {
                 try {
                     this.logInfo('Verifying the target disk.');
