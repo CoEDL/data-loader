@@ -1,6 +1,6 @@
 'use strict';
 
-import {isArray} from 'lodash';
+import {isArray, last} from 'lodash';
 
 export default {
     state: {
@@ -10,11 +10,21 @@ export default {
             ssid: 'PARADISEC Catalog'
         },
         messages: [],
+        lastMessage: {},
         localDataPath: undefined
+    },
+    getters: {
+        loadingComplete: state => {
+            if (state.lastMessage.msg) {
+                return state.lastMessage.msg.match(/Done/);
+            }
+            return false;
+        }
     },
     mutations: {
         resetMessages(state) {
             state.messages = [];
+            state.lastMessage = {};
         },
         resetUsbDiskSelection(state) {
             state.libraryBoxDataLoad.usbMountPoint = undefined;
@@ -39,6 +49,7 @@ export default {
                     return {type: 'info', msg: m};
                 })
             ];
+            state.lastMessage = last(state.messages);
         },
         setCompleteMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
@@ -48,6 +59,7 @@ export default {
                     return {type: 'infoComplete', msg: m};
                 })
             ];
+            state.lastMessage = last(state.messages);
         },
         setErrorMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
@@ -57,6 +69,7 @@ export default {
                     return {type: 'error', msg: m};
                 })
             ];
+            state.lastMessage = last(state.messages);
         },
         setLocalDataPath(state, path) {
             state.localDataPath = path;

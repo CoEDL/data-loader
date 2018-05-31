@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const util = require('util');
 const readdir = util.promisify(fs.readdir);
 const stat = util.promisify(fs.stat);
+const copy = util.promisify(fs.copyFile);
 const shell = require('shelljs');
 
 const {
@@ -73,101 +74,112 @@ function writeIndexFile(target, index) {
     );
 }
 
-function installTheData(dataPath, target, index) {
-    let errors = [];
-    each(index, item => {
-        item.data = processImages(dataPath, target, item.data);
-        item.data = processTranscriptions(dataPath, target, item.data);
-        item.data = processMedia(dataPath, target, item.data);
-        item.data = processDocuments(dataPath, target, item.data);
+function installTheData({dataPath, target, index, loggers}) {
+    return new Promise(async function(resolve, reject) {
+        for (let item of index) {
+            item.data = await processImages(dataPath, target, item.data);
+            item.data = await processTranscriptions(
+                dataPath,
+                target,
+                item.data
+            );
+            item.data = await processMedia(dataPath, target, item.data);
+            item.data = await processDocuments(dataPath, target, item.data);
+        }
+        resolve({index});
     });
-    return {index, errors};
 
     function processImages(source, targetPath, item) {
-        let name;
-        const {cid, iid, target} = setup(targetPath, item);
-        item.images = item.images.map(file => {
-            try {
-                return copyToTarget({cid, iid, source, target, file});
-            } catch (e) {}
-        });
+        return new Promise(async function(resolve, reject) {
+            let name;
+            const {cid, iid, target} = setup(targetPath, item);
+            item.images = await Promise.all(
+                item.images.map(async file => {
+                    return await copyToTarget({file, target});
+                })
+            );
 
-        item.thumbnails = item.thumbnails.map(file => {
-            try {
-                return copyToTarget({cid, iid, source, target, file});
-            } catch (e) {}
+            item.thumbnails = await Promise.all(
+                item.thumbnails.map(async file => {
+                    return await copyToTarget({file, target});
+                })
+            );
+            item.images = compact(item.images);
+            item.thumbnails = compact(item.thumbnails);
+            resolve(item);
         });
-        item.images = compact(item.images);
-        item.thumbnails = compact(item.thumbnails);
-        return item;
     }
 
     function processTranscriptions(source, targetPath, item) {
-        let name;
-        const {cid, iid, target} = setup(targetPath, item);
-        item.transcriptions = item.transcriptions.map(file => {
-            try {
-                const url = copyToTarget({
-                    cid,
-                    iid,
-                    source,
-                    target,
-                    file: file.url
-                });
-                return {
-                    name: file.name,
-                    url
-                };
-            } catch (e) {}
+        return new Promise(async function(resolve, reject) {
+            let name;
+            const {cid, iid, target} = setup(targetPath, item);
+            item.transcriptions = await Promise.all(
+                item.transcriptions.map(async file => {
+                    const url = await copyToTarget({
+                        file: file.url,
+                        target
+                    });
+                    return {
+                        name: file.name,
+                        url
+                    };
+                })
+            );
+            item.transcriptions = compact(item.transcriptions);
+            resolve(item);
         });
-        item.transcriptions = compact(item.transcriptions);
-        return item;
     }
 
     function processMedia(source, targetPath, item) {
-        let name;
-        const {cid, iid, target} = setup(targetPath, item);
-        item.media = item.media.map(media => {
-            media.files = media.files.map(file => {
-                try {
-                    return copyToTarget({cid, iid, source, target, file});
-                } catch (e) {}
-            });
-            media.files = compact(media.files);
-            ['eaf', 'trs', 'ixt', 'flextext'].forEach(t => {
-                media[t] = media[t].map(file => {
-                    try {
-                        const url = copyToTarget({
-                            cid,
-                            iid,
-                            source,
-                            target,
-                            file: file.url
-                        });
-                        return {
-                            name: file.name,
-                            url
-                        };
-                    } catch (e) {}
-                });
-                media[t] = compact(media[t]);
-            });
-            return media;
+        return new Promise(async function(resolve, reject) {
+            let name;
+            const {cid, iid, target} = setup(targetPath, item);
+            item.media = await Promise.all(
+                item.media.map(async media => {
+                    media.files = await Promise.all(
+                        media.files.map(async file => {
+                            return await copyToTarget({target, file});
+                        })
+                    );
+                    media.files = compact(media.files);
+                    ['eaf', 'trs', 'ixt', 'flextext'].forEach(async t => {
+                        media[t] = await Promise.all(
+                            media[t].map(async file => {
+                                const url = await copyToTarget({
+                                    file: file.url,
+                                    target
+                                });
+                                return {
+                                    name: file.name,
+                                    url
+                                };
+                            })
+                        );
+                        media[t] = compact(media[t]);
+                    });
+                    return media;
+                })
+            );
+            resolve(item);
         });
-        return item;
     }
 
     function processDocuments(source, targetPath, item) {
-        let name;
-        const {cid, iid, target} = setup(targetPath, item);
-        item.documents = item.documents.map(file => {
-            try {
-                return copyToTarget({cid, iid, source, target, file});
-            } catch (e) {}
-        });
+        return new Promise(async function(resolve, reject) {
+            let name;
+            const {cid, iid, target} = setup(targetPath, item);
+            item.documents = await Promise.all(
+                item.documents.map(async file => {
+                    try {
+                        return await copyToTarget({file, target});
+                    } catch (e) {}
+                })
+            );
 
-        item.documents = compact(item.documents);
-        return item;
+            item.documents = compact(item.documents);
+            resolve(item);
+        });
     }
 
     function setup(target, item) {
@@ -178,14 +190,17 @@ function installTheData(dataPath, target, index) {
         return {cid, iid, target};
     }
 
-    function copyToTarget({cid, iid, source, target, file}) {
+    async function copyToTarget({target, file}) {
         const name = file.split('/').pop();
         target = `${target}/${name}`;
         if (shell.test('-f', `${file}`)) {
-            shell.cp(`${file}`, `${target}`);
+            // shell.cp(`${file}`, `${target}`);
+            await copy(file, target);
+
+            loggers.logInfo(`Loaded: ${file}`);
             return `/repository/${target.split('repository/')[1]}`;
         } else {
-            errors.push(`Missing source file: ${file}`);
+            loggers.logError(`Missing source file: ${file}`);
         }
     }
 }

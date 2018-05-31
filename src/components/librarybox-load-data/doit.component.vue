@@ -63,8 +63,16 @@ export default {
         logComplete(msg) {
             this.$store.commit('setCompleteMessage', msg);
         },
+        getLoggers() {
+            return {
+                logInfo: this.logInfo,
+                logComplete: this.logComplete,
+                logError: this.logError
+            };
+        },
         async loadTheData() {
             this.loading = true;
+            this.$store.commit('resetMessages');
             const installationTarget = `${this.usbMountPoint}/LibraryBox`;
             let index;
             setTimeout(async () => {
@@ -108,24 +116,23 @@ export default {
                     index = buildIndex(result.items);
                     this.logComplete('Index built');
 
-                    this.logInfo(
-                        'Installing the data (this can take some time).'
-                    );
-                    setTimeout(() => {
-                        result = installTheData(
-                            this.localDataPath,
-                            installationTarget,
-                            index
-                        );
-                        this.logError(result.errors);
-                        this.logComplete('Data installed');
+                    this.logInfo('Loading the data (this can take some time).');
+                    setTimeout(async () => {
+                        result = await installTheData({
+                            dataPath: this.localDataPath,
+                            target: installationTarget,
+                            index: index,
+                            loggers: this.getLoggers()
+                        });
+                        // this.logError(result.errors);
+                        this.logComplete('Data loaded');
                         this.loading = false;
 
                         this.logInfo('Writing the index file.');
-                        writeIndexFile(installationTarget, index);
+                        writeIndexFile(installationTarget, result.index);
                         this.logComplete('Index file written.');
                         this.logComplete(
-                            'You can now plug the disk into the LibraryBox.'
+                            'Done. You can now plug the disk into the LibraryBox.'
                         );
                     }, 1000);
                 } catch (error) {

@@ -25,15 +25,29 @@
                 <doit-component></doit-component>
             </div>
             <div class="col-8">
-                <data-logger-component></data-logger-component>
+                <!-- <data-logger-component></data-logger-component> -->
+                <last-message-logger-component></last-message-logger-component>
+            </div>
+        </div>
+        <div class="row my-1" v-if="done">
+            <div class="col">
+                <router-link class="nav-link" to="/configureLibraryBox">
+                    Next Step: Configure your Library Box if you haven't already done so
+                    (This step only needs to be done once when you first use it)
+                </router-link>
+                <router-link class="nav-link" to="/logs">
+                    View the complete data load logs
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import SelectFolderComponent from '../select-folder.component.vue';
 import DataLoggerComponent from '../logger.component.vue';
+import LastMessageLoggerComponent from '../last-message-logger.component.vue';
 import DoitComponent from './doit.component.vue';
 import SelectUsbComponent from './select-usb.component.vue';
 import SelectDataPathComponent from '../select-data-path.component.vue';
@@ -47,12 +61,15 @@ export default {
             ssid: 'PARADISEC Catalog'
         };
     },
-    beforeMount() {
-        this.$store.commit('resetMessages');
+    computed: {
+        done() {
+            return this.$store.getters.loadingComplete;
+        }
     },
     components: {
         SelectFolderComponent,
         DataLoggerComponent,
+        LastMessageLoggerComponent,
         DoitComponent,
         SelectUsbComponent,
         SelectDataPathComponent,

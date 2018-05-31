@@ -14,6 +14,7 @@ Vue.use(AsyncComputed);
 import IntroductionComponent from './components/introduction.component.vue';
 import LibraryBoxLoadDataComponent from './components/librarybox-load-data/load-data.component.vue';
 import LibraryBoxConfigureComponent from './components/librarybox-configure.component.vue';
+import LoggerComponent from './components/logger.component.vue';
 import storeConfiguration from './store';
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: '/configureLibraryBox',
         name: 'configureLibraryBox',
         component: LibraryBoxConfigureComponent
+    },
+    {
+        path: '/logs',
+        name: 'viewLogs',
+        component: LoggerComponent
     }
 ];
 

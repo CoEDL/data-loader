@@ -6,10 +6,9 @@
                     <strong>
                         Before continuing ensure that you have completed the following:
                         <ol>
-                            <li>You've loaded data onto the USB disk;</li>
-                            <li>the disk is plugged in to the Library Box;</li>
+                            <li>The USB disk is plugged in to the Library Box;</li>
                             <li>the Library Box is turned on; and,</li>
-                            <li>you've connected to the Library Box wifi.</li>
+                            <li>you've connected to the Library Box WIFI.</li>
                         </ol>
                     </strong>
                 </p>
@@ -31,12 +30,14 @@
         <div class="row my-1">
             <div class="col">
                 <div class="form-group">
-                    <label for="rootPassword">Password</label>
+                    <label for="rootPassword">Administrator Password</label>
                     <input type="text" class="form-control" id="rootPassword"
                       aria-describedby="rootPasswordHelp" placeholder=""
                       v-model="rootPassword">
                     <small id="rootPasswordHelp" class="form-text text-muted">
-                        Administrator password.
+                        If this is the first time configuring the device then this can
+                        be anything you like. Otherwise, if you're running this step
+                        again it must be what you set the first time.
                     </small>
                 </div>
             </div>
@@ -77,6 +78,9 @@ export default {
         };
     },
     beforeMount() {
+        this.$store.commit('resetMessages');
+    },
+    beforeDestroy() {
         this.$store.commit('resetMessages');
     },
     components: {
