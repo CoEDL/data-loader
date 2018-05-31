@@ -7,7 +7,15 @@ const readdir = util.promisify(fs.readdir);
 const stat = util.promisify(fs.stat);
 const shell = require('shelljs');
 
-const {compact, flattenDeep, includes, groupBy, map, each} = require('lodash');
+const {
+    compact,
+    flattenDeep,
+    includes,
+    groupBy,
+    map,
+    each,
+    isArray
+} = require('lodash');
 const {convert} = require('./xml-to-json-service');
 const DOMParser = require('xmldom').DOMParser;
 
@@ -273,6 +281,9 @@ function createItemDataStructure(path, data) {
     function getFiles(path, data) {
         const collectionId = get(data.item, 'identifier').split('-')[0];
         const itemId = get(data.item, 'identifier').split('-')[1];
+        if (!isArray(data.item.files.file)) {
+            data.item.files.file = [data.item.files.file];
+        }
         return data.item.files.file.map(file => {
             return {
                 name: `${get(file, 'name')}`,
