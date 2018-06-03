@@ -106,8 +106,6 @@ async function reconfigureLibraryBox({rootPassword, deviceIpAddress}) {
         'cd /opt/piratebox',
         '[[ -d www ]] && mv www www.orig',
         '[[ ! -L www ]] && ln -sf /mnt/usb/LibraryBox/www www',
-        'cd /opt/piratebox/conf/lighttpd',
-        '[[ ! -f lighttpd.conf.orig ]] && cp lighttpd.conf lighttpd.conf.orig',
         'exit'
     ]);
     // console.log(connection);

@@ -1,6 +1,5 @@
 'use strict';
 
-// const fs = require('fs');
 const fs = require('fs-extra');
 const util = require('util');
 const readdir = util.promisify(fs.readdir);
@@ -85,6 +84,14 @@ function installTheData({dataPath, target, index, loggers}) {
             );
             item.data = await processMedia(dataPath, target, item.data);
             item.data = await processDocuments(dataPath, target, item.data);
+
+            const transcriptions = groupBy(item.data.transcriptions, 'name');
+            item.data.media = item.data.media.map(media => {
+                ['eaf', 'trs', 'ixt', 'flextext'].forEach(t => {
+                    media[t] = media[t].map(tw => transcriptions[tw.name][0]);
+                });
+                return media;
+            });
         }
         resolve({index});
     });
@@ -226,13 +233,6 @@ async function verifyTargetLibraryBoxDisk(target) {
 }
 
 function buildIndex(items) {
-    // let index = {};
-    // const collectionIds = items.map(i => i.collectionId);
-    // collectionIds.forEach(c => (index[c] = {}));
-    // items.forEach(item => {
-    //     index[item.collectionId][item.itemId] = readCatalogFile(item);
-    // });
-    // return index;
     return items.map(item => {
         return {
             collectionId: item.collectionId,
@@ -275,7 +275,7 @@ function createItemDataStructure(path, data) {
         ],
         images: imageFiles.map(image => image.path),
         itemId: get(data.item, 'identifier').split('-')[1],
-        media: getMediaData([...mediaFiles]),
+        media: getMediaData([...mediaFiles, ...transcriptionFiles]),
         openAccess: get(data.item, 'private') === 'false',
         rights: get(data.item.adminInfo, 'dataAccessConditions'),
         thumbnails: imageThumbnails.map(image => image.path),
@@ -317,21 +317,40 @@ function createItemDataStructure(path, data) {
     }
 
     function getMediaData(files) {
-        files = groupBy(files, f => {
-            return f.name.split('.')[0];
+        files = groupBy(files, file => {
+            return file.name.split('.')[0];
         });
         return map(files, (v, k) => {
-            // console.log(k, v);
             return {
                 name: k,
-                files: v.map(f => f.path),
-                eaf: [],
-                flextext: [],
-                ixt: [],
-                trs: [],
+                files: filter([...v], 'media'),
+                eaf: filter([...v], 'eaf'),
+                flextext: filter([...v], 'flextext'),
+                ixt: filter([...v], 'ixt'),
+                trs: filter([...v], 'trs'),
                 type: v[0].type.split('/')[0]
             };
         });
+
+        function filter(files, what) {
+            if (what === 'media') {
+                const set = [...types.videoTypes, ...types.audioTypes];
+                files = files.filter(file => {
+                    return includes(set, file.name.split('.')[1]);
+                });
+                return files.map(file => file.path);
+            } else {
+                files = files.filter(file => {
+                    return file.name.split('.')[1] === what;
+                });
+                return files.map(file => {
+                    return {
+                        name: file.name,
+                        url: file.path
+                    };
+                });
+            }
+        }
     }
 }
 
