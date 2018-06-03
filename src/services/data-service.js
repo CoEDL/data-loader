@@ -150,21 +150,6 @@ function installTheData({dataPath, target, index, loggers}) {
                         })
                     );
                     media.files = compact(media.files);
-                    ['eaf', 'trs', 'ixt', 'flextext'].forEach(async t => {
-                        media[t] = await Promise.all(
-                            media[t].map(async file => {
-                                const url = await copyToTarget({
-                                    file: file.url,
-                                    target
-                                });
-                                return {
-                                    name: file.name,
-                                    url
-                                };
-                            })
-                        );
-                        media[t] = compact(media[t]);
-                    });
                     return media;
                 })
             );
