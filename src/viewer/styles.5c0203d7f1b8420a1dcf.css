@@ -96,6 +96,12 @@
 .image-viewer-filmstrip-thumbnail {
   width: 150px;
 }
+
+.image-style {
+  max-width: 600px;
+  overflow: auto;
+  width: 600px;
+}
 .media-viewer-highlight-word {
   background-color: #b0bec5;
 }
@@ -220,5 +226,3 @@
     width: 800px;
   }
 } */
-
-/*# sourceMappingURL=styles.d7e6eee194584543da2b.css.map*/
