@@ -5,12 +5,12 @@
     "description": "My Electron application description",
     "main": "src/index.js",
     "scripts": {
-        "start": "electron-forge start",
+        "develop": "electron-forge start",
+        "test": "gulp test",
         "package": "electron-forge package",
         "make": "electron-forge make",
         "publish": "electron-forge publish",
-        "lint": "echo \"No linting configured\"",
-        "test": "./node_modules/mocha/bin/mocha --watch src/**/*.spec.js"
+        "lint": "echo \"No linting configured\""
     },
     "keywords": [],
     "author": "Marco La Rosa",
@@ -78,6 +78,8 @@
         "devtron": "^1.4.0",
         "electron-forge": "^5.2.1",
         "electron-prebuilt-compile": "2.0.0",
+        "gulp": "^3.9.1",
+        "gulp-mocha": "^6.0.0",
         "mocha": "^5.1.1"
     }
 }
