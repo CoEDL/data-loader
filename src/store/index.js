@@ -1,13 +1,16 @@
-'use strict';
+"use strict";
 
-import {isArray, last} from 'lodash';
+import { isArray, last } from "lodash";
 
 export default {
     state: {
         libraryBoxDataLoad: {
             usbMountPoint: undefined,
-            hostname: 'catalog.paradisec.offline',
-            ssid: 'PARADISEC Catalog'
+            hostname: "catalog.paradisec.offline",
+            ssid: "PARADISEC Catalog"
+        },
+        folderDataLoad: {
+            path: undefined
         },
         messages: [],
         lastMessage: {},
@@ -29,6 +32,9 @@ export default {
         resetUsbDiskSelection(state) {
             state.libraryBoxDataLoad.usbMountPoint = undefined;
         },
+        resetFolderPathSelection(state) {
+            state.folderDataLoad.path = undefined;
+        },
         resetDataPathSelection(state) {
             state.localDataPath = undefined;
         },
@@ -41,12 +47,15 @@ export default {
         setLibraryBoxSsid(state, ssid) {
             state.libraryBoxDataLoad.ssid = ssid;
         },
+        setFolderPath(state, path) {
+            state.folderDataLoad.path = path;
+        },
         setInfoMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];
             state.messages = [
                 ...state.messages,
                 ...msgs.map(m => {
-                    return {type: 'info', msg: m};
+                    return { type: "info", msg: m };
                 })
             ];
             state.lastMessage = last(state.messages);
@@ -56,7 +65,7 @@ export default {
             state.messages = [
                 ...state.messages,
                 ...msgs.map(m => {
-                    return {type: 'infoComplete', msg: m};
+                    return { type: "infoComplete", msg: m };
                 })
             ];
             state.lastMessage = last(state.messages);
@@ -66,7 +75,7 @@ export default {
             state.messages = [
                 ...state.messages,
                 ...msgs.map(m => {
-                    return {type: 'error', msg: m};
+                    return { type: "error", msg: m };
                 })
             ];
             state.lastMessage = last(state.messages);
