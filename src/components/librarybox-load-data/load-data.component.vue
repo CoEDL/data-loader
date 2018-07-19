@@ -25,7 +25,6 @@
                 <doit-component></doit-component>
             </div>
             <div class="col-8">
-                <!-- <data-logger-component></data-logger-component> -->
                 <last-message-logger-component></last-message-logger-component>
             </div>
         </div>
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import DataLoggerComponent from "../logger/logger.component.vue";
 import LastMessageLoggerComponent from "../logger/last-message-logger.component.vue";
 import DoitComponent from "./doit.component.vue";
 import SelectUsbComponent from "./select-usb.component.vue";
@@ -53,25 +51,24 @@ import SetHostname from "./set-hostname.component.vue";
 import SetSsid from "./set-ssid.component.vue";
 
 export default {
-  data() {
-    return {
-      hostname: "catalog.paradisec.offline",
-      ssid: "PARADISEC Catalog"
-    };
-  },
-  computed: {
-    done() {
-      return this.$store.getters.loadingComplete;
+    data() {
+        return {
+            hostname: "catalog.paradisec.offline",
+            ssid: "PARADISEC Catalog"
+        };
+    },
+    computed: {
+        done() {
+            return this.$store.getters.loadingComplete;
+        }
+    },
+    components: {
+        LastMessageLoggerComponent,
+        DoitComponent,
+        SelectUsbComponent,
+        SelectDataPathComponent,
+        SetHostname,
+        SetSsid
     }
-  },
-  components: {
-    DataLoggerComponent,
-    LastMessageLoggerComponent,
-    DoitComponent,
-    SelectUsbComponent,
-    SelectDataPathComponent,
-    SetHostname,
-    SetSsid
-  }
 };
 </script>

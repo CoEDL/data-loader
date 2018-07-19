@@ -21,12 +21,11 @@
                 </button>
             </div>
         </div>
-        </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 import {
     buildDataTree,
     readCatalogFile,
@@ -37,7 +36,7 @@ import {
     verifyTargetLibraryBoxDisk,
     installCollectionViewer,
     updateLibraryBoxConfigurationFiles
-} from '../../services/data-service';
+} from "../../services/data-service";
 
 export default {
     data() {
@@ -55,13 +54,13 @@ export default {
     components: {},
     methods: {
         logInfo(msg) {
-            this.$store.commit('setInfoMessage', msg);
+            this.$store.commit("setInfoMessage", msg);
         },
         logError(msg) {
-            this.$store.commit('setErrorMessage', msg);
+            this.$store.commit("setErrorMessage", msg);
         },
         logComplete(msg) {
-            this.$store.commit('setCompleteMessage', msg);
+            this.$store.commit("setCompleteMessage", msg);
         },
         getLoggers() {
             return {
@@ -72,12 +71,12 @@ export default {
         },
         async loadTheData() {
             this.loading = true;
-            this.$store.commit('resetMessages');
+            this.$store.commit("resetMessages");
             const installationTarget = `${this.usbMountPoint}/LibraryBox`;
             let index;
             setTimeout(async () => {
                 try {
-                    this.logInfo('Verifying the target disk.');
+                    this.logInfo("Verifying the target disk.");
                     if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
                         this.logError(
                             `${
@@ -88,35 +87,35 @@ export default {
                             `I was expecting to find a folder '${installationTarget}' but it doesn't exist.`
                         );
                     }
-                    this.logComplete('DiskVerified');
+                    this.logComplete("DiskVerified");
 
-                    this.logInfo('Preparing the target disk.');
+                    this.logInfo("Preparing the target disk.");
                     prepareTarget(installationTarget);
-                    this.logComplete('Disk prepared');
+                    this.logComplete("Disk prepared");
 
-                    this.logInfo('Installing the viewer.');
+                    this.logInfo("Installing the viewer.");
                     installCollectionViewer(installationTarget);
-                    this.logComplete('Viewer installed');
+                    this.logComplete("Viewer installed");
 
-                    this.logInfo('Configuring the system.');
+                    this.logInfo("Configuring the system.");
                     updateLibraryBoxConfigurationFiles({
                         target: this.usbMountPoint,
                         hostname: this.hostname,
                         ssid: this.ssid
                     });
-                    this.logComplete('System configured');
+                    this.logComplete("System configured");
 
                     let errors, result;
-                    this.logInfo('Processing the data to be loaded.');
+                    this.logInfo("Processing the data to be loaded.");
                     result = await buildDataTree(this.localDataPath);
                     this.logError(result.errors);
-                    this.logComplete('Data processed');
+                    this.logComplete("Data processed");
 
-                    this.logInfo('Building the index.');
+                    this.logInfo("Building the index.");
                     index = buildIndex(result.items);
-                    this.logComplete('Index built');
+                    this.logComplete("Index built");
 
-                    this.logInfo('Loading the data (this can take some time).');
+                    this.logInfo("Loading the data (this can take some time).");
                     setTimeout(async () => {
                         result = await installTheData({
                             dataPath: this.localDataPath,
@@ -125,14 +124,14 @@ export default {
                             loggers: this.getLoggers()
                         });
                         // this.logError(result.errors);
-                        this.logComplete('Data loaded');
+                        this.logComplete("Data loaded");
                         this.loading = false;
 
-                        this.logInfo('Writing the index file.');
+                        this.logInfo("Writing the index file.");
                         writeIndexFile(installationTarget, result.index);
-                        this.logComplete('Index file written.');
+                        this.logComplete("Index file written.");
                         this.logComplete(
-                            'Done. You can now plug the disk into the LibraryBox.'
+                            "Done. You can now plug the disk into the LibraryBox."
                         );
                     }, 1000);
                 } catch (error) {
