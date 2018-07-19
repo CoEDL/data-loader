@@ -31,7 +31,7 @@ if (!process.env.LIBRARYBOX_MOUNTPOINT) {
     process.exit();
 }
 
-describe("test data service methods", () => {
+describe.skip("test data service methods", () => {
     afterEach(() => {
         shell.exec(`rm -rf ${installationTargetFolder}`);
     });
@@ -89,7 +89,6 @@ describe("test data service methods", () => {
         prepareTarget(installationTargetFolder);
         let { items, errors } = await buildDataTree(process.env.DATA_PATH);
         let index = buildIndex(items);
-        // console.log(index);
         const loggers = {
             logInfo: () => {},
             logError: () => {},
