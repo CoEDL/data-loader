@@ -78,7 +78,7 @@
         "devtron": "^1.4.0",
         "electron-forge": "^5.2.1",
         "electron-prebuilt-compile": "2.0.0",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.0",
         "gulp-mocha": "^6.0.0",
         "mocha": "^5.1.1"
     }
