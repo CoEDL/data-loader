@@ -44,37 +44,36 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import SelectFolderComponent from '../select-folder.component.vue';
-import DataLoggerComponent from '../logger.component.vue';
-import LastMessageLoggerComponent from '../last-message-logger.component.vue';
-import DoitComponent from './doit.component.vue';
-import SelectUsbComponent from './select-usb.component.vue';
-import SelectDataPathComponent from '../select-data-path.component.vue';
-import SetHostname from './set-hostname.component.vue';
-import SetSsid from './set-ssid.component.vue';
+import SelectFolderComponent from "../select-folder.component.vue";
+import DataLoggerComponent from "../logger/logger.component.vue";
+import LastMessageLoggerComponent from "../logger/last-message-logger.component.vue";
+import DoitComponent from "./doit.component.vue";
+import SelectUsbComponent from "./select-usb.component.vue";
+import SelectDataPathComponent from "../select-data-path.component.vue";
+import SetHostname from "./set-hostname.component.vue";
+import SetSsid from "./set-ssid.component.vue";
 
 export default {
-    data() {
-        return {
-            hostname: 'catalog.paradisec.offline',
-            ssid: 'PARADISEC Catalog'
-        };
-    },
-    computed: {
-        done() {
-            return this.$store.getters.loadingComplete;
-        }
-    },
-    components: {
-        SelectFolderComponent,
-        DataLoggerComponent,
-        LastMessageLoggerComponent,
-        DoitComponent,
-        SelectUsbComponent,
-        SelectDataPathComponent,
-        SetHostname,
-        SetSsid
+  data() {
+    return {
+      hostname: "catalog.paradisec.offline",
+      ssid: "PARADISEC Catalog"
+    };
+  },
+  computed: {
+    done() {
+      return this.$store.getters.loadingComplete;
     }
+  },
+  components: {
+    SelectFolderComponent,
+    DataLoggerComponent,
+    LastMessageLoggerComponent,
+    DoitComponent,
+    SelectUsbComponent,
+    SelectDataPathComponent,
+    SetHostname,
+    SetSsid
+  }
 };
 </script>
