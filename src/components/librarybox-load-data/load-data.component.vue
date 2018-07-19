@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import SelectFolderComponent from "../select-folder.component.vue";
 import DataLoggerComponent from "../logger/logger.component.vue";
 import LastMessageLoggerComponent from "../logger/last-message-logger.component.vue";
 import DoitComponent from "./doit.component.vue";
@@ -66,7 +65,6 @@ export default {
     }
   },
   components: {
-    SelectFolderComponent,
     DataLoggerComponent,
     LastMessageLoggerComponent,
     DoitComponent,
