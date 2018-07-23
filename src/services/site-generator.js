@@ -23,6 +23,7 @@ class SiteGenerator {
         const path = `${this.siteLocation}/${item.collectionId}/${item.itemId}`;
         shelljs.mkdir("-p", path);
         [
+            "assets",
             "files",
             "information",
             "images",
@@ -36,7 +37,7 @@ class SiteGenerator {
 
     async createInformationPage({ item }) {
         let template = `${__dirname}/templates/information.ejs`;
-        const html = await ejsRenderFile(template, {}, { async: true });
+        const html = await ejsRenderFile(template, {}, { async: false });
         console.log("****", html);
     }
 }
