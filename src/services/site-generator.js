@@ -1,6 +1,10 @@
 "use strict";
 
+const util = require("util");
+const fs = require("fs");
 const shelljs = require("shelljs");
+const ejs = require("ejs");
+const ejsRenderFile = util.promisify(ejs.renderFile);
 
 class SiteGenerator {
     constructor({ data, siteLocation }) {
@@ -11,11 +15,11 @@ class SiteGenerator {
     generate() {
         this.data.forEach(async item => {
             await this.setupSite({ item });
+            await this.createInformationPage({ item });
         });
     }
 
     setupSite({ item }) {
-        // console.log(item);
         const path = `${this.siteLocation}/${item.collectionId}/${item.itemId}`;
         shelljs.mkdir("-p", path);
         [
@@ -28,6 +32,12 @@ class SiteGenerator {
         ].forEach(component => {
             shelljs.mkdir("-p", `${path}/${component}`);
         });
+    }
+
+    async createInformationPage({ item }) {
+        let template = `${__dirname}/templates/information.ejs`;
+        const html = await ejsRenderFile(template, {}, { async: true });
+        console.log("****", html);
     }
 }
 
