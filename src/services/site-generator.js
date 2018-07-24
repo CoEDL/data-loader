@@ -39,6 +39,10 @@ class SiteGenerator {
             `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
             `${item.path}/assets/`
         );
+        shelljs.cp(
+            `${__dirname}/../../node_modules/@fortawesome/fontawesome-free/js/all.js`,
+            `${item.path}/assets/fontawesome.js`
+        );
     }
 
     async createInformationPage({ item }) {
