@@ -9,3 +9,7 @@
 .main-viewer-color {
     background-color: #f2f1ef;
 }
+
+.grow {
+    height: calc(100vh - 60px);
+}
