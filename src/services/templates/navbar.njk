@@ -8,26 +8,41 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../files">FILE BROWSER</a>
+            <a class="nav-link" href="../files">
+                <i class="far fa-file"></i>
+                FILE BROWSER
+            </a>
         </li>
         {% if data.images.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../images">IMAGE</a>
+            <a class="nav-link" href="../images">
+                <i class="far fa-image"></i>
+                IMAGE
+            </a>
         </li>
         {% endif %}
         {% if data.media.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../media">AUDIO / VIDEO</a>
+            <a class="nav-link" href="../media">
+                <i class="far fa-file-audio"></i>
+                AUDIO / VIDEO
+            </a>
         </li>
         {% endif %}
         {% if data.documents.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../documents">DOCUMENTS</a>
+            <a class="nav-link" href="../documents">
+                <i class="far fa-file-pdf"></i>
+                DOCUMENTS
+            </a>
         </li>
         {% endif %}
         {% if data.transcriptions.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../transcriptions">TRANSCRIPTIONS</a>
+            <a class="nav-link" href="../transcriptions">
+                <i class="far fa-file-code"></i>
+                TRANSCRIPTIONS
+            </a>
         </li>
         {% endif %}
     </ul>
