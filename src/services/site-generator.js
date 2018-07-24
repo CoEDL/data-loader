@@ -18,6 +18,8 @@ class SiteGenerator {
             }`;
             await this.setupSite({ item });
             await this.createInformationPage({ item });
+            await this.createFileBrowserPage({ item });
+            console.log(JSON.stringify(item, null, 2));
         });
     }
 
@@ -48,7 +50,13 @@ class SiteGenerator {
     async createInformationPage({ item }) {
         const file = `${item.path}/information/index.html`;
         const template = `${__dirname}/templates/information.njk`;
-        console.log(item);
+        const html = nunjucks.render(template, item);
+        fs.writeFileSync(file, html);
+    }
+
+    async createFileBrowserPage({ item }) {
+        const file = `${item.path}/files/index.html`;
+        const template = `${__dirname}/templates/filebrowser.njk`;
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
     }
