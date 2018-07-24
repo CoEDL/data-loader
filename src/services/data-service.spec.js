@@ -19,19 +19,26 @@ const {
 const installationTargetFolder = "/tmp/LB/LibraryBox";
 const collectionViewer = "./src/viewer";
 
-if (!process.env.DATA_PATH) {
-    console.log("Please set DATA_PATH in the environment. It needs to");
-    console.log("  point to the location of the datafiles to be loaded.");
-    process.exit();
-}
-
-if (!process.env.LIBRARYBOX_MOUNTPOINT) {
-    console.log("Please set LIBRARYBOX_MOUNTPOINT in the environment. It ");
-    console.log("needs to point to the mountpoint of the LibraryBox USB disk.");
-    process.exit();
-}
-
 describe.skip("test data service methods", () => {
+    beforeEach(() => {
+        if (!process.env.DATA_PATH) {
+            console.log("Please set DATA_PATH in the environment. It needs to");
+            console.log(
+                "  point to the location of the datafiles to be loaded."
+            );
+            process.exit();
+        }
+
+        if (!process.env.LIBRARYBOX_MOUNTPOINT) {
+            console.log(
+                "Please set LIBRARYBOX_MOUNTPOINT in the environment. It "
+            );
+            console.log(
+                "needs to point to the mountpoint of the LibraryBox USB disk."
+            );
+            process.exit();
+        }
+    });
     afterEach(() => {
         shell.exec(`rm -rf ${installationTargetFolder}`);
     });
