@@ -1,1 +1,52 @@
 {% extends "./base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h2>{{data.title}}</h2>
+        </div>
+    </div>
+
+    {# <div class="row">
+        <div class="col">
+            <h5>Contributors</h5>
+            <ul>
+                {% for contributor in data.contributor %}
+                    <li>{{contributor.name}} ({{contributor.role}})</li>
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div> #}
+
+    <div class="row py-4">
+        <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+            {# <h5>Description</h5> #}
+            {{data.description}}
+        </div>
+    </div>
+            {# <h5>Contributors</h5>
+    {# <div layout="column">
+        <div class="md-subhead">Description</div>
+        <div class="md-caption">{{vm.itemData.description}}</div>
+    </div>
+    <div layout="column">
+        <div class="md-subhead">
+            <div layout="row">
+                <div style="line-height: 40px;">Cite this item</div>
+                <div flex></div>
+                <md-button
+                    style="margin: 0; padding: 0;"
+                    class="small-button"
+                    data-clipboard-text="{{vm.itemData.citation}}"
+                    aria-label="copy citation to clipboard">
+                    <md-tooltip>
+                        Copy citation
+                    </md-tooltip>
+                    <i class="fa fa-clipboard fa-lg"></i>
+                </md-button>
+            </div>
+        </div>
+        <div style="word-wrap: break-word;" class="md-caption">{{vm.itemData.citation}}</div>
+    </div> #}
+{% endblock %}
