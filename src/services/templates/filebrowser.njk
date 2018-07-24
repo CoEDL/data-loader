@@ -7,14 +7,14 @@
         </div>
     </div>
 
-    <div class="row py-4">
+    <div class="row py-4 file-viewer-link-styling">
         <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
 
             <div class="row">
                 <div class="col-4 py-4">
                     Images ({{data.images.length}})<br/>
                     {% for image in data.images %}
-                        <a href="../images/{{image.split('/').pop()}}">{{image.split('/').pop()}}</a>
+                        > <a href="../images/{{image.split('/').pop()}}">{{image.split('/').pop()}}</a><br/>
                     {% else %}
                         No images registered.
                     {% endfor %}
@@ -25,14 +25,17 @@
                            Media ({{data.media.length}})<br/>
                             {% for item in data.media %}
                                 {% if item.type === 'audio' %}
-                                    <a href="../media/{{item.name}}">{{item.name}} ({{item.type}})</a>
+                                    > <a href="../media/{{item.name}}">{{item.name}} ({{item.type}})</a><br/>
                                 {% endif %}
                             {% endfor %}
                             {% for item in data.media %}
                                 {% if item.type === 'video' %}
-                                    <a href="../media/{{item.name}}">{{item.name}} ({{item.type}})</a>
+                                    > <a href="../media/{{item.name}}">{{item.name}} ({{item.type}})</a><br/>
                                 {% endif %}
                             {% endfor %}
+                            {% if data.media.length === 0 %}
+                                No media registered.
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -41,7 +44,7 @@
                         <div class="col">
                             Documents ({{data.documents.length}}) <br/>
                             {% for document in data.documents %}
-                                <a href="../documents/{{document.name}}">{{document.name}}</a>
+                                > <a href="../documents/{{document.name}}">{{document.name}}</a><br/>
                             {% else %}
                                 No documents registered.
                             {% endfor %}
@@ -51,7 +54,7 @@
                         <div class="col">
                             Transcriptions ({{data.transcriptions.length}}) <br/>
                             {% for transcription in data.transcriptions %}
-                                <a href="../transcriptions/{{transcription.name}}">{{transcription.name}}</a>
+                                > <a href="../transcriptions/{{transcription.name}}">{{transcription.name}}</a><br/>
                             {% else %}
                                 No transcriptions registered.
                             {% endfor %}
