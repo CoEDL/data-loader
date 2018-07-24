@@ -3,7 +3,6 @@
 const util = require("util");
 const fs = require("fs");
 const shelljs = require("shelljs");
-const ejs = require("ejs");
 const nunjucks = require("nunjucks");
 
 class SiteGenerator {
@@ -35,6 +34,7 @@ class SiteGenerator {
         ].forEach(component => {
             shelljs.mkdir("-p", `${item.path}/${component}`);
         });
+        shelljs.cp(`${__dirname}/templates/styles.css`, `${item.path}/assets/`);
         shelljs.cp(
             `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
             `${item.path}/assets/`
