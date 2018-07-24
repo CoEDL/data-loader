@@ -16,10 +16,11 @@ class SiteGenerator {
             item.path = `${this.siteLocation}/${item.collectionId}/${
                 item.itemId
             }`;
-            await this.setupSite({ item });
-            await this.createInformationPage({ item });
-            await this.createFileBrowserPage({ item });
-            console.log(JSON.stringify(item, null, 2));
+            this.setupSite({ item });
+            this.createInformationPage({ item });
+            this.createFileBrowserPage({ item });
+            this.createImageBrowserPage({ item });
+            // console.log(JSON.stringify(item, null, 2));
         });
     }
 
@@ -47,18 +48,56 @@ class SiteGenerator {
         );
     }
 
-    async createInformationPage({ item }) {
+    createInformationPage({ item }) {
         const file = `${item.path}/information/index.html`;
         const template = `${__dirname}/templates/information.njk`;
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
     }
 
-    async createFileBrowserPage({ item }) {
+    createFileBrowserPage({ item }) {
         const file = `${item.path}/files/index.html`;
-        const template = `${__dirname}/templates/filebrowser.njk`;
+        const template = `${__dirname}/templates/file-browser.njk`;
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
+    }
+
+    createImageBrowserPage({ item }) {
+        shelljs.mkdir("-p", `${item.path}/images/content`);
+        for (let i = 0; i < item.data.images.length; i++) {
+            let image = item.data.images[i];
+            item.currentContext = {
+                first:
+                    i === 0
+                        ? null
+                        : `${item.data.images[0].split("/").pop()}.html`,
+                previous:
+                    i === 0
+                        ? null
+                        : `${item.data.images[i - 1].split("/").pop()}.html`,
+                name: `./content/${image.split("/").pop()}`,
+                meta: `Image ${i + 1} of ${item.data.images.length}`,
+                next:
+                    i === item.data.images.length - 1
+                        ? null
+                        : `${item.data.images[i + 1].split("/").pop()}.html`,
+                last:
+                    i === item.data.images.length - 1
+                        ? null
+                        : `${item.data.images[item.data.images.length - 1]
+                              .split("/")
+                              .pop()}.html`
+            };
+            console.log(item.currentContext);
+            shelljs.cp(image, `${item.path}/images/content`);
+            const file = `${item.path}/images/${image.split("/").pop()}.html`;
+            const template = `${__dirname}/templates/image-browser.njk`;
+            const html = nunjucks.render(template, item);
+            fs.writeFileSync(file, html);
+        }
+        item.data.thumbnails.forEach(image => {
+            shelljs.cp(image, `${item.path}/images/content`);
+        });
     }
 }
 
