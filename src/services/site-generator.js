@@ -20,6 +20,7 @@ class SiteGenerator {
             this.createInformationPage({ item });
             this.createFileBrowserPage({ item });
             this.createImageBrowserPage({ item });
+            this.createMediaBrowserPage({ item });
             // console.log(JSON.stringify(item, null, 2));
         });
     }
@@ -88,7 +89,6 @@ class SiteGenerator {
                               .split("/")
                               .pop()}.html`
             };
-            console.log(item.currentContext);
             shelljs.cp(image, `${item.path}/images/content`);
             const file = `${item.path}/images/${image.split("/").pop()}.html`;
             const template = `${__dirname}/templates/image-browser.njk`;
@@ -98,6 +98,23 @@ class SiteGenerator {
         item.data.thumbnails.forEach(image => {
             shelljs.cp(image, `${item.path}/images/content`);
         });
+    }
+
+    createMediaBrowserPage({ item }) {
+        shelljs.mkdir("-p", `${item.path}/media/content`);
+        for (let i = 0; i < item.data.media.length; i++) {
+            const medium = item.data.media[i];
+            item.currentContext = {
+                item: medium
+            };
+            medium.files.forEach(file =>
+                shelljs.cp(file, `${item.path}/media/content`)
+            );
+            const file = `${item.path}/media/${medium.name}.html`;
+            const template = `${__dirname}/templates/media-browser.njk`;
+            const html = nunjucks.render(template, item);
+            fs.writeFileSync(file, html);
+        }
     }
 }
 
