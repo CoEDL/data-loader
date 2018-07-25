@@ -34,7 +34,7 @@ const routes = [
         component: LibraryBoxConfigureComponent
     },
     {
-        path: "loadDisk",
+        path: "/loadDisk",
         name: "loadDisk",
         component: LoadDiskComponent
     },
