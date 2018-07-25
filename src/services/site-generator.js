@@ -12,6 +12,7 @@ class SiteGenerator {
     }
 
     generate() {
+        this.createIndexPage();
         this.data.forEach(async item => {
             item.path = `${this.siteLocation}/${item.collectionId}/${
                 item.itemId
@@ -24,6 +25,22 @@ class SiteGenerator {
             this.createDocumentsBrowserPage({ item });
             // console.log(JSON.stringify(item, null, 2));
         });
+    }
+
+    createIndexPage() {
+        shelljs.mkdir("-p", `${this.siteLocation}/assets`);
+        shelljs.cp(
+            `${__dirname}/templates/styles.css`,
+            `${this.siteLocation}/assets/`
+        );
+        shelljs.cp(
+            `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
+            `${this.siteLocation}/assets/`
+        );
+        const file = `${this.siteLocation}/index.html`;
+        const template = `${__dirname}/templates/index.njk`;
+        const html = nunjucks.render(template, { data: this.data });
+        fs.writeFileSync(file, html);
     }
 
     setupSite({ item }) {
