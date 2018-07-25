@@ -37,6 +37,7 @@ import {
     installCollectionViewer,
     updateLibraryBoxConfigurationFiles
 } from "../../services/data-service";
+const SiteGenerator = require("../../services/site-generator");
 
 export default {
     data() {
@@ -71,15 +72,24 @@ export default {
             this.loading = true;
             setTimeout(async () => {
                 try {
-                    let errors, result, index;
                     this.logInfo("Processing the data to be loaded.");
-                    result = await buildDataTree(this.localDataPath);
-                    this.logError(result.errors);
+                    let { items, errors } = await buildDataTree(
+                        this.localDataPath
+                    );
+                    this.logError(errors);
                     this.logComplete("Data processed");
 
                     this.logInfo("Building the index.");
-                    index = buildIndex(result.items);
+                    let index = buildIndex(items);
                     this.logComplete("Index built");
+
+                    this.logInfo("Generating thes site.");
+                    const siteGenerator = new SiteGenerator({
+                        data: index,
+                        siteLocation: this.targetPath
+                    });
+                    siteGenerator.generate();
+                    this.logComplete("Site generation completed");
                     this.loading = false;
                 } catch (error) {
                     this.logError(error.message);
