@@ -11,20 +11,45 @@ class SiteGenerator {
         this.siteLocation = siteLocation;
     }
 
-    generate() {
+    generate({ loggers }) {
+        loggers.logInfo("Removing existing data");
         shelljs.rm("-r", `${this.siteLocation}/*`);
+        loggers.logInfo("Creating index page");
         this.createIndexPage();
         this.data.forEach(async item => {
+            loggers.logInfo(`Generating ${item.collectionId}/${item.itemId}`);
             item.path = `${this.siteLocation}/${item.collectionId}/${
                 item.itemId
             }`;
+            loggers.logInfo(
+                `Setting up data path for ${item.collectionId}/${item.itemId}`
+            );
             this.setupSite({ item });
+            loggers.logInfo(
+                `Creating information browser for ${item.collectionId}/${
+                    item.itemId
+                }`
+            );
             this.createInformationPage({ item });
+            loggers.logInfo(
+                `Creating file browser for ${item.collectionId}/${item.itemId}`
+            );
             this.createFileBrowserPage({ item });
+            loggers.logInfo(
+                `Creating image browser for ${item.collectionId}/${item.itemId}`
+            );
             this.createImageBrowserPage({ item });
+            loggers.logInfo(
+                `Creating media browser page ${item.collectionId}/${
+                    item.itemId
+                }`
+            );
             this.createMediaBrowserPage({ item });
             this.createDocumentsBrowserPage({ item });
             // console.log(JSON.stringify(item, null, 2));
+            loggers.logComplete(
+                `Done generating ${item.collectionId}/${item.itemId}`
+            );
         });
     }
 

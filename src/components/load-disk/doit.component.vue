@@ -88,8 +88,8 @@ export default {
                         data: index,
                         siteLocation: this.targetPath
                     });
-                    siteGenerator.generate();
-                    this.logComplete("Site generation completed");
+                    siteGenerator.generate({ loggers: this.getLoggers() });
+                    this.logComplete("Site generation complete");
                     this.loading = false;
                 } catch (error) {
                     this.logError(error.message);

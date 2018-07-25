@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="fa-ul">
-            <li v-for="m in messages">
+            <li v-for="m in messages" :key="m">
                 <span class="fa-li">
                     <i class="fas fa-angle-right" v-if="m.type === 'info'"></i>
                     <i class="fas fa-check-square" v-if="m.type === 'infoComplete'"></i>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 
 export default {
     computed: mapState({

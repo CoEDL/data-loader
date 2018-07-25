@@ -34,7 +34,12 @@ describe.only("test static site generation capability", () => {
             data: index,
             siteLocation: process.env.STATIC_SITE_PATH
         });
-        siteGenerator.generate();
+        const loggers = {
+            logInfo: () => {},
+            logError: () => {},
+            logComplete: () => {}
+        };
+        siteGenerator.generate({ loggers });
 
         index.forEach(async item => {
             const path = `${process.env.STATIC_SITE_PATH}/${
