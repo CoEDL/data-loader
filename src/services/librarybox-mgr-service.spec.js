@@ -11,13 +11,16 @@ const {
     reconfigureLibraryBox
 } = require("./librarybox-mgr-service");
 
-if (!process.env.LIBRARYBOX_IP) {
-    console.log("Please set LIBRARYBOX_IP in the environment. It needs to");
-    console.log("  be set to the IP address of the librarybox device.");
-    process.exit();
-}
-
 describe.skip("test configuring a librarybox", () => {
+    beforeEach(() => {
+        if (!process.env.LIBRARYBOX_IP) {
+            console.log(
+                "Please set LIBRARYBOX_IP in the environment. It needs to"
+            );
+            console.log("  be set to the IP address of the librarybox device.");
+            process.exit();
+        }
+    });
     afterEach(() => {});
     it("should determine whether telnet is accessible", async () => {
         try {

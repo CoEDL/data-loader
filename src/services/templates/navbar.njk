@@ -1,0 +1,50 @@
+{% block navbar %}
+<nav class="navbar navbar-expand-lg">
+    <ul class="navbar-nav">
+        <li class="nav-item nav-item-override">
+            <a class="nav-link" href="../information/index.html">
+                <i class="fas fa-info"></i>
+                INFORMATION
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../files/index.html">
+                <i class="far fa-file"></i>
+                FILE BROWSER
+            </a>
+        </li>
+        {% if data.images.length > 0 %}
+        <li class="nav-item">
+            <a class="nav-link" href="../images/{{data.images[0].split('/').pop()}}.html">
+                <i class="far fa-image"></i>
+                IMAGE
+            </a>
+        </li>
+        {% endif %}
+        {% if data.media.length > 0 %}
+        <li class="nav-item">
+            <a class="nav-link" href="../media/{{data.media[0].name}}.html">
+                <i class="far fa-file-audio"></i>
+                AUDIO / VIDEO
+            </a>
+        </li>
+        {% endif %}
+        {% if data.documents.length > 0 %}
+        <li class="nav-item">
+            <a class="nav-link" href="../documents">
+                <i class="far fa-file-pdf"></i>
+                DOCUMENTS
+            </a>
+        </li>
+        {% endif %}
+        {# {% if data.transcriptions.length > 0 %}
+        <li class="nav-item">
+            <a class="nav-link" href="../transcriptions">
+                <i class="far fa-file-code"></i>
+                TRANSCRIPTIONS
+            </a>
+        </li>
+        {% endif %} #}
+    </ul>
+</nav>
+{% endblock %}
