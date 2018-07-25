@@ -21,6 +21,7 @@ class SiteGenerator {
             this.createFileBrowserPage({ item });
             this.createImageBrowserPage({ item });
             this.createMediaBrowserPage({ item });
+            this.createDocumentsBrowserPage({ item });
             // console.log(JSON.stringify(item, null, 2));
         });
     }
@@ -115,6 +116,10 @@ class SiteGenerator {
             const html = nunjucks.render(template, item);
             fs.writeFileSync(file, html);
         }
+    }
+
+    createDocumentsBrowserPage({ item }) {
+        shelljs.mkdir("-p", `${item.path}/documents/content`);
     }
 }
 
