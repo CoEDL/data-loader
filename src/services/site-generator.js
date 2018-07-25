@@ -12,6 +12,7 @@ class SiteGenerator {
     }
 
     generate() {
+        shelljs.rm("-r", `${this.siteLocation}/*`);
         this.createIndexPage();
         this.data.forEach(async item => {
             item.path = `${this.siteLocation}/${item.collectionId}/${
