@@ -25,12 +25,12 @@ class SiteGenerator {
                 `Setting up data path for ${item.collectionId}/${item.itemId}`
             );
             this.setupSite({ item });
-            loggers.logInfo(
-                `Creating information browser for ${item.collectionId}/${
-                    item.itemId
-                }`
-            );
-            this.createInformationPage({ item });
+            // loggers.logInfo(
+            //     `Creating information browser for ${item.collectionId}/${
+            //         item.itemId
+            //     }`
+            // );
+            // this.createInformationPage({ item });
             loggers.logInfo(
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );

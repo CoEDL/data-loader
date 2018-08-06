@@ -7,57 +7,63 @@
         </div>
     </div>
 
-    <div class="row py-4 file-viewer-link-styling">
-        <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-
-            <div class="row">
-                <div class="col-4 py-4">
-                    Images ({{data.images.length}})<br/>
-                    {% for image in data.images %}
-                        > <a href="../images/{{image.split('/').pop()}}.html">{{image.split('/').pop()}}</a><br/>
-                    {% else %}
-                        No images registered.
-                    {% endfor %}
-                </div>
-                <div class="col-4">
-                    <div class="row py-4">
-                        <div class="col">
-                           Media ({{data.media.length}})<br/>
-                            {% for item in data.media %}
-                                {% if item.type === 'audio' %}
-                                    > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
-                                {% endif %}
-                            {% endfor %}
-                            {% for item in data.media %}
-                                {% if item.type === 'video' %}
-                                    > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
-                                {% endif %}
-                            {% endfor %}
-                            {% if data.media.length === 0 %}
-                                No media registered.
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="row py-4">
-                        <div class="col">
-                            Documents ({{data.documents.length}}) <br/>
-                            {% for document in data.documents %}
-                                > <a href="../documents/{{document.name}}.html">{{document.name}}</a><br/>
-                            {% else %}
-                                No documents registered.
-                            {% endfor %}
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-4 col ml-4">
+            {% include "./information.njk" %}
+        </div>
+        <div class="col">
+            <div class="row py-4 file-viewer-link-styling">
+                <div class="col-8 offset-1">
                     <div class="row">
-                        <div class="col">
-                            Transcriptions ({{data.transcriptions.length}}) <br/>
-                            {% for transcription in data.transcriptions %}
-                                > <a href="../transcriptions/{{transcription.name}}.html">{{transcription.name}}</a><br/>
+                        <div class="col-4 py-4">
+                            Images ({{data.images.length}})<br/>
+                            {% for image in data.images %}
+                                > <a href="../images/{{image.split('/').pop()}}.html">{{image.split('/').pop()}}</a><br/>
                             {% else %}
-                                No transcriptions registered.
+                                No images registered.
                             {% endfor %}
+                        </div>
+                        <div class="col-4">
+                            <div class="row py-4">
+                                <div class="col">
+                                Media ({{data.media.length}})<br/>
+                                    {% for item in data.media %}
+                                        {% if item.type === 'audio' %}
+                                            > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for item in data.media %}
+                                        {% if item.type === 'video' %}
+                                            > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if data.media.length === 0 %}
+                                        No media registered.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row py-4">
+                                <div class="col">
+                                    Documents ({{data.documents.length}}) <br/>
+                                    {% for document in data.documents %}
+                                        > <a href="../documents/{{document.name}}.html">{{document.name}}</a><br/>
+                                    {% else %}
+                                        No documents registered.
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Transcriptions ({{data.transcriptions.length}}) <br/>
+                                    {% for transcription in data.transcriptions %}
+                                        > <a href="../transcriptions/{{transcription.name}}.html">{{transcription.name}}</a><br/>
+                                    {% else %}
+                                        No transcriptions registered.
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
