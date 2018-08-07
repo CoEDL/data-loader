@@ -15,7 +15,8 @@ const {
     orderBy,
     map,
     each,
-    isArray
+    isArray,
+    sum
 } = require("lodash");
 const { convert } = require("./xml-to-json-service");
 const DOMParser = require("xmldom").DOMParser;
@@ -246,7 +247,7 @@ function createItemDataStructure(path, data) {
         filterFiles(types.transcriptionTypes, files)
     );
 
-    return {
+    data = {
         agents: getAgents(data),
         citation: get(data.item, "citation"),
         collectionId: get(data.item, "identifier").split("-")[0],
@@ -272,6 +273,12 @@ function createItemDataStructure(path, data) {
             return { name: t.name, url: t.path };
         })
     };
+    data.elements = sum(
+        ["documents", "images", "media"].map(element => {
+            return data[element].length;
+        })
+    );
+    return data;
 
     function get(leaf, thing) {
         try {

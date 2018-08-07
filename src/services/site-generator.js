@@ -15,7 +15,6 @@ class SiteGenerator {
         loggers.logInfo("Removing existing data");
         shelljs.rm("-r", `${this.siteLocation}/*`);
         loggers.logInfo("Creating index page");
-        this.createIndexPage();
         this.data.forEach(async item => {
             loggers.logInfo(`Generating ${item.collectionId}/${item.itemId}`);
             item.path = `${this.siteLocation}/${item.collectionId}/${
@@ -46,12 +45,10 @@ class SiteGenerator {
             );
             this.createMediaBrowserPage({ item });
             this.createDocumentsBrowserPage({ item });
-            // console.log(JSON.stringify(item, null, 2));
             loggers.logComplete(
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
 
-            // only create this if there's only one type of item
             this.createFileBrowserPage({
                 item
             });
@@ -59,6 +56,7 @@ class SiteGenerator {
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
         });
+        this.createIndexPage();
     }
 
     createIndexPage() {

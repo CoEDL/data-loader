@@ -29,12 +29,24 @@
 
                 <div class="row py-4 file-viewer-link-styling">
                     <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-                        {% for item in data%}
+                        {% for item in data %}
                             <div class="row">
                                 <div class="col">
-                                    <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                        {{ item.collectionId}} / {{item.itemId}}
-                                    </a>
+                                    {% if item.data.elements > 1 %}
+                                        <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
+                                            {{ item.collectionId}} / {{item.itemId}}
+                                        </a>
+                                    {% else %}
+                                        {% if item.data.images.length %}
+                                            <a href="./{{item.collectionId}}/{{item.itemId}}/images/{{item.data.images[0].split('/').pop()}}.html">
+                                                {{ item.collectionId}} / {{item.itemId}}
+                                            </a>
+                                        {% elif item.data.media.length %}
+                                            <a href="./{{item.collectionId}}/{{item.itemId}}/media/{{item.data.media[0].name}}.html">
+                                                {{ item.collectionId}} / {{item.itemId}}
+                                            </a>
+                                        {% endif %}
+                                    {% endif  %}
                                     : {{item.data.title}}
                                 </div>
                             </div>
