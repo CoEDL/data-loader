@@ -170,6 +170,9 @@ class SiteGenerator {
 
     createDocumentsBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/documents/content`);
+        item.data.documents.forEach(document => {
+            shelljs.cp(document.path, `${item.path}/documents/content`);
+        });
     }
 }
 

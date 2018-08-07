@@ -256,7 +256,7 @@ function createItemDataStructure(path, data) {
         )}`,
         date: get(data.item, "originationDate"),
         description: get(data.item, "description"),
-        documents: [],
+        documents: documentFiles,
         identifier: [
             get(data.item, "identifier"),
             get(data.item, "archiveLink")

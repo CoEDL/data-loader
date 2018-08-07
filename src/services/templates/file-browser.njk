@@ -46,7 +46,7 @@
                         <div class="col">
                             Documents ({{data.documents.length}}) <br/>
                             {% for document in data.documents %}
-                                > <a href="../documents/{{document.name}}.html">{{document.name}}</a><br/>
+                                > <a href="../documents/content/{{document.name}}" download>{{document.name}}</a><br/>
                             {% else %}
                                 No documents registered.
                             {% endfor %}
