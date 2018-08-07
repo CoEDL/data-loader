@@ -50,6 +50,15 @@ class SiteGenerator {
             loggers.logComplete(
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
+            console.log(item.data);
+
+            // only create this if there's only one type of item
+            this.createFileBrowserPage({
+                item
+            });
+            loggers.logInfo(
+                `Creating file browser for ${item.collectionId}/${item.itemId}`
+            );
         });
     }
 
@@ -77,7 +86,6 @@ class SiteGenerator {
             "information",
             "images",
             "media",
-            "transcriptions",
             "documents"
         ].forEach(component => {
             shelljs.mkdir("-p", `${item.path}/${component}`);

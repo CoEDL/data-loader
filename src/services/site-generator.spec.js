@@ -46,17 +46,12 @@ describe.only("test static site generation capability", () => {
                 item.collectionId
             }/${item.itemId}`;
             expect((await stat(path)).isDirectory()).to.be.true;
-            [
-                "files",
-                "information",
-                "images",
-                "media",
-                "transcriptions",
-                "documents"
-            ].forEach(async component => {
-                expect((await stat(`${path}/${component}`)).isDirectory()).to.be
-                    .true;
-            });
+            ["files", "information", "images", "media", "documents"].forEach(
+                async component => {
+                    expect((await stat(`${path}/${component}`)).isDirectory())
+                        .to.be.true;
+                }
+            );
         });
 
         // console.log(siteGenerator.data);
