@@ -16,7 +16,7 @@
                 <router-link class="nav-link" to="/loadLibraryBox">
                     <div class="card librarybox-loader-panel-style d-flex justify-content-center align-items-center hvr-sweep-to-right">
                         <div class="card-body">
-                            <h4 class="card-title">Install Data onto a Library Box USB Disk</h4>
+                            <h4 class="card-title">Create a Library Box Catalog.</h4>
                             <p>
                                 There are two aspects to this process:
                                 <ul>
@@ -41,7 +41,7 @@
                 <router-link class="nav-link" to="/loadDisk">
                     <div class="card usb-loader-panel-style d-flex justify-content-center align-items-center hvr-sweep-to-right">
                         <div class="card-body">
-                            <h4 class="card-title">Install Data onto a USB Disk</h4>
+                            <h4 class="card-title">Create a Disk Catalog.</h4>
                             <p>
                                 Select this option to create a statically generated, offline
                                 catalog on any USB disk or in any folder. Note that this
