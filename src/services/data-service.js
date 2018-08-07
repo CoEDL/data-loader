@@ -245,14 +245,9 @@ function createItemDataStructure(path, data) {
     const transcriptionFiles = compact(
         filterFiles(types.transcriptionTypes, files)
     );
-    let agents = data.item.agents.agent.map(agent => {
-        return {
-            role: agent["@attributes"].role,
-            name: agent["#text"].trim()
-        };
-    });
+
     return {
-        agents: orderBy(agents, ["name"]),
+        agents: getAgents(data),
         citation: get(data.item, "citation"),
         collectionId: get(data.item, "identifier").split("-")[0],
         collectionLink: `http://catalog.paradisec.org.au/collections/${get(
@@ -284,6 +279,19 @@ function createItemDataStructure(path, data) {
         } catch (e) {
             return "";
         }
+    }
+
+    function getAgents(data) {
+        if (!isArray(data.item.agents.agent)) {
+            data.item.agents.agent = [data.item.agents.agent];
+        }
+        let agents = data.item.agents.agent.map(agent => {
+            return {
+                role: agent["@attributes"].role,
+                name: agent["#text"].trim()
+            };
+        });
+        return orderBy(agents, ["name"]);
     }
 
     function getFiles(path, data) {

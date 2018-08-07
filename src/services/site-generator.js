@@ -50,7 +50,6 @@ class SiteGenerator {
             loggers.logComplete(
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
-            console.log(item.data);
 
             // only create this if there's only one type of item
             this.createFileBrowserPage({
