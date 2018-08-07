@@ -12,6 +12,7 @@ const {
     flattenDeep,
     includes,
     groupBy,
+    orderBy,
     map,
     each,
     isArray
@@ -244,7 +245,14 @@ function createItemDataStructure(path, data) {
     const transcriptionFiles = compact(
         filterFiles(types.transcriptionTypes, files)
     );
+    let agents = data.item.agents.agent.map(agent => {
+        return {
+            role: agent["@attributes"].role,
+            name: agent["#text"].trim()
+        };
+    });
     return {
+        agents: orderBy(agents, ["name"]),
         citation: get(data.item, "citation"),
         collectionId: get(data.item, "identifier").split("-")[0],
         collectionLink: `http://catalog.paradisec.org.au/collections/${get(
