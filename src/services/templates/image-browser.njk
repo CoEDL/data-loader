@@ -16,45 +16,45 @@
                 <div class="col">
                     {% if currentContext.first !== null %}
                         <a type="button" href="{{currentContext.first}}" class="btn px-4">
-                            <i class="fas fa-fast-backward fa-2x"></i>
+                            <i class="fas fa-fast-backward fa-lg"></i>
                         </a>
                     {% else %}
                         <a type="button" class="btn px-4">
-                            <i class="fas fa-fast-backward fa-2x"></i>
+                            <i class="fas fa-fast-backward fa-lg"></i>
                         </a>
                     {% endif %}
 
                     {% if currentContext.previous !== null %}
                         <a type="button" href="{{currentContext.previous}}" class="btn px-4">
-                            <i class="fas fa-step-backward fa-2x"></i>
+                            <i class="fas fa-step-backward fa-lg"></i>
                         </a>
                     {% else %}
                         <a type="button" class="btn px-4">
-                            <i class="fas fa-step-backward fa-2x"></i>
+                            <i class="fas fa-step-backward fa-lg"></i>
                         </a>
                     {% endif %}
 
-                    <span style="font-size: 26px; line-height: 30px;">
+                    <span style="font-size: 18px;">
                         {{currentContext.meta}}
                     </span>
 
                     {% if currentContext.next !== null %}
                         <a type="button" href="{{currentContext.next}}" class="btn px-4">
-                            <i class="fas fa-step-forward fa-2x"></i>
+                            <i class="fas fa-step-forward fa-lg"></i>
                         </a>
                     {% else %}
                         <a type="button" class="btn px-4">
-                            <i class="fas fa-step-forward fa-2x"></i>
+                            <i class="fas fa-step-forward fa-lg"></i>
                         </a>
                     {% endif %}
 
                     {% if currentContext.last !== null %}
                         <a type="button" href="{{currentContext.last}}" class="btn px-4">
-                            <i class="fas fa-fast-forward fa-2x"></i>
+                            <i class="fas fa-fast-forward fa-lg"></i>
                         </a>
                     {% else %}
                         <a type="button" class="btn px-4">
-                            <i class="fas fa-fast-forward fa-2x"></i>
+                            <i class="fas fa-fast-forward fa-lg"></i>
                         </a>
                     {% endif %}
                 </div>
