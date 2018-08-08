@@ -17,6 +17,9 @@
             <div class="col-8">
                 <last-message-logger-component></last-message-logger-component>
             </div>
+            <router-link class="nav-link" to="/logs" v-if="messages.length">
+                View the complete data load logs
+            </router-link>
         </div>
   </div>
 </template>
@@ -33,6 +36,11 @@ export default {
         return {
             loading: false
         };
+    },
+    computed: {
+        ...mapState({
+            messages: state => state.messages
+        })
     },
     components: {
         SelectTargetComponent,

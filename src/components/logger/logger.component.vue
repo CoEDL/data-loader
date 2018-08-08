@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="fa-ul">
-            <li v-for="m in messages" :key="m">
+            <li v-for="m in messages" :key="m.id">
                 <span class="fa-li">
                     <i class="fas fa-angle-right" v-if="m.type === 'info'"></i>
                     <i class="fas fa-check-square" v-if="m.type === 'infoComplete'"></i>
