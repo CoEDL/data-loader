@@ -226,7 +226,7 @@ function buildIndex({ items, loggers }) {
             `Generating the index for: ${item.collectionId} - ${item.itemId}`
         );
         try {
-            data = readCatalogFile(item);
+            data = readCatalogFile({ item, loggers });
         } catch (error) {
             loggers.logError(
                 `Error generating the index for: ${item.collectionId} - ${
@@ -243,7 +243,19 @@ function buildIndex({ items, loggers }) {
     return compact(items);
 }
 
-function createItemDataStructure(path, data) {
+function readCatalogFile({ item, loggers }) {
+    let { dataPath, dataFile } = item;
+    const data = parseXML(fs.readFileSync(dataFile, { encoding: "utf8" }));
+    return createItemDataStructure({ path: dataPath, data, loggers });
+
+    function parseXML(doc) {
+        var parser = new DOMParser();
+        var xmldoc = parser.parseFromString(doc, "text/xml");
+        return convert(xmldoc);
+    }
+}
+
+function createItemDataStructure({ path, data, loggers }) {
     // console.log(data);
     const files = getFiles(path, data);
     const mediaFiles = compact(
@@ -262,7 +274,7 @@ function createItemDataStructure(path, data) {
     );
 
     data = {
-        agents: getAgents(data),
+        agents: getAgents({ data, loggers }),
         citation: get(data.item, "citation"),
         collectionId: get(data.item, "identifier").split("-")[0],
         collectionLink: `http://catalog.paradisec.org.au/collections/${get(
@@ -302,7 +314,11 @@ function createItemDataStructure(path, data) {
         }
     }
 
-    function getAgents(data) {
+    function getAgents({ data, loggers }) {
+        if (!data.item.agents.agent) {
+            loggers.logError(`No agents defined`);
+            return [];
+        }
         if (!isArray(data.item.agents.agent)) {
             data.item.agents.agent = [data.item.agents.agent];
         }
@@ -334,7 +350,7 @@ function createItemDataStructure(path, data) {
         let extension;
         return files.filter(file => {
             extension = file.name.split(".")[1];
-            return includes(types, extension);
+            return includes(types, extension.toLowerCase());
         });
     }
 
@@ -373,17 +389,6 @@ function createItemDataStructure(path, data) {
                 });
             }
         }
-    }
-}
-
-function readCatalogFile({ dataPath, dataFile }) {
-    const data = parseXML(fs.readFileSync(dataFile, { encoding: "utf8" }));
-    return createItemDataStructure(dataPath, data);
-
-    function parseXML(doc) {
-        var parser = new DOMParser();
-        var xmldoc = parser.parseFromString(doc, "text/xml");
-        return convert(xmldoc);
     }
 }
 
