@@ -6,53 +6,56 @@ const shelljs = require("shelljs");
 const nunjucks = require("nunjucks");
 
 class SiteGenerator {
-    constructor({ data, siteLocation }) {
+    constructor({ data, siteLocation, loggers }) {
         this.data = data;
         this.siteLocation = siteLocation;
+        this.loggers = loggers;
     }
 
-    generate({ loggers }) {
-        loggers.logInfo("Removing existing data");
+    generate() {
+        this.loggers.logInfo("Removing existing data");
         shelljs.rm("-r", `${this.siteLocation}/*`);
-        loggers.logInfo("Creating index page");
+        this.loggers.logInfo("Creating index page");
         this.data.forEach(async item => {
-            loggers.logInfo(`Generating ${item.collectionId}/${item.itemId}`);
+            this.loggers.logInfo(
+                `Generating ${item.collectionId}/${item.itemId}`
+            );
             item.path = `${this.siteLocation}/${item.collectionId}/${
                 item.itemId
             }`;
-            loggers.logInfo(
+            this.loggers.logInfo(
                 `Setting up data path for ${item.collectionId}/${item.itemId}`
             );
             this.setupSite({ item });
-            // loggers.logInfo(
+            // this.loggers.logInfo(
             //     `Creating information browser for ${item.collectionId}/${
             //         item.itemId
             //     }`
             // );
             // this.createInformationPage({ item });
-            loggers.logInfo(
+            this.loggers.logInfo(
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
             this.createFileBrowserPage({ item });
-            loggers.logInfo(
+            this.loggers.logInfo(
                 `Creating image browser for ${item.collectionId}/${item.itemId}`
             );
             this.createImageBrowserPage({ item });
-            loggers.logInfo(
+            this.loggers.logInfo(
                 `Creating media browser page ${item.collectionId}/${
                     item.itemId
                 }`
             );
             this.createMediaBrowserPage({ item });
             this.createDocumentsBrowserPage({ item });
-            loggers.logComplete(
+            this.loggers.logComplete(
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
 
             this.createFileBrowserPage({
                 item
             });
-            loggers.logInfo(
+            this.loggers.logInfo(
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
         });
@@ -138,11 +141,18 @@ class SiteGenerator {
                               .split("/")
                               .pop()}.html`
             };
-            shelljs.cp(image, `${item.path}/images/content`);
-            const file = `${item.path}/images/${image.split("/").pop()}.html`;
-            const template = `${__dirname}/templates/image-browser.njk`;
-            const html = nunjucks.render(template, item);
-            fs.writeFileSync(file, html);
+            if (shelljs.test("-e", image)) {
+                shelljs.cp(image, `${item.path}/images/content`);
+
+                const file = `${item.path}/images/${image
+                    .split("/")
+                    .pop()}.html`;
+                const template = `${__dirname}/templates/image-browser.njk`;
+                const html = nunjucks.render(template, item);
+                fs.writeFileSync(file, html);
+            } else {
+                this.loggers.logError(`Missing file: ${image}`);
+            }
         }
         item.data.thumbnails.forEach(image => {
             shelljs.cp(image, `${item.path}/images/content`);
@@ -156,9 +166,13 @@ class SiteGenerator {
             item.currentContext = {
                 item: medium
             };
-            medium.files.forEach(file =>
-                shelljs.cp(file, `${item.path}/media/content`)
-            );
+            medium.files.forEach(file => {
+                if (shelljs.test("-e", file)) {
+                    shelljs.cp(file, `${item.path}/media/content`);
+                } else {
+                    this.loggers.logError(`Missing file: ${file}`);
+                }
+            });
             const file = `${item.path}/media/${medium.name}.html`;
             const template = `${__dirname}/templates/media-browser.njk`;
             const html = nunjucks.render(template, item);
@@ -169,7 +183,11 @@ class SiteGenerator {
     createDocumentsBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/documents/content`);
         item.data.documents.forEach(document => {
-            shelljs.cp(document.path, `${item.path}/documents/content`);
+            if (shelljs.test("-e", document.path)) {
+                shelljs.cp(document.path, `${item.path}/documents/content`);
+            } else {
+                this.loggers.logError(`Missing file: ${document.path}`);
+            }
         });
     }
 }

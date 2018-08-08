@@ -86,9 +86,10 @@ export default {
                     this.logInfo("Generating thes site.");
                     const siteGenerator = new SiteGenerator({
                         data: index,
-                        siteLocation: this.targetPath
+                        siteLocation: this.targetPath,
+                        loggers: this.getLoggers()
                     });
-                    siteGenerator.generate({ loggers: this.getLoggers() });
+                    siteGenerator.generate();
                     this.logComplete("Site generation complete");
                     this.loading = false;
                 } catch (error) {

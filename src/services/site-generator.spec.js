@@ -30,16 +30,17 @@ describe.only("test static site generation capability", () => {
     it("should be able to create a static site", async () => {
         let { items, errors } = await buildDataTree(process.env.DATA_PATH);
         let index = buildIndex(items);
-        const siteGenerator = new SiteGenerator({
-            data: index,
-            siteLocation: process.env.STATIC_SITE_PATH
-        });
         const loggers = {
             logInfo: () => {},
             logError: () => {},
             logComplete: () => {}
         };
-        siteGenerator.generate({ loggers });
+        const siteGenerator = new SiteGenerator({
+            data: index,
+            siteLocation: process.env.STATIC_SITE_PATH,
+            loggers
+        });
+        siteGenerator.generate();
 
         index.forEach(async item => {
             const path = `${process.env.STATIC_SITE_PATH}/${
