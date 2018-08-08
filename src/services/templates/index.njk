@@ -34,19 +34,19 @@
                                 <div class="col">
                                     {% if item.data.elements > 1 %}
                                         <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                            {{ item.collectionId}} / {{item.itemId}}
+                                            {{item.collectionId}} / {{item.itemId}}
                                         </a>
                                     {% else %}
                                         {% if item.data.images.length %}
                                             <a href="./{{item.collectionId}}/{{item.itemId}}/images/{{item.data.images[0].split('/').pop()}}.html">
-                                                {{ item.collectionId}} / {{item.itemId}}
+                                                {{item.collectionId}} / {{item.itemId}}
                                             </a>
                                         {% elif item.data.documents.length %}
                                             <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                                {{ item.collectionId}} / {{item.itemId}}
+                                                {{item.collectionId}} / {{item.itemId}}
                                         {% elif item.data.media.length %}
                                             <a href="./{{item.collectionId}}/{{item.itemId}}/media/{{item.data.media[0].name}}.html">
-                                                {{ item.collectionId}} / {{item.itemId}}
+                                                {{item.collectionId}} / {{item.itemId}}
                                             </a>
                                         {% endif %}
                                     {% endif  %}
