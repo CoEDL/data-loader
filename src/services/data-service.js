@@ -219,12 +219,25 @@ async function verifyTargetLibraryBoxDisk(target) {
     }
 }
 
-function buildIndex(items) {
+function buildIndex({ items, loggers }) {
+    let data;
     return items.map(item => {
+        loggers.logInfo(
+            `Generating the index for: ${item.collectionId} - ${item.itemId}`
+        );
+        try {
+            data = readCatalogFile(item);
+        } catch (error) {
+            loggers.logError(
+                `Error generating the index for: ${item.collectionId} - ${
+                    item.itemId
+                }`
+            );
+        }
         return {
             collectionId: item.collectionId,
             itemId: item.itemId,
-            data: readCatalogFile(item)
+            data
         };
     });
 }

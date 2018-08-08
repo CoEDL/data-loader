@@ -80,7 +80,10 @@ export default {
                     this.logComplete("Data processed");
 
                     this.logInfo("Building the index.");
-                    let index = buildIndex(items);
+                    let index = buildIndex({
+                        items,
+                        loggers: this.getLoggers()
+                    });
                     this.logComplete("Index built");
 
                     this.logInfo("Generating thes site.");

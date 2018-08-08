@@ -112,7 +112,10 @@ export default {
                     this.logComplete("Data processed");
 
                     this.logInfo("Building the index.");
-                    index = buildIndex(result.items);
+                    index = buildIndex({
+                        items: result.items,
+                        loggers: getLoggers()
+                    });
                     this.logComplete("Index built");
 
                     this.logInfo("Loading the data (this can take some time).");
