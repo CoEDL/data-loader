@@ -220,8 +220,8 @@ async function verifyTargetLibraryBoxDisk(target) {
 }
 
 function buildIndex({ items, loggers }) {
-    let data;
-    return items.map(item => {
+    let data = undefined;
+    items = items.map(item => {
         loggers.logInfo(
             `Generating the index for: ${item.collectionId} - ${item.itemId}`
         );
@@ -240,6 +240,7 @@ function buildIndex({ items, loggers }) {
             data
         };
     });
+    return compact(items);
 }
 
 function createItemDataStructure(path, data) {

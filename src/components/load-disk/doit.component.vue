@@ -86,7 +86,7 @@ export default {
                     });
                     this.logComplete("Index built");
 
-                    this.logInfo("Generating thes site.");
+                    this.logInfo("Generating the site.");
                     const siteGenerator = new SiteGenerator({
                         data: index,
                         siteLocation: this.targetPath,
