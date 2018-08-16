@@ -19,8 +19,20 @@ const {
 const installationTargetFolder = "/tmp/LB/LibraryBox";
 const collectionViewer = "./src/viewer";
 
-describe.skip("test data service methods", () => {
-    beforeEach(() => {
+const loggers = {
+    logInfo: msg => {
+        // console.log(msg);
+    },
+    logComplete: msg => {
+        // console.log(msg);
+    },
+    logError: msg => {
+        // console.log(msg);
+    }
+};
+
+describe("test data service methods", () => {
+    before(() => {
         if (!process.env.DATA_PATH) {
             console.log("Please set DATA_PATH in the environment. It needs to");
             console.log(
@@ -58,13 +70,17 @@ describe.skip("test data service methods", () => {
 
     it("should be able to read and convert a datafile to JSON", async () => {
         const { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        const data = readCatalogFile(items[0]);
+        const data = readCatalogFile({ item: items[3], loggers });
         expect(data).to.be.jsonSchema(schema);
     });
 
     it("should be able to create an index file with all of the data", async () => {
         const { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        const index = buildIndex(items);
+        let index = {
+            type: "id",
+            speakerRoles: undefined
+        };
+        index = buildIndex({ items, index, loggers });
         expect(index).to.be.an("array");
         each(index, item => {
             expect(item.data).to.be.jsonSchema(schema);
@@ -95,12 +111,7 @@ describe.skip("test data service methods", () => {
         shell.mkdir("-p", installationTargetFolder);
         prepareTarget(installationTargetFolder);
         let { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        let index = buildIndex(items);
-        const loggers = {
-            logInfo: () => {},
-            logError: () => {},
-            logComplete: () => {}
-        };
+        let index = buildIndex({ items, loggers });
         const result = installTheData({
             dataPath: process.env.DATA_PATH,
             target: installationTargetFolder,
@@ -139,6 +150,10 @@ describe.skip("test data service methods", () => {
     }).timeout(10000);
 
     it("should be able to configure the defaults", () => {
+        shell.mkdir(
+            "-p",
+            `${process.env.LIBRARYBOX_MOUNTPOINT}/LibraryBox/Config`
+        );
         expect(
             statDirectory(
                 `${process.env.LIBRARYBOX_MOUNTPOINT}/LibraryBox/Config`

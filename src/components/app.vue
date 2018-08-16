@@ -9,17 +9,17 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import NavbarComponent from './navbar.component.vue';
+import Vue from "vue";
+import NavbarComponent from "./navbar.component.vue";
 
 export default {
-    el: '#app',
-    name: 'test',
+    el: "#app",
+    name: "test",
     data() {
         return {};
     },
     mounted() {
-        this.$router.push('introduction');
+        this.$router.push("loadLibraryBox");
     },
     components: {
         NavbarComponent

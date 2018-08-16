@@ -6,10 +6,8 @@ config.autoReplaceSvg = "nest";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
-import AsyncComputed from "vue-async-computed";
 Vue.use(VueRouter);
 Vue.use(Vuex);
-Vue.use(AsyncComputed);
 
 import IntroductionComponent from "./components/introduction.component.vue";
 import LibraryBoxLoadDataComponent from "./components/librarybox-load-data/load-data.component.vue";

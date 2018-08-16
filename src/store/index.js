@@ -7,10 +7,18 @@ export default {
         libraryBoxDataLoad: {
             usbMountPoint: undefined,
             hostname: "catalog.paradisec.offline",
-            ssid: "PARADISEC Catalog"
+            ssid: "PARADISEC Catalog",
+            index: {
+                type: "id",
+                speakerRoles: undefined
+            }
         },
         folderDataLoad: {
-            path: undefined
+            path: undefined,
+            index: {
+                type: "id",
+                speakerRoles: undefined
+            }
         },
         messages: [],
         lastMessage: {},
@@ -47,8 +55,14 @@ export default {
         setLibraryBoxSsid(state, ssid) {
             state.libraryBoxDataLoad.ssid = ssid;
         },
+        setLibraryBoxIndexType(state, configuration) {
+            state.libraryBoxDataLoad.index = { ...configuration };
+        },
         setFolderPath(state, path) {
             state.folderDataLoad.path = path;
+        },
+        setFolderIndexType(state, configuration) {
+            state.folderDataLoad.index = { ...configuration };
         },
         setInfoMessage(state, msgs) {
             if (!isArray(msgs)) msgs = [msgs];

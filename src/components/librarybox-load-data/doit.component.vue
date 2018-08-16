@@ -49,7 +49,8 @@ export default {
         usbMountPoint: state => state.libraryBoxDataLoad.usbMountPoint,
         hostname: state => state.libraryBoxDataLoad.hostname,
         ssid: state => state.libraryBoxDataLoad.ssid,
-        localDataPath: state => state.localDataPath
+        localDataPath: state => state.localDataPath,
+        index: state => state.index
     }),
     components: {},
     methods: {
@@ -114,6 +115,7 @@ export default {
                     this.logInfo("Building the index.");
                     index = buildIndex({
                         items: result.items,
+                        index: this.index,
                         loggers: getLoggers()
                     });
                     this.logComplete("Index built");

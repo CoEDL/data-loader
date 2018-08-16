@@ -8,6 +8,8 @@ const copy = util.promisify(fs.copyFile);
 const shell = require("shelljs");
 
 const {
+    isEmpty,
+    isUndefined,
     compact,
     flattenDeep,
     includes,
@@ -219,7 +221,7 @@ async function verifyTargetLibraryBoxDisk(target) {
     }
 }
 
-function buildIndex({ items, loggers }) {
+function buildIndex({ items, index, loggers }) {
     let data = undefined;
     items = items.map(item => {
         loggers.logInfo(
@@ -237,6 +239,7 @@ function buildIndex({ items, loggers }) {
         return {
             collectionId: item.collectionId,
             itemId: item.itemId,
+            index,
             data
         };
     });
@@ -256,8 +259,11 @@ function readCatalogFile({ item, loggers }) {
 }
 
 function createItemDataStructure({ path, data, loggers }) {
-    // console.log(data);
     const files = getFiles(path, data);
+    if (isEmpty(files)) {
+        loggers.logError(`No files found in CAT XML`);
+        return {};
+    }
     const mediaFiles = compact(
         filterFiles([...types.videoTypes, ...types.audioTypes], files)
     );
@@ -273,8 +279,24 @@ function createItemDataStructure({ path, data, loggers }) {
         filterFiles(types.transcriptionTypes, files)
     );
 
+    let classifications = get(data.item.adminInfo, "adminComment");
+    if (classifications && classifications.match(/\[.*\]/)) {
+        classifications = classifications
+            .replace("[", "")
+            .replace("]", "")
+            .split(":::");
+        classifications = compact(
+            classifications.map(c => (c !== "" ? c.trim() : undefined))
+        );
+        classifications = classifications.map(c => {
+            return {
+                [c.split(":")[0]]: c.split(":")[1].trim()
+            };
+        });
+    }
     data = {
-        agents: getAgents({ data, loggers }),
+        speakers: getSpeakers({ data, loggers }),
+        classifications,
         citation: get(data.item, "citation"),
         collectionId: get(data.item, "identifier").split("-")[0],
         collectionLink: `http://catalog.paradisec.org.au/collections/${get(
@@ -314,7 +336,7 @@ function createItemDataStructure({ path, data, loggers }) {
         }
     }
 
-    function getAgents({ data, loggers }) {
+    function getSpeakers({ data, loggers }) {
         if (!data.item.agents.agent) {
             loggers.logError(`No agents defined`);
             return [];
@@ -334,9 +356,11 @@ function createItemDataStructure({ path, data, loggers }) {
     function getFiles(path, data) {
         const collectionId = get(data.item, "identifier").split("-")[0];
         const itemId = get(data.item, "identifier").split("-")[1];
+        if (isUndefined(data.item.files.file)) return [];
         if (!isArray(data.item.files.file)) {
             data.item.files.file = [data.item.files.file];
         }
+        if (isEmpty(data.item.files.file)) return [];
         return data.item.files.file.map(file => {
             return {
                 name: `${get(file, "name")}`,

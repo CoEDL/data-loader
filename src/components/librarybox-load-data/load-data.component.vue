@@ -2,6 +2,22 @@
     <div>
         <div class="row my-1">
             <div class="col">
+                <p>
+                    This component uses the catalog XML file (CAT.xml) to determine the content that forms
+                    part of the item and load it on to the LibraryBox. If there is some content you don't wish
+                    to have loaded (e.g. images) just remove them from the data folder. However, please note that
+                    an error will be logged for the missing content. You can safely ignore the errors related to
+                    files that you've removed.
+                </p>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col">
+                <index-generator-component component="librarybox"></index-generator-component>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col">
                 <select-usb-component></select-usb-component>
             </div>
         </div>
@@ -46,6 +62,7 @@
 import LastMessageLoggerComponent from "../logger/last-message-logger.component.vue";
 import DoitComponent from "./doit.component.vue";
 import SelectUsbComponent from "./select-usb.component.vue";
+import IndexGeneratorComponent from "../index-generator.component.vue";
 import SelectDataPathComponent from "../select-data-path.component.vue";
 import SetHostname from "./set-hostname.component.vue";
 import SetSsid from "./set-ssid.component.vue";
@@ -67,6 +84,7 @@ export default {
         DoitComponent,
         SelectUsbComponent,
         SelectDataPathComponent,
+        IndexGeneratorComponent,
         SetHostname,
         SetSsid
     }
