@@ -114,7 +114,7 @@ export default {
                     this.logInfo("Building the index.");
                     index = buildIndex({
                         items: result.items,
-                        loggers: getLoggers()
+                        loggers: this.getLoggers()
                     });
                     this.logComplete("Index built");
 
