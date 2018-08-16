@@ -8,7 +8,8 @@
                         <ol>
                             <li>The USB disk is plugged in to the Library Box;</li>
                             <li>the Library Box is turned on; and,</li>
-                            <li>you've connected to the Library Box WIFI.</li>
+                            <li>you've connected to the <em>PARADISEC Catalog</em> WIFI (or whatever you
+                            called it in the previous step.</li>
                         </ol>
                     </strong>
                 </p>
@@ -62,65 +63,68 @@
 import DataLoggerComponent from "../logger/logger.component.vue";
 
 import {
-  setDeviceRootPassword,
-  canLoginOverSSH,
-  checkTelnetAccessible,
-  reconfigureLibraryBox
+    setDeviceRootPassword,
+    canLoginOverSSH,
+    checkTelnetAccessible,
+    reconfigureLibraryBox
 } from "../../services/librarybox-mgr-service.js";
 export default {
-  data() {
-    return {
-      configuring: false,
-      libraryBoxConfigured: false,
-      unableToLogin: undefined,
-      deviceIpAddress: "192.168.1.1",
-      rootPassword: undefined
-    };
-  },
-  beforeMount() {
-    this.$store.commit("resetMessages");
-  },
-  beforeDestroy() {
-    this.$store.commit("resetMessages");
-  },
-  components: {
-    DataLoggerComponent
-  },
-  methods: {
-    async configure() {
-      this.configuring = true;
-      this.$store.commit("setInfoMessage", "Configuring the device.");
-
-      setTimeout(async () => {
-        const conf = {
-          rootPassword: this.rootPassword,
-          deviceIpAddress: this.deviceIpAddress
+    data() {
+        return {
+            configuring: false,
+            libraryBoxConfigured: false,
+            unableToLogin: undefined,
+            deviceIpAddress: "192.168.1.1",
+            rootPassword: undefined
         };
-        if (await checkTelnetAccessible(conf)) {
-          this.$store.commit(
-            "setInfoMessage",
-            "Setting the administrator password."
-          );
-          await setDeviceRootPassword(conf);
-          this.$store.commit(
-            "setCompleteMessage",
-            "Administrator password set."
-          );
+    },
+    beforeMount() {
+        this.$store.commit("resetMessages");
+    },
+    beforeDestroy() {
+        this.$store.commit("resetMessages");
+    },
+    components: {
+        DataLoggerComponent
+    },
+    methods: {
+        async configure() {
+            this.configuring = true;
+            this.$store.commit("setInfoMessage", "Configuring the device.");
+
+            setTimeout(async () => {
+                const conf = {
+                    rootPassword: this.rootPassword,
+                    deviceIpAddress: this.deviceIpAddress
+                };
+                if (await checkTelnetAccessible(conf)) {
+                    this.$store.commit(
+                        "setInfoMessage",
+                        "Setting the administrator password."
+                    );
+                    await setDeviceRootPassword(conf);
+                    this.$store.commit(
+                        "setCompleteMessage",
+                        "Administrator password set."
+                    );
+                }
+                if (await canLoginOverSSH(conf)) {
+                    await reconfigureLibraryBox(conf);
+                    this.libraryBoxConfigured = true;
+                    this.$store.commit(
+                        "setCompleteMessage",
+                        "Device configured."
+                    );
+                } else {
+                    this.$store.commit(
+                        "setErrorMessage",
+                        `That password is not correct. I'm to unable to login to the device with it.`
+                    );
+                    this.unableToLogin = true;
+                }
+                this.configuring = false;
+            }, 100);
         }
-        if (await canLoginOverSSH(conf)) {
-          await reconfigureLibraryBox(conf);
-          this.libraryBoxConfigured = true;
-          this.$store.commit("setCompleteMessage", "Device configured.");
-        } else {
-          this.$store.commit(
-            "setErrorMessage",
-            `That password is not correct. I'm to unable to login to the device with it.`
-          );
-          this.unableToLogin = true;
-        }
-        this.configuring = false;
-      }, 100);
     }
-  }
 };
 </script>
