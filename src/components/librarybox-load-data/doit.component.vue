@@ -78,7 +78,9 @@ export default {
             setTimeout(async () => {
                 try {
                     this.logInfo("Verifying the target disk.");
-                    if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
+                    if (
+                        !(await verifyTargetLibraryBoxDisk(installationTarget))
+                    ) {
                         this.logError(
                             `${
                                 this.usbMountPoint
@@ -116,7 +118,7 @@ export default {
                     index = buildIndex({
                         items: result.items,
                         index: this.index,
-                        loggers: getLoggers()
+                        loggers: this.getLoggers()
                     });
                     this.logComplete("Index built");
 
