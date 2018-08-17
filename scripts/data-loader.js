@@ -61,7 +61,7 @@ const args = require("yargs")
 
 run(args);
 async function run(args) {
-    const target = `${args["output-path"]}/repository`;
+    const target = `${args["output-path"]}`;
     const dataPath = args["data-path"];
     if (!shell.test("-d", target)) {
         shell.mkdir("-p", target);
@@ -91,9 +91,6 @@ async function run(args) {
 
         console.log("Writing the index file.");
         writeIndexFile(target, result.index);
-
-        shell.mv(`${target}`, `${target}.orig`);
-        shell.mv(`${target}.orig/www/repository`, `${target}`);
     } catch (error) {
         console.log(error);
     }
