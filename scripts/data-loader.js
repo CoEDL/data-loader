@@ -91,6 +91,9 @@ async function run(args) {
 
         console.log("Writing the index file.");
         writeIndexFile(target, result.index);
+
+        shell.mv(`${target}`, `${target}.orig`);
+        shell.mv(`${target}.orig/www/repository`, `${target}`);
     } catch (error) {
         console.log(error);
     }
