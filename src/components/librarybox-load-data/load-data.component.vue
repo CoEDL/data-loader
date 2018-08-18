@@ -27,12 +27,10 @@
             </div>
         </div>
         <div class="row my-1">
-            <div class="col">
+            <div class="col-6">
                 <set-hostname></set-hostname>
             </div>
-        </div>
-        <div class="row my-1">
-            <div class="col">
+            <div class="col-6">
                 <set-ssid></set-ssid>
             </div>
         </div>
