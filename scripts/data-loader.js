@@ -50,7 +50,7 @@ const args = require("yargs")
     .option("index-type", {
         describe: "The type of index to request",
         demandOption: true,
-        choices: ["id", "genre", "speaker", "speaker-genre"]
+        choices: ["id", "genre", "speaker"]
     })
     .option("speaker-roles", {
         describe: "The speaker roles to use in the index",
