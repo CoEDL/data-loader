@@ -37,14 +37,16 @@
             </div>
         </div>
         <div class="row my-1">
-            <div class="col-4">
+            <div class="col">
                 <doit-component></doit-component>
             </div>
-            <div class="col-8">
+        </div>
+        <div class="row my-1">
+            <div class="col">
                 <last-message-logger-component></last-message-logger-component>
             </div>
         </div>
-        <div class="row my-1" 
+        <div class="row my-1">
             <div class="col">
                 <router-link class="nav-link" to="/configureLibraryBox">
                     Next Step: Configure your Library Box if you haven't already done so

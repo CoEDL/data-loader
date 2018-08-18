@@ -11,10 +11,12 @@
             </div>
         </div>
         <div class="row my-1">
-            <div class="col-4">
+            <div class="col">
                 <doit-component></doit-component>
             </div>
-            <div class="col-8">
+        </div>
+        <div class="row my-1">
+            <div class="col">
                 <last-message-logger-component></last-message-logger-component>
             </div>
             <router-link class="nav-link" to="/logs" v-if="messages.length">

@@ -19,7 +19,7 @@ export default {
         return {};
     },
     mounted() {
-        this.$router.push("loadLibraryBox");
+        this.$router.push("introduction");
     },
     components: {
         NavbarComponent

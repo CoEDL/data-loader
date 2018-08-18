@@ -1,19 +1,20 @@
 <template>
-    <div v-if="usbMountPoint && hostname && ssid && localDataPath">
+    <!-- <div v-if="usbMountPoint && hostname && ssid && localDataPath"> -->
+    <div>
         <div class="row my-3">
             <div class="col">
                 <div class="form-check">
                    <input class="form-check-input" type="checkbox" value="" v-model="doit" id="doitCheck1">
                    <label class="form-check-label" for="doitCheck1">
-                       Is this correct?
+                       Is this correct? This will wipe any other contents currently in the selected Install folder.
                    </label>
                 </div>
             </div>
         </div>
         <div class="row my-6">
-            <div class="col">
+            <div class="col-6">
                 <button
-                    class="btn btn-default btn-block"
+                    class="btn btn-default btn-block btn-style"
                     v-on:click="loadTheData"
                     :disabled="loading || !doit">
                         <i class="fas fa-cog" v-bind:class="{'fa-spin': loading}"></i>
@@ -78,9 +79,7 @@ export default {
             setTimeout(async () => {
                 try {
                     this.logInfo("Verifying the target disk.");
-                    if (
-                        !(await verifyTargetLibraryBoxDisk(installationTarget))
-                    ) {
+                    if (!await verifyTargetLibraryBoxDisk(installationTarget)) {
                         this.logError(
                             `${
                                 this.usbMountPoint
@@ -150,3 +149,10 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.btn-style {
+    font-size: 20px;
+    min-height: 100px;
+}
+</style>
