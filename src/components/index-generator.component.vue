@@ -46,22 +46,9 @@
                                 by Speaker
                             </label>
                         </div>
-
-                        <div class="mx-2">
-                            <input class="" 
-                                type="radio" 
-                                name="index-type" 
-                                id="exampleRadios4" 
-                                value="speaker-genre" 
-                                v-model="indexLayout"
-                                @click="saveToStore">
-                            <label class="form-check-label" for="exampleRadios4">
-                                by Speaker and Genre
-                            </label>
-                        </div>
                     </div>
                 </div>
-                <div class="row my-2" v-if="indexLayout === 'speaker' || indexLayout === 'speaker-genre'">
+                <div class="row my-3">
                     <div class="col">
                         <div class="form-group">
                             <label for="speakerRoleSelect">Create the speaker index with people having the following roles (select one or more)</label>
