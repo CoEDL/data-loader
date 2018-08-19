@@ -108,12 +108,9 @@ export default {
                     ? "setLibraryBoxIndexType"
                     : "setFolderIndexType";
             setTimeout(() => {
-                const speakerRoles = this.indexLayout.match(/speaker/)
-                    ? [...this.speakerRoles]
-                    : [];
                 this.$store.commit(mutation, {
                     type: this.indexLayout,
-                    speakerRoles
+                    speakerRoles: this.speakerRoles
                 });
             }, 10);
         }
