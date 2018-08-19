@@ -2,17 +2,6 @@
     <div>
         <div class="row my-1">
             <div class="col">
-                <p>
-                    This component uses the catalog XML file (CAT.xml) to determine the content that forms
-                    part of the item and load it on to the LibraryBox. If there is some content you don't wish
-                    to have loaded (e.g. images) just remove them from the data folder. However, please note that
-                    an error will be logged for the missing content. You can safely ignore the errors related to
-                    files that you've removed.
-                </p>
-            </div>
-        </div>
-        <div class="row my-1">
-            <div class="col">
                 <index-generator-component component="librarybox"></index-generator-component>
             </div>
         </div>
