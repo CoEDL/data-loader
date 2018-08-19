@@ -23,8 +23,12 @@
                 <div class="row file-viewer-link-styling text-center">
                     <div class="col">
                         <a class="btn btn-default" href="#indexById">Jump to index by Identifier</a>
-                        <a class="btn btn-default" href="#indexByGenre">Jump to index by Genre</a>
-                        <a class="btn btn-default" href="#indexBySpeaker">Jump to index by Speaker</a>
+                        {% if data.byGenre %}
+                            <a class="btn btn-default" href="#indexByGenre">Jump to index by Genre</a>
+                        {% endif %}
+                        {% if data.bySpeaker %}
+                            <a class="btn btn-default" href="#indexBySpeaker">Jump to index by Speaker</a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -61,10 +65,11 @@
                         {% endfor %}
                     </div>
 
+                    {% if data.byGenre %}
                     <div id="indexByGenre" class="mt-4 col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                         <h5>Browse items by Genre</h5>
                         <hr/>
-                        {% for key, items in data.byGenre%}
+                        {% for key, items in data.byGenre %}
                             <div class="mt-4">{{key}}</div>
                             {% for item in items %}
                                 <div class="row">
@@ -93,7 +98,9 @@
                             {% endfor %}
                         {% endfor %}
                     </div>
+                    {% endif %}
 
+                    {% if data.bySpeaker %}
                     <div id="indexBySpeaker" class="mt-4 col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                         <h5>Browse items by Speaker</h5>
                         <hr/>
@@ -126,10 +133,7 @@
                             {% endfor %}
                         {% endfor %}
                     </div>
-
-
-
-
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -117,8 +117,12 @@ class SiteGenerator {
         const template = `${__dirname}/templates/index.njk`;
         data = {
             byIdentifier: groupByIdentifier(data),
-            byGenre: groupByGenre(data),
-            bySpeaker: groupBySpeaker(data)
+            byGenre: isEmpty(groupByGenre(data))
+                ? undefined
+                : groupByGenre(data),
+            bySpeaker: isEmpty(groupBySpeaker(data))
+                ? undefined
+                : groupBySpeaker(data)
         };
         const html = nunjucks.render(template, { data });
         fs.writeFileSync(file, html);
