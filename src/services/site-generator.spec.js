@@ -37,7 +37,7 @@ describe.only("test static site generation capability", () => {
         let { items, errors } = await buildDataTree(process.env.DATA_PATH);
         const loggers = {
             logInfo: msg => {
-                // console.log(msg);
+                console.log(msg);
             },
             logError: msg => {
                 console.log(msg);

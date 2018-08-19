@@ -4,6 +4,7 @@ const util = require("util");
 const fs = require("fs");
 const shelljs = require("shelljs");
 const nunjucks = require("nunjucks");
+const { isEmpty, compact } = require("lodash");
 
 class SiteGenerator {
     constructor({ data, siteLocation, loggers }) {
@@ -20,6 +21,7 @@ class SiteGenerator {
             this.loggers.logInfo(
                 `Generating ${item.collectionId}/${item.itemId}`
             );
+            item = this.stripMissingFiles({ item });
             item.path = `${this.siteLocation}/${item.collectionId}/${
                 item.itemId
             }`;
@@ -56,11 +58,52 @@ class SiteGenerator {
             this.loggers.logInfo(
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
+            console.log("");
         });
-        this.createIndexPage();
+
+        this.createIndexPage({ data: this.data });
     }
 
-    createIndexPage() {
+    stripMissingFiles({ item }) {
+        item.data.images = compact(
+            item.data.images.map(image => {
+                if (shelljs.test("-e", image)) return image;
+                this.loggers.logError(
+                    `${item.collectionId} / ${
+                        item.itemId
+                    } missing file: ${image}`
+                );
+            })
+        );
+        item.data.media = compact(
+            item.data.media.map(m => {
+                m.files = compact(
+                    m.files.map(file => {
+                        if (shelljs.test("-e", file)) return file;
+                        this.loggers.logError(
+                            `${item.collectionId} / ${
+                                item.itemId
+                            } missing file: ${file}`
+                        );
+                    })
+                );
+                if (!isEmpty(m.files)) return m;
+            })
+        );
+        item.data.documents = compact(
+            item.data.documents.map(document => {
+                if (shelljs.test("-e", document.path)) return document;
+                this.loggers.logError(
+                    `${item.collectionId} / ${item.itemId} missing file: ${
+                        document.path
+                    }`
+                );
+            })
+        );
+        return item;
+    }
+
+    createIndexPage({ data }) {
         shelljs.mkdir("-p", `${this.siteLocation}/assets`);
         shelljs.cp(
             `${__dirname}/templates/styles.css`,
@@ -72,7 +115,7 @@ class SiteGenerator {
         );
         const file = `${this.siteLocation}/index.html`;
         const template = `${__dirname}/templates/index.njk`;
-        const html = nunjucks.render(template, { data: this.data });
+        const html = nunjucks.render(template, { data });
         fs.writeFileSync(file, html);
     }
 
@@ -148,8 +191,6 @@ class SiteGenerator {
                 const template = `${__dirname}/templates/image-browser.njk`;
                 const html = nunjucks.render(template, item);
                 fs.writeFileSync(file, html);
-            } else {
-                this.loggers.logError(`Missing file: ${image}`);
             }
         }
         item.data.thumbnails.forEach(image => {
@@ -168,8 +209,6 @@ class SiteGenerator {
             medium.files.forEach(file => {
                 if (shelljs.test("-e", file)) {
                     shelljs.cp(file, `${item.path}/media/content`);
-                } else {
-                    this.loggers.logError(`Missing file: ${file}`);
                 }
             });
             const file = `${item.path}/media/${medium.name}.html`;
@@ -184,8 +223,6 @@ class SiteGenerator {
         item.data.documents.forEach(document => {
             if (shelljs.test("-e", document.path)) {
                 shelljs.cp(document.path, `${item.path}/documents/content`);
-            } else {
-                this.loggers.logError(`Missing file: ${document.path}`);
             }
         });
     }
