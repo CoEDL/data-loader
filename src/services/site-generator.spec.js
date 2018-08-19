@@ -44,7 +44,8 @@ describe.only("test static site generation capability", () => {
             },
             logComplete: () => {}
         };
-        let index = buildIndex({ items, loggers });
+        let index = { type: "id", speakerRoles: ["performer", "speaker"] };
+        index = buildIndex({ items, index, loggers });
         const siteGenerator = new SiteGenerator({
             data: index,
             siteLocation: process.env.STATIC_SITE_PATH,

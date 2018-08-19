@@ -4,7 +4,8 @@ const util = require("util");
 const fs = require("fs");
 const shelljs = require("shelljs");
 const nunjucks = require("nunjucks");
-const { isEmpty, compact } = require("lodash");
+const { isEmpty, compact, groupBy, includes } = require("lodash");
+const lodash = require("lodash");
 
 class SiteGenerator {
     constructor({ data, siteLocation, loggers }) {
@@ -115,8 +116,72 @@ class SiteGenerator {
         );
         const file = `${this.siteLocation}/index.html`;
         const template = `${__dirname}/templates/index.njk`;
+        data = {
+            byIdentifier: groupByIdentifier(data),
+            byGenre: groupByGenre(data),
+            bySpeaker: groupBySpeaker(data)
+        };
         const html = nunjucks.render(template, { data });
         fs.writeFileSync(file, html);
+
+        function groupByIdentifier(data) {
+            let collections = groupBy(data, "collectionId");
+            var ordered = {};
+            lodash(collections)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = collections[key];
+                });
+
+            return ordered;
+        }
+
+        function groupByGenre(data) {
+            let genre;
+            let collections = data.filter(item => item.data.classifications);
+            collections = groupBy(collections, collection => {
+                genre = collection.data.classifications.filter(c => c.genre)[0]
+                    .genre;
+                return genre;
+            });
+            var ordered = {};
+            lodash(collections)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = collections[key];
+                });
+
+            return ordered;
+        }
+
+        function groupBySpeaker(data) {
+            let collectionsBySpeaker = {};
+            let speakers, roles, speakerRole;
+            let collections = data.filter(item => item.data.classifications);
+            collections.forEach(collection => {
+                roles = collection.index.speakerRoles;
+                speakers = collection.data.speakers.filter(speaker =>
+                    includes(roles, speaker.role)
+                );
+                speakers.forEach(speaker => {
+                    speakerRole = `${speaker.name} (${speaker.role})`;
+                    if (!collectionsBySpeaker[speakerRole])
+                        collectionsBySpeaker[speakerRole] = [];
+                    collectionsBySpeaker[speakerRole].push(collection);
+                });
+            });
+            var ordered = {};
+            lodash(collectionsBySpeaker)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = collectionsBySpeaker[key];
+                });
+
+            return ordered;
+        }
     }
 
     setupSite({ item }) {
