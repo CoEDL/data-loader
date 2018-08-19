@@ -1,10 +1,7 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Catalog Index Layout</h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-                Please configure the Catalog index.
-            </h6>
+            <h5 class="card-title">Catalog Index Configuration</h5>
             <div class="row mt-3">
                 <div class="col-6">
                     <div class="row">
