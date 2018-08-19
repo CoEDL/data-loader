@@ -1,17 +1,6 @@
 <template>
     <div>
-        <div class="row mb-3">
-            <div class="col">
-                <!-- <p>
-                This application will help you configure your Library Box
-                so that it can operate as an offline Catalog or you can use
-                it to create a totally standalone, offline catalog on any external
-                disk.
-                </p> -->
-
-            </div>
-        </div>
-        <div class="row mb-3">
+        <div class="row mb-1">
             <div class="col">
                 <router-link class="nav-link" to="/loadLibraryBox">
                     <div class="card librarybox-loader-panel-style d-flex justify-content-center align-items-center hvr-sweep-to-right">
@@ -36,7 +25,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-1">
             <div class="col">
                 <router-link class="nav-link" to="/loadDisk">
                     <div class="card usb-loader-panel-style d-flex justify-content-center align-items-center hvr-sweep-to-right">
@@ -51,6 +40,24 @@
                         </div>
                     </div>
                 </router-link>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mx-5">
+                <div class="alert alert-info p-4">
+                    <div class="row">
+                        <div class="col-1 p-4">
+                            <i class="fas fa-lightbulb fa-3x"></i>
+                        </div>
+                        <div class="col">
+                            If there is some content you don't wish to have loaded, remove it from the source
+                            data folder before loading the device. However, please note that an error will be logged given the 
+                            mismatch between the content referenced in the CAT xml file and that available
+                            in the data folder. You can ignore those errors; but keep an eye out for others. The 
+                            loaders try to log issues with the data.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
