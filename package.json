@@ -30,7 +30,8 @@
                 ]
             },
             "electronPackagerConfig": {
-                "packageManager": "npm"
+                "packageManager": "npm",
+                "icon": "./icons/logo"
             },
             "electronWinstallerConfig": {
                 "name": "tools"
