@@ -40,7 +40,7 @@ class SiteGenerator {
             this.loggers.logInfo(
                 `Creating image browser for ${item.collectionId}/${item.itemId}`
             );
-            this.createImageBrowserPage({ item });
+            item = this.createImageBrowserPage({ item });
             this.loggers.logInfo(
                 `Creating media browser page ${item.collectionId}/${
                     item.itemId
@@ -52,9 +52,7 @@ class SiteGenerator {
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
 
-            this.createFileBrowserPage({
-                item
-            });
+            this.createFileBrowserPage({ item });
             this.loggers.logInfo(
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
@@ -157,6 +155,7 @@ class SiteGenerator {
         item.data.thumbnails.forEach(image => {
             shelljs.cp(image, `${item.path}/images/content`);
         });
+        return item;
     }
 
     createMediaBrowserPage({ item }) {

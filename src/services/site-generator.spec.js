@@ -13,7 +13,7 @@ const { buildDataTree, buildIndex } = require("./data-service");
 
 const SiteGenerator = require("./site-generator");
 
-describe("test static site generation capability", () => {
+describe.only("test static site generation capability", () => {
     before(() => {
         if (!process.env.DATA_PATH) {
             console.log("Please set DATA_PATH in the environment. It needs to");
@@ -36,8 +36,12 @@ describe("test static site generation capability", () => {
     it("should be able to create a static site", async () => {
         let { items, errors } = await buildDataTree(process.env.DATA_PATH);
         const loggers = {
-            logInfo: () => {},
-            logError: () => {},
+            logInfo: msg => {
+                // console.log(msg);
+            },
+            logError: msg => {
+                console.log(msg);
+            },
             logComplete: () => {}
         };
         let index = buildIndex({ items, loggers });
@@ -62,5 +66,5 @@ describe("test static site generation capability", () => {
         });
 
         // console.log(siteGenerator.data);
-    });
+    }).timeout(20000);
 });
