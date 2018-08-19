@@ -49,7 +49,8 @@ export default {
     },
     computed: mapState({
         targetPath: state => state.folderDataLoad.path,
-        localDataPath: state => state.localDataPath
+        localDataPath: state => state.localDataPath,
+        index: state => state.folderDataLoad.index
     }),
     components: {},
     methods: {
@@ -83,6 +84,7 @@ export default {
                     this.logInfo("Building the index.");
                     let index = buildIndex({
                         items,
+                        index: this.index,
                         loggers: this.getLoggers()
                     });
                     this.logComplete("Index built");

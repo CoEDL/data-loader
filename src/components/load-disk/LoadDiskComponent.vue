@@ -1,5 +1,10 @@
 <template>
-  <div>
+    <div>
+        <div class="row my-1">
+            <div class="col">
+                <index-generator-component component="loadDisk"></index-generator-component>
+            </div>
+        </div>
         <div class="row my-1">
             <div class="col">
                 <select-target-component></select-target-component>
@@ -23,13 +28,14 @@
                 View the complete data load logs
             </router-link>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import SelectTargetComponent from "./select-target.component.vue";
 import SelectDataPathComponent from "../select-data-path.component.vue";
+import IndexGeneratorComponent from "../index-generator.component.vue";
 import DoitComponent from "./doit.component.vue";
 import LastMessageLoggerComponent from "../logger/last-message-logger.component.vue";
 
@@ -47,6 +53,7 @@ export default {
     components: {
         SelectTargetComponent,
         SelectDataPathComponent,
+        IndexGeneratorComponent,
         DoitComponent,
         LastMessageLoggerComponent
     }

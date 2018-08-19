@@ -40,26 +40,25 @@ class SiteGenerator {
                 `Creating file browser for ${item.collectionId}/${item.itemId}`
             );
             this.createFileBrowserPage({ item });
+
             this.loggers.logInfo(
                 `Creating image browser for ${item.collectionId}/${item.itemId}`
             );
             item = this.createImageBrowserPage({ item });
+
             this.loggers.logInfo(
-                `Creating media browser page ${item.collectionId}/${
-                    item.itemId
-                }`
+                `Creating media browser ${item.collectionId}/${item.itemId}`
             );
             this.createMediaBrowserPage({ item });
+
+            this.loggers.logInfo(
+                `Creating documents browser ${item.collectionId}/${item.itemId}`
+            );
             this.createDocumentsBrowserPage({ item });
+
             this.loggers.logComplete(
                 `Done generating ${item.collectionId}/${item.itemId}`
             );
-
-            this.createFileBrowserPage({ item });
-            this.loggers.logInfo(
-                `Creating file browser for ${item.collectionId}/${item.itemId}`
-            );
-            console.log("");
         });
 
         this.createIndexPage({ data: this.data });

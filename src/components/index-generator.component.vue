@@ -109,7 +109,7 @@ export default {
             const mutation =
                 this.component === "librarybox"
                     ? "setLibraryBoxIndexType"
-                    : "setFolderDataLoad";
+                    : "setFolderIndexType";
             setTimeout(() => {
                 const speakerRoles = this.indexLayout.match(/speaker/)
                     ? [...this.speakerRoles]

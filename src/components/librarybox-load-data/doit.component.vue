@@ -51,7 +51,7 @@ export default {
         hostname: state => state.libraryBoxDataLoad.hostname,
         ssid: state => state.libraryBoxDataLoad.ssid,
         localDataPath: state => state.localDataPath,
-        index: state => state.index
+        index: state => state.libraryBoxDataLoad.index
     }),
     components: {},
     methods: {

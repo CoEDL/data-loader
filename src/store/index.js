@@ -10,14 +10,14 @@ export default {
             ssid: "PARADISEC Catalog",
             index: {
                 type: "id",
-                speakerRoles: undefined
+                speakerRoles: []
             }
         },
         folderDataLoad: {
             path: undefined,
             index: {
                 type: "id",
-                speakerRoles: undefined
+                speakerRoles: []
             }
         },
         messages: [],
