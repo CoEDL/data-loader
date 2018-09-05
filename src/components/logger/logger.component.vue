@@ -1,6 +1,9 @@
 <template>
     <div>
-        <ul class="fa-ul">
+        <p v-if="!messages.length">
+            No logs to show. Have you loaded some data?
+        </p>
+        <ul class="fa-ul" v-if="messages.length">
             <li v-for="m in messages" :key="m.id">
                 <span class="fa-li">
                     <i class="fas fa-angle-right" v-if="m.type === 'info'"></i>
