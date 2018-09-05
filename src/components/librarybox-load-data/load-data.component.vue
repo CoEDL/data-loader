@@ -32,13 +32,18 @@
         </div>
         <div class="row my-1">
             <div class="col">
+                <router-link class="nav-link" to="/logs" v-if="done">
+                    View the complete data load logs
+                </router-link>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col">
                 <router-link class="nav-link" to="/configureLibraryBox">
                     Next Step: Configure your Library Box if you haven't already done so
                     (This step only needs to be done once when you first use it)
                 </router-link>
-                <router-link class="nav-link" to="/logs" v-if="done">
-                    View the complete data load logs
-                </router-link>
+
             </div>
         </div>
     </div>

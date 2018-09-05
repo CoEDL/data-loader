@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row my-6">
-            <div class="col-6">
+            <div class="col">
                 <button
                     class="btn btn-default btn-block btn-style"
                     v-on:click="loadTheData"
@@ -152,7 +152,7 @@ export default {
 
 <style lang="scss" scoped>
 .btn-style {
-    font-size: 20px;
-    min-height: 100px;
+    font-size: 16px;
+    min-height: 50px;
 }
 </style>
