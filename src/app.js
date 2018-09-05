@@ -37,8 +37,13 @@ const routes = [
         component: LoadDiskComponent
     },
     {
-        path: "/logs",
-        name: "viewLogs",
+        path: "/logs/librarybox-logs",
+        name: "viewLibraryBoxLogs",
+        component: LoggerComponent
+    },
+    {
+        path: "/logs/loaddisk-logs",
+        name: "viewDiskLogs",
         component: LoggerComponent
     }
 ];

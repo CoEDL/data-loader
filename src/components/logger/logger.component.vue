@@ -22,10 +22,18 @@
 import { mapState } from "vuex";
 
 export default {
-    computed: mapState({
-        messages: state => state.messages
-    }),
-    methods: {}
+    data() {
+        return {};
+    },
+    computed: {
+        messages: function() {
+            const target =
+                this.$route.name === "viewLibraryBoxLogs"
+                    ? "libraryBoxDataLoad"
+                    : "folderDataLoad";
+            return this.$store.state[target].messages;
+        }
+    }
 };
 </script>
 

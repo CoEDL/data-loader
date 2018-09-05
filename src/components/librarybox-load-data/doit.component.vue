@@ -56,13 +56,22 @@ export default {
     components: {},
     methods: {
         logInfo(msg) {
-            this.$store.commit("setInfoMessage", msg);
+            this.$store.commit("setInfoMessage", {
+                target: "libraryBoxDataLoad",
+                msg
+            });
         },
         logError(msg) {
-            this.$store.commit("setErrorMessage", msg);
+            this.$store.commit("setErrorMessage", {
+                target: "libraryBoxDataLoad",
+                msg
+            });
         },
         logComplete(msg) {
-            this.$store.commit("setCompleteMessage", msg);
+            this.$store.commit("setCompleteMessage", {
+                target: "libraryBoxDataLoad",
+                msg
+            });
         },
         getLoggers() {
             return {

@@ -19,12 +19,20 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-    computed: mapState({
-        last: state => state.lastMessage
-    }),
+    props: {
+        target: String
+    },
+    data() {
+        return {};
+    },
+    computed: {
+        last: function() {
+            return this.$store.state[this.target].lastMessage;
+        }
+    },
     methods: {}
 };
 </script>

@@ -27,12 +27,12 @@
         </div>
         <div class="row my-1">
             <div class="col">
-                <last-message-logger-component></last-message-logger-component>
+                <last-message-logger-component target="libraryBoxDataLoad"></last-message-logger-component>
             </div>
         </div>
         <div class="row my-1">
             <div class="col">
-                <router-link class="nav-link" to="/logs" v-if="done">
+                <router-link class="nav-link" to="/logs/librarybox-logs">
                     View the complete data load logs
                 </router-link>
             </div>
@@ -63,11 +63,6 @@ export default {
             hostname: "catalog.paradisec.offline",
             ssid: "PARADISEC Catalog"
         };
-    },
-    computed: {
-        done() {
-            return this.$store.getters.loadingComplete;
-        }
     },
     components: {
         LastMessageLoggerComponent,

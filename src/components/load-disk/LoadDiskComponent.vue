@@ -22,9 +22,9 @@
         </div>
         <div class="row my-1">
             <div class="col">
-                <last-message-logger-component></last-message-logger-component>
+                <last-message-logger-component target="folderDataLoad"></last-message-logger-component>
             </div>
-            <router-link class="nav-link" to="/logs" v-if="messages.length">
+            <router-link class="nav-link" to="/logs/loaddisk-logs">
                 View the complete data load logs
             </router-link>
         </div>
@@ -44,11 +44,6 @@ export default {
         return {
             loading: false
         };
-    },
-    computed: {
-        ...mapState({
-            messages: state => state.messages
-        })
     },
     components: {
         SelectTargetComponent,

@@ -11,31 +11,33 @@ export default {
             index: {
                 type: "id",
                 speakerRoles: []
-            }
+            },
+            messages: [],
+            lastMessage: ""
         },
         folderDataLoad: {
             path: undefined,
             index: {
                 type: "id",
                 speakerRoles: []
-            }
+            },
+            messages: [],
+            lastMessage: ""
         },
-        messages: [],
-        lastMessage: {},
         localDataPath: undefined
     },
     getters: {
-        loadingComplete: state => {
-            if (state.lastMessage.msg) {
-                return state.lastMessage.msg.match(/Done/);
+        libraryBoxLoadingComplete: state => {
+            if (state.libraryBoxDataLoad.lastMessage.msg) {
+                return state.libraryBoxDataLoad.lastMessage.msg.match(/Done/);
             }
             return false;
         }
     },
     mutations: {
         resetMessages(state) {
-            state.messages = [];
-            state.lastMessage = {};
+            state.libraryBoxDataLoad.messages = [];
+            state.libraryBoxDataLoad.lastMessage = "";
         },
         resetUsbDiskSelection(state) {
             state.libraryBoxDataLoad.usbMountPoint = undefined;
@@ -64,35 +66,44 @@ export default {
         setFolderIndexType(state, configuration) {
             state.folderDataLoad.index = { ...configuration };
         },
-        setInfoMessage(state, msgs) {
+        setInfoMessage(state, payload) {
+            let msgs = payload.msg;
             if (!isArray(msgs)) msgs = [msgs];
-            state.messages = [
-                ...state.messages,
+            state[payload.target].messages = [
+                ...state[payload.target].messages,
                 ...msgs.map(m => {
                     return { type: "info", msg: m };
                 })
             ];
-            state.lastMessage = last(state.messages);
+            state[payload.target].lastMessage = last(
+                state[payload.target].messages
+            );
         },
-        setCompleteMessage(state, msgs) {
+        setCompleteMessage(state, payload) {
+            let msgs = payload.msg;
             if (!isArray(msgs)) msgs = [msgs];
-            state.messages = [
-                ...state.messages,
+            state[payload.target].messages = [
+                ...state[payload.target].messages,
                 ...msgs.map(m => {
                     return { type: "infoComplete", msg: m };
                 })
             ];
-            state.lastMessage = last(state.messages);
+            state[payload.target].lastMessage = last(
+                state[payload.target].messages
+            );
         },
-        setErrorMessage(state, msgs) {
+        setErrorMessage(state, payload) {
+            let msgs = payload.msg;
             if (!isArray(msgs)) msgs = [msgs];
-            state.messages = [
-                ...state.messages,
+            state[payload.target].messages = [
+                ...state[payload.target].messages,
                 ...msgs.map(m => {
                     return { type: "error", msg: m };
                 })
             ];
-            state.lastMessage = last(state.messages);
+            state[payload.target].lastMessage = last(
+                state[payload.target].messages
+            );
         },
         setLocalDataPath(state, path) {
             state.localDataPath = path;

@@ -55,13 +55,22 @@ export default {
     components: {},
     methods: {
         logInfo(msg) {
-            this.$store.commit("setInfoMessage", msg);
+            this.$store.commit("setInfoMessage", {
+                target: "folderDataLoad",
+                msg
+            });
         },
         logError(msg) {
-            this.$store.commit("setErrorMessage", msg);
+            this.$store.commit("setErrorMessage", {
+                target: "folderDataLoad",
+                msg
+            });
         },
         logComplete(msg) {
-            this.$store.commit("setCompleteMessage", msg);
+            this.$store.commit("setCompleteMessage", {
+                target: "folderDataLoad",
+                msg
+            });
         },
         getLoggers() {
             return {
