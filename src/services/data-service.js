@@ -168,7 +168,7 @@ function installTheData({ dataPath, target, index, loggers }) {
             item.documents = await Promise.all(
                 item.documents.map(async file => {
                     try {
-                        return await copyToTarget({ file, target });
+                        return await copyToTarget({ file: file.path, target });
                     } catch (e) {}
                 })
             );
