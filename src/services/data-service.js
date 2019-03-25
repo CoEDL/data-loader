@@ -6,6 +6,7 @@ const readdir = util.promisify(fs.readdir);
 const stat = util.promisify(fs.stat);
 const copy = util.promisify(fs.copyFile);
 const shell = require("shelljs");
+const { basename: pathBasename, dirname: pathDirname } = require("path");
 
 const {
     isEmpty,
@@ -77,105 +78,65 @@ function writeIndexFile(target, index) {
     );
 }
 
-function installTheData({ dataPath, target, index, loggers }) {
-    return new Promise(async function(resolve, reject) {
-        for (let item of index) {
-            item.data = await processImages(dataPath, target, item.data);
-            item.data = await processTranscriptions(
-                dataPath,
-                target,
-                item.data
-            );
-            item.data = await processMedia(dataPath, target, item.data);
-            item.data = await processDocuments(dataPath, target, item.data);
+async function installTheData({ target, index, loggers }) {
+    const rootPath = target;
+    for (let item of index) {
+        ({ target } = setup(rootPath, item));
+        item.data = await processImages({ target, item: item.data });
+        item.data = await processTranscriptions({
+            target,
+            item: item.data
+        });
+        item.data = await processMedia({ target, item: item.data });
+        item.data = await processDocuments({ target, item: item.data });
 
-            const transcriptions = groupBy(item.data.transcriptions, "name");
-            item.data.media = item.data.media.map(media => {
-                ["eaf", "trs", "ixt", "flextext"].forEach(t => {
-                    media[t] = media[t].map(tw => transcriptions[tw.name][0]);
-                });
-                return media;
+        const transcriptions = groupBy(item.data.transcriptions, "name");
+        item.data.media = item.data.media.map(media => {
+            ["eaf", "trs", "ixt", "flextext"].forEach(t => {
+                media[t] = media[t].map(tw => transcriptions[tw.name][0]);
+            });
+            return media;
+        });
+    }
+    return { index };
+
+    async function processImages({ target, item }) {
+        for (let image of item.images) {
+            image.path = await copyToTarget({ file: image.path, target });
+            image.thumbnail = await copyToTarget({
+                file: image.thumbnail,
+                target
             });
         }
-        resolve({ index });
-    });
-
-    function processImages(source, targetPath, item) {
-        return new Promise(async function(resolve, reject) {
-            let name;
-            const { cid, iid, target } = setup(targetPath, item);
-            item.images = await Promise.all(
-                item.images.map(async file => {
-                    return await copyToTarget({ file, target });
-                })
-            );
-
-            item.thumbnails = await Promise.all(
-                item.thumbnails.map(async file => {
-                    return await copyToTarget({ file, target });
-                })
-            );
-            item.images = compact(item.images);
-            item.thumbnails = compact(item.thumbnails);
-            resolve(item);
-        });
+        return item;
     }
 
-    function processTranscriptions(source, targetPath, item) {
-        return new Promise(async function(resolve, reject) {
-            let name;
-            const { cid, iid, target } = setup(targetPath, item);
-            item.transcriptions = await Promise.all(
-                item.transcriptions.map(async file => {
-                    const url = await copyToTarget({
-                        file: file.url,
-                        target
-                    });
-                    return {
-                        name: file.name,
-                        url
-                    };
-                })
-            );
-            item.transcriptions = compact(item.transcriptions);
-            resolve(item);
-        });
+    async function processTranscriptions({ target, item }) {
+        for (let transcription of item.transcriptions) {
+            transcription.url = await copyToTarget({
+                file: transcription.url,
+                target
+            });
+        }
+        return item;
     }
 
-    function processMedia(source, targetPath, item) {
-        return new Promise(async function(resolve, reject) {
-            let name;
-            const { cid, iid, target } = setup(targetPath, item);
-            item.media = await Promise.all(
-                item.media.map(async media => {
-                    media.files = await Promise.all(
-                        media.files.map(async file => {
-                            return await copyToTarget({ target, file });
-                        })
-                    );
-                    media.files = compact(media.files);
-                    return media;
-                })
-            );
-            resolve(item);
-        });
+    async function processMedia({ target, item }) {
+        for (let media of item.media) {
+            let files = [];
+            for (let file of media.files) {
+                files.push(await copyToTarget({ target, file }));
+            }
+            media.files = compact(files);
+        }
+        return item;
     }
 
-    function processDocuments(source, targetPath, item) {
-        return new Promise(async function(resolve, reject) {
-            let name;
-            const { cid, iid, target } = setup(targetPath, item);
-            item.documents = await Promise.all(
-                item.documents.map(async file => {
-                    try {
-                        return await copyToTarget({ file: file.path, target });
-                    } catch (e) {}
-                })
-            );
-
-            item.documents = compact(item.documents);
-            resolve(item);
-        });
+    async function processDocuments({ target, item }) {
+        for (let document of item.documents) {
+            document.path = await copyToTarget({ file: document.path, target });
+        }
+        return item;
     }
 
     function setup(target, item) {
@@ -197,6 +158,7 @@ function installTheData({ dataPath, target, index, loggers }) {
             return `/repository/${target.split("repository/")[1]}`;
         } else {
             loggers.logError(`Missing source file: ${file}`);
+            return null;
         }
     }
 }
@@ -271,9 +233,17 @@ function createItemDataStructure({ path, data, loggers }) {
     imageFiles = compact(
         imageFiles.filter(image => !image.name.match("thumb"))
     );
-    const imageThumbnails = compact(
-        imageFiles.filter(image => image.name.match("thumb"))
-    );
+    imageFiles = imageFiles.map(image => {
+        let thumbnail = pathBasename(image.path);
+        thumbnail = `${thumbnail.split(".")[0]}-thumb-PDSC_ADMIN.${
+            thumbnail.split(".")[1]
+        }`;
+        image.thumbnail = `${pathDirname(image.path)}/${thumbnail}`;
+        return image;
+    });
+    // const imageThumbnails = compact(
+    //     imageFiles.filter(image => image.name.match("thumb"))
+    // );
     const documentFiles = compact(filterFiles(types.documentTypes, files));
     const transcriptionFiles = compact(
         filterFiles(types.transcriptionTypes, files)
@@ -310,12 +280,12 @@ function createItemDataStructure({ path, data, loggers }) {
             get(data.item, "identifier"),
             get(data.item, "archiveLink")
         ],
-        images: imageFiles.map(image => image.path),
+        images: imageFiles,
         itemId: get(data.item, "identifier").split("-")[1],
         media: getMediaData([...mediaFiles, ...transcriptionFiles]),
         openAccess: get(data.item, "private") === "false",
         rights: get(data.item.adminInfo, "dataAccessConditions"),
-        thumbnails: imageThumbnails.map(image => image.path),
+        // thumbnails: imageThumbnails.map(image => image.path),
         title: get(data.item, "title"),
         transcriptions: transcriptionFiles.map(t => {
             return { name: t.name, url: t.path };
