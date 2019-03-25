@@ -1,8 +1,8 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Set the Website and Wireless Network Names</h5>
-            <div class="row">
+            <h5 class="card-title">The Website and Wireless Network Names</h5>
+            <!-- <div class="row">
                 <div class="col">
                     <h6 class="card-subtitle mb-2 text-muted">
                         Users will access this site at:
@@ -33,8 +33,14 @@
                             v-on:change="save">
                     </div>
                 </div>
+            </div>-->
+            <div class="row">
+                <div class="col">
+                    The wireless network users will connect to is called: {{ssid}}
+                    <br>
+                    Users will access this site at: http://{{hostname}}
+                </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -44,15 +50,15 @@ import SelectFolderComponent from "../select-folder.component.vue";
 export default {
     data() {
         return {
-            newHostname: this.$store.state.libraryBoxDataLoad.hostname,
-            newSsid: this.$store.state.libraryBoxDataLoad.ssid
+            // newHostname: this.$store.state.libraryBoxDataLoad.hostname,
+            // newSsid: this.$store.state.libraryBoxDataLoad.ssid
         };
     },
     computed: {
-        hostname() {
+        hostname: function() {
             return this.$store.state.libraryBoxDataLoad.hostname;
         },
-        ssid() {
+        ssid: function() {
             return this.$store.state.libraryBoxDataLoad.ssid;
         }
     },
@@ -61,8 +67,8 @@ export default {
     },
     methods: {
         save() {
-            this.$store.commit("setLibraryBoxHostname", this.newHostname);
-            this.$store.commit("setLibraryBoxSsid", this.newSsid);
+            // this.$store.commit("setLibraryBoxHostname", this.newHostname);
+            // this.$store.commit("setLibraryBoxSsid", this.newSsid);
         }
     }
 };
