@@ -6,8 +6,8 @@ export default {
     state: {
         libraryBoxDataLoad: {
             usbMountPoint: undefined,
-            hostname: "catalog.paradisec.offline",
-            ssid: "PARADISEC Catalog",
+            hostname: "catalog.net",
+            ssid: "PARADISEC",
             index: {
                 type: "id",
                 speakerRoles: []
