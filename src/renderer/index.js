@@ -1,6 +1,9 @@
 "use strict";
 
+import "bootstrap/dist/css/bootstrap.css";
+import "assets/main.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import fontawesome from "@fortawesome/fontawesome-pro/js/all";
 config.autoReplaceSvg = "nest";
 
 import Vue from "vue";
@@ -9,12 +12,12 @@ import Vuex from "vuex";
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
-import IntroductionComponent from "./components/introduction.component.vue";
-import LibraryBoxLoadDataComponent from "./components/librarybox-load-data/load-data.component.vue";
-import LibraryBoxConfigureComponent from "./components/librarybox-configure/librarybox-configure.component.vue";
-import LoggerComponent from "./components/logger/logger.component.vue";
-import LoadDiskComponent from "./components/load-disk/LoadDiskComponent.vue";
-import storeConfiguration from "./store";
+import IntroductionComponent from "components/introduction.component.vue";
+import LibraryBoxLoadDataComponent from "components/librarybox-load-data/load-data.component.vue";
+import LibraryBoxConfigureComponent from "components/librarybox-configure/librarybox-configure.component.vue";
+import LoggerComponent from "components/logger/logger.component.vue";
+import LoadDiskComponent from "components/load-disk/LoadDiskComponent.vue";
+import storeConfiguration from "store";
 const routes = [
     {
         path: "/introduction",
@@ -51,7 +54,7 @@ const routes = [
 const router = new VueRouter({ routes });
 const store = new Vuex.Store(storeConfiguration);
 
-import App from "./components/app";
+import App from "components/app";
 App.router = router;
 App.store = store;
 new Vue(App);

@@ -1,10 +1,10 @@
 
 <template>
     <div>
-      <navbar-component></navbar-component>
-      <div class="container-fluid container-background">
-          <router-view></router-view>
-      </div>
+        <navbar-component></navbar-component>
+        <div class="container-fluid container-background">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

@@ -82,16 +82,16 @@ async function installTheData({ target, index, loggers }) {
     const rootPath = target;
     for (let item of index) {
         ({ target } = setup(rootPath, item));
-        item.data = await processImages({ target, item: item.data });
-        item.data = await processTranscriptions({
+        item = await processImages({ target, item });
+        item = await processTranscriptions({
             target,
-            item: item.data
+            item
         });
-        item.data = await processMedia({ target, item: item.data });
-        item.data = await processDocuments({ target, item: item.data });
+        item = await processMedia({ target, item: item });
+        item = await processDocuments({ target, item: item });
 
-        const transcriptions = groupBy(item.data.transcriptions, "name");
-        item.data.media = item.data.media.map(media => {
+        const transcriptions = groupBy(item.transcriptions, "name");
+        item.media = item.media.map(media => {
             ["eaf", "trs", "ixt", "flextext"].forEach(t => {
                 media[t] = media[t].map(tw => transcriptions[tw.name][0]);
             });
@@ -199,10 +199,8 @@ function buildIndex({ items, index, loggers }) {
             );
         }
         return {
-            collectionId: item.collectionId,
-            itemId: item.itemId,
             index,
-            data
+            ...data
         };
     });
     return compact(items);
