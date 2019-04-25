@@ -1,13 +1,21 @@
 "use strict";
 
 const util = require("util");
-const fs = require("fs");
+const fs = require("fs-extra");
 const { basename } = require("path");
 const copy = util.promisify(fs.copyFile);
 const shelljs = require("shelljs");
 const nunjucks = require("nunjucks");
-const { uniqBy, isEmpty, compact, groupBy, includes } = require("lodash");
+const {
+    uniqBy,
+    isEmpty,
+    compact,
+    groupBy,
+    includes,
+    findIndex
+} = require("lodash");
 const lodash = require("lodash");
+const rootPath = require("electron-root-path").rootPath;
 
 const speakerRolesToDisplay = [
     "participant",
@@ -22,6 +30,10 @@ export class SiteGenerator {
         this.index = index;
         this.target = target;
         this.store = store;
+        this.contentBase =
+            process.env.NODE_ENV === "development"
+                ? `${rootPath}/src/services/templates`
+                : `${rootPath}/Contents/Resources/templates`;
     }
 
     log({ msg, level }) {
@@ -40,9 +52,21 @@ export class SiteGenerator {
 
     async generate() {
         this.log({ msg: "Removing existing data", level: "info" });
-        shelljs.rm("-r", `${this.target}/*`);
+        fs.removeSync(`${this.target}`);
         this.log({ msg: "Creating index page", level: "info" });
+        this.store.commit("updateDataLoadProgress", {
+            total: this.index.length,
+            n: 0
+        });
         for (let item of this.index) {
+            if (this.store.state.stopDataLoad) break;
+            this.store.commit("updateDataLoadProgress", {
+                total: this.index.length,
+                n: findIndex(this.index, {
+                    collectionId: item.collectionId,
+                    itemId: item.itemId
+                })
+            });
             item = this.stripMissingFiles({ item });
             item.speakers = compact(
                 item.speakers.map(speaker => {
@@ -95,6 +119,10 @@ export class SiteGenerator {
                 level: "complete"
             });
         }
+        this.store.commit("updateDataLoadProgress", {
+            total: this.index.length,
+            n: this.index.length
+        });
         this.createIndexPage();
     }
 
@@ -152,29 +180,66 @@ export class SiteGenerator {
         ].forEach(component => {
             shelljs.mkdir("-p", `${item.path}/${component}`);
         });
-        shelljs.cp(`${__dirname}/templates/styles.css`, `${item.path}/assets/`);
-        shelljs.cp(
-            `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
-            `${item.path}/assets/`
-        );
-        shelljs.cp(
-            `${__dirname}/../../node_modules/@fortawesome/fontawesome-free/js/all.js`,
-            `${item.path}/assets/fontawesome.js`
-        );
+        if (process.env.NODE_ENV === "development") {
+            shelljs.cp(
+                `${rootPath}/src/services/templates/styles.css`,
+                `${item.path}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
+                `${item.path}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
+                `${item.path}/assets/fontawesome.js`
+            );
+        } else {
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/styles.css`,
+                `${item.path}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/bootstrap.min.css`,
+                `${item.path}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/fontawesome.js`,
+                `${item.path}/assets/`
+            );
+        }
     }
 
     createIndexPage() {
         shelljs.mkdir("-p", `${this.target}/assets`);
-        shelljs.cp(
-            `${__dirname}/templates/styles.css`,
-            `${this.target}/assets/`
-        );
-        shelljs.cp(
-            `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
-            `${this.target}/assets/`
-        );
+        if (process.env.NODE_ENV === "development") {
+            shelljs.cp(
+                `${rootPath}/src/services/templates/styles.css`,
+                `${this.target}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
+                `${this.target}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
+                `${this.target}/assets/fontawesome.js`
+            );
+        } else {
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/styles.css`,
+                `${this.target}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/bootstrap.min.css`,
+                `${this.target}/assets/`
+            );
+            shelljs.cp(
+                `${rootPath}/Contents/Resources/templates/fontawesome.js`,
+                `${this.target}/assets/`
+            );
+        }
         const file = `${this.target}/index.html`;
-        const template = `${__dirname}/templates/index.njk`;
+        const template = `${this.contentBase}/index.njk`;
         let data = {
             byIdentifier: groupByIdentifier(this.index),
             byGenre: isEmpty(groupByGenre(this.index))
@@ -258,7 +323,7 @@ export class SiteGenerator {
 
     createFileBrowserPage({ item }) {
         const file = `${item.path}/files/index.html`;
-        const template = `${__dirname}/templates/file-browser.njk`;
+        const template = `${this.contentBase}/file-browser.njk`;
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
     }
@@ -292,7 +357,7 @@ export class SiteGenerator {
                 const file = `${item.path}/images/${image.path
                     .split("/")
                     .pop()}.html`;
-                const template = `${__dirname}/templates/image-browser.njk`;
+                const template = `${this.contentBase}/image-browser.njk`;
                 const html = nunjucks.render(template, item);
                 fs.writeFileSync(file, html);
             }
@@ -312,7 +377,7 @@ export class SiteGenerator {
                 }
             });
             const file = `${item.path}/media/${medium.name}.html`;
-            const template = `${__dirname}/templates/media-browser.njk`;
+            const template = `${this.contentBase}/media-browser.njk`;
             const html = nunjucks.render(template, item);
             fs.writeFileSync(file, html);
         }

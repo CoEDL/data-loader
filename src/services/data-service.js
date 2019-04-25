@@ -9,6 +9,7 @@ const shell = require("shelljs");
 const { basename: pathBasename, dirname: pathDirname } = require("path");
 const { findIndex } = require("lodash");
 const { SiteGenerator } = require("./site-generator");
+const rootPath = require("electron-root-path").rootPath;
 
 const {
     isEmpty,
@@ -38,6 +39,10 @@ export class DataLoader {
     constructor({ store, params }) {
         this.params = params;
         this.store = store;
+        this.contentBase =
+            process.env.NODE_ENV === "development"
+                ? `${rootPath}/src`
+                : `${rootPath}/Contents/Resources`;
     }
 
     log({ msg, level }) {
@@ -190,7 +195,7 @@ export class DataLoader {
     }
 
     installCollectionViewer({ target }) {
-        fs.copySync(`${__dirname}/../viewer/`, target);
+        fs.copySync(`${this.contentBase}/viewer`, target);
     }
 
     updateLibraryBoxConfigurationFiles({ usbMountPoint, hostname, ssid }) {
