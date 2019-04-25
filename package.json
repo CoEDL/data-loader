@@ -21,7 +21,25 @@
         "productName": "PARADISEC Data Loader",
         "mac": {},
         "win": {},
-        "linux": {}
+        "linux": {},
+        "extraResources": [
+            {
+                "from": "src/viewer",
+                "to": "viewer"
+            },
+            {
+                "from": "src/services/templates",
+                "to": "templates"
+            },
+            {
+                "from": "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                "to": "templates/bootstrap.min.css"
+            },
+            {
+                "from": "node_modules/@fortawesome/fontawesome-free/js/all.js",
+                "to": "templates/fontawesome.js"
+            }
+        ]
     },
     "electronWebpack": {
         "renderer": {
@@ -35,6 +53,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.17",
         "bootstrap": "^4.3.1",
         "chai-json-schema": "^1.5.0",
+        "electron-root-path": "^1.0.9",
         "electron-updater": "^4.0.0",
         "element-ui": "^2.7.2",
         "fs-extra": "^6.0.1",
@@ -58,6 +77,7 @@
         "electron-builder": "^20.35.0",
         "electron-webpack": "^2.4.0",
         "electron-webpack-vue": "^2.2.3",
+        "eslint": "^5.16.0",
         "gulp": "^4.0.1",
         "html-webpack-plugin": "^3.2.0",
         "jquery": "^3.4.0",
