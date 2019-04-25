@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col text-center">
-            <h2>{{data.title}}</h2>
+            <h2>{{title}}</h2>
         </div>
     </div>
 
@@ -14,9 +14,9 @@
         <div class="col-xl-9 col-lg-9 col-md-8 col file-viewer-link-styling">
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-12">
-                    Images ({{data.images.length}})<br/>
-                    {% for image in data.images %}
-                        > <a href="../images/{{image.split('/').pop()}}.html">{{image.split('/').pop()}}</a><br/>
+                    Images ({{images.length}})<br/>
+                    {% for image in images %}
+                        > <a href="../images/{{image.path.split('/').pop()}}.html">{{image.path.split('/').pop()}}</a><br/>
                     {% else %}
                         No images registered.
                     {% endfor %}
@@ -24,18 +24,18 @@
                 <div class="col-xl-4 col-lg-4 col-12">
                     <div class="row py-4">
                         <div class="col">
-                        Media ({{data.media.length}})<br/>
-                            {% for item in data.media %}
+                        Media ({{media.length}})<br/>
+                            {% for item in media %}
                                 {% if item.type === 'audio' %}
                                     > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
                                 {% endif %}
                             {% endfor %}
-                            {% for item in data.media %}
+                            {% for item in media %}
                                 {% if item.type === 'video' %}
                                     > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
                                 {% endif %}
                             {% endfor %}
-                            {% if data.media.length === 0 %}
+                            {% if media.length === 0 %}
                                 No media registered.
                             {% endif %}
                         </div>
@@ -44,8 +44,8 @@
                 <div class="col-xl-4 col-lg-4 col-12">
                     <div class="row py-4">
                         <div class="col">
-                            Documents ({{data.documents.length}}) <br/>
-                            {% for document in data.documents %}
+                            Documents ({{documents.length}}) <br/>
+                            {% for document in documents %}
                                 > <a href="../documents/content/{{document.name}}" download>{{document.name}}</a><br/>
                             {% else %}
                                 No documents registered.
@@ -54,8 +54,8 @@
                     </div>
                     {# <div class="row">
                         <div class="col">
-                            Transcriptions ({{data.transcriptions.length}}) <br/>
-                            {% for transcription in data.transcriptions %}
+                            Transcriptions ({{transcriptions.length}}) <br/>
+                            {% for transcription in transcriptions %}
                                 > <a href="../transcriptions/{{transcription.name}}.html">{{transcription.name}}</a><br/>
                             {% else %}
                                 No transcriptions registered.

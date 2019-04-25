@@ -30,11 +30,13 @@
         "main": {}
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.8.1",
         "@fortawesome/fontawesome-pro": "^5.8.1",
         "@fortawesome/fontawesome-svg-core": "^1.2.17",
         "bootstrap": "^4.3.1",
         "chai-json-schema": "^1.5.0",
         "electron-updater": "^4.0.0",
+        "element-ui": "^2.7.2",
         "fs-extra": "^6.0.1",
         "lodash": "^4.17.11",
         "nunjucks": "^3.2.0",
@@ -44,6 +46,7 @@
         "telnet-client": "^0.15.8",
         "vue": "^2.6.10",
         "vue-router": "^3.0.6",
+        "vue-scrollto": "^2.15.0",
         "vuex": "^3.1.0",
         "xmldom": "^0.1.27",
         "yargs": "^12.0.5"

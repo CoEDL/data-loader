@@ -1,23 +1,23 @@
 <template>
-    <button class="btn" v-on:click="open">
+    <el-button type="primary" v-on:click="open">
         <i class="fas fa-folder-open"></i>
         Select folder
-    </button>
+    </el-button>
 </template>
 
 <script>
-const {dialog} = require('electron').remote;
+const { dialog } = require("electron").remote;
 export default {
-    props: ['name'],
+    props: ["name"],
     data: function() {
         return {
-            folder: ''
+            folder: ""
         };
     },
     methods: {
         open() {
             this.folder = dialog.showOpenDialog({
-                properties: ['openDirectory']
+                properties: ["openDirectory"]
             });
             if (this.folder) {
                 this.$store.commit(this.name, this.folder[0]);

@@ -3,7 +3,7 @@
 {# {% block content %} #}
     {# <div class="row">
         <div class="col text-center">
-            <h2>{{data.title}}</h2>
+            <h2>{{title}}</h2>
         </div>
     </div> #}
 
@@ -11,7 +11,7 @@
         <div class="col">
             <h5>Contributors</h5>
             <ul>
-                {% for contributor in data.contributor %}
+                {% for contributor in contributor %}
                     <li>{{contributor.name}} ({{contributor.role}})</li>
                 </div>
                 {% endfor %}
@@ -23,22 +23,8 @@
         <div class="col">
             <h6>Speakers</h6>
             <ul>
-                {% for agent in data.agents %}
-                    {% if agent.role === 'speaker' %}
-                        <li>{{ agent.name}}</li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h6>Other agents</h6>
-            <ul>
-                {% for agent in data.agents %}
-                    {% if agent.role !== 'speaker' %}
-                        <li>{{ agent.name}} ({{agent.role}})</li>
-                    {% endif %}
+                {% for speaker in speakers %}
+                    <li>{{ speaker.name}}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -47,7 +33,7 @@
     <div class="row">
         <div class="col">
             <h6>Description</h6>
-            {{data.description}}
+            {{description}}
         </div>
     </div>
 {# {% endblock %} #}

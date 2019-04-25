@@ -2,189 +2,142 @@
 
 const util = require("util");
 const fs = require("fs");
+const { basename } = require("path");
+const copy = util.promisify(fs.copyFile);
 const shelljs = require("shelljs");
 const nunjucks = require("nunjucks");
-const { isEmpty, compact, groupBy, includes } = require("lodash");
+const { uniqBy, isEmpty, compact, groupBy, includes } = require("lodash");
 const lodash = require("lodash");
 
-class SiteGenerator {
-    constructor({ data, siteLocation, loggers }) {
-        this.data = data;
-        this.siteLocation = siteLocation;
-        this.loggers = loggers;
+const speakerRolesToDisplay = [
+    "participant",
+    "performer",
+    "signer",
+    "singer",
+    "speaker"
+];
+
+export class SiteGenerator {
+    constructor({ store, index, target }) {
+        this.index = index;
+        this.target = target;
+        this.store = store;
     }
 
-    generate() {
-        this.loggers.logInfo("Removing existing data");
-        shelljs.rm("-r", `${this.siteLocation}/*`);
-        this.loggers.logInfo("Creating index page");
-        this.data.forEach(async item => {
-            this.loggers.logInfo(
-                `Generating ${item.collectionId}/${item.itemId}`
-            );
+    log({ msg, level }) {
+        switch (level) {
+            case "info":
+                this.store.commit("setInfoMessage", msg);
+                break;
+            case "error":
+                this.store.commit("setErrorMessage", msg);
+                break;
+            case "complete":
+                this.store.commit("setCompleteMessage", msg);
+                break;
+        }
+    }
+
+    async generate() {
+        this.log({ msg: "Removing existing data", level: "info" });
+        shelljs.rm("-r", `${this.target}/*`);
+        this.log({ msg: "Creating index page", level: "info" });
+        for (let item of this.index) {
             item = this.stripMissingFiles({ item });
-            item.path = `${this.siteLocation}/${item.collectionId}/${
-                item.itemId
-            }`;
-            this.loggers.logInfo(
-                `Setting up data path for ${item.collectionId}/${item.itemId}`
+            item.speakers = compact(
+                item.speakers.map(speaker => {
+                    if (includes(speakerRolesToDisplay, speaker.role))
+                        return speaker;
+                })
             );
+            item.path = `${this.target}/${item.collectionId}/${item.itemId}`;
+            this.log({
+                msg: `Setting up data path for ${item.collectionId}/${
+                    item.itemId
+                }`,
+                level: "info"
+            });
             this.setupSite({ item });
-            // this.loggers.logInfo(
-            //     `Creating information browser for ${item.collectionId}/${
-            //         item.itemId
-            //     }`
-            // );
-            // this.createInformationPage({ item });
-            this.loggers.logInfo(
-                `Creating file browser for ${item.collectionId}/${item.itemId}`
-            );
+            this.log({
+                msg: `Creating file browser for ${item.collectionId}/${
+                    item.itemId
+                }`,
+                level: "info"
+            });
             this.createFileBrowserPage({ item });
 
-            this.loggers.logInfo(
-                `Creating image browser for ${item.collectionId}/${item.itemId}`
-            );
-            item = this.createImageBrowserPage({ item });
+            this.log({
+                msg: `Creating image browser for ${item.collectionId}/${
+                    item.itemId
+                }`,
+                level: "info"
+            });
+            this.createImageBrowserPage({ item });
 
-            this.loggers.logInfo(
-                `Creating media browser ${item.collectionId}/${item.itemId}`
-            );
+            this.log({
+                msg: `Creating media browser ${item.collectionId}/${
+                    item.itemId
+                }`,
+                level: "info"
+            });
             this.createMediaBrowserPage({ item });
 
-            this.loggers.logInfo(
-                `Creating documents browser ${item.collectionId}/${item.itemId}`
-            );
+            this.log({
+                msg: `Creating documents browser ${item.collectionId}/${
+                    item.itemId
+                }`,
+                level: "info"
+            });
             this.createDocumentsBrowserPage({ item });
 
-            this.loggers.logComplete(
-                `Done generating ${item.collectionId}/${item.itemId}`
-            );
-        });
-
-        this.createIndexPage({ data: this.data });
+            this.log({
+                msg: `Done generating ${item.collectionId}/${item.itemId}`,
+                level: "complete"
+            });
+        }
+        this.createIndexPage();
     }
 
     stripMissingFiles({ item }) {
-        item.data.images = compact(
-            item.data.images.map(image => {
-                if (shelljs.test("-e", image)) return image;
-                this.loggers.logError(
-                    `${item.collectionId} / ${
-                        item.itemId
-                    } missing file: ${image}`
-                );
+        item.images = compact(
+            item.images.map(image => {
+                if (shelljs.test("-e", image.path)) return image;
+                this.log({
+                    msg: `${item.collectionId} / ${item.itemId} missing file: ${
+                        image.path
+                    }`,
+                    level: "error"
+                });
             })
         );
-        item.data.media = compact(
-            item.data.media.map(m => {
+        item.media = compact(
+            item.media.map(m => {
                 m.files = compact(
                     m.files.map(file => {
                         if (shelljs.test("-e", file)) return file;
-                        this.loggers.logError(
-                            `${item.collectionId} / ${
+                        this.log({
+                            msg: `${item.collectionId} / ${
                                 item.itemId
-                            } missing file: ${file}`
-                        );
+                            } missing file: ${file}`,
+                            level: "error"
+                        });
                     })
                 );
                 if (!isEmpty(m.files)) return m;
             })
         );
-        item.data.documents = compact(
-            item.data.documents.map(document => {
+        item.documents = compact(
+            item.documents.map(document => {
                 if (shelljs.test("-e", document.path)) return document;
-                this.loggers.logError(
-                    `${item.collectionId} / ${item.itemId} missing file: ${
+                this.log({
+                    msg: `${item.collectionId} / ${item.itemId} missing file: ${
                         document.path
-                    }`
-                );
+                    }`,
+                    level: "error"
+                });
             })
         );
         return item;
-    }
-
-    createIndexPage({ data }) {
-        shelljs.mkdir("-p", `${this.siteLocation}/assets`);
-        shelljs.cp(
-            `${__dirname}/templates/styles.css`,
-            `${this.siteLocation}/assets/`
-        );
-        shelljs.cp(
-            `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
-            `${this.siteLocation}/assets/`
-        );
-        const file = `${this.siteLocation}/index.html`;
-        const template = `${__dirname}/templates/index.njk`;
-        data = {
-            byIdentifier: groupByIdentifier(data),
-            byGenre: isEmpty(groupByGenre(data))
-                ? undefined
-                : groupByGenre(data),
-            bySpeaker: isEmpty(groupBySpeaker(data))
-                ? undefined
-                : groupBySpeaker(data)
-        };
-        const html = nunjucks.render(template, { data });
-        fs.writeFileSync(file, html);
-
-        function groupByIdentifier(data) {
-            let collections = groupBy(data, "collectionId");
-            var ordered = {};
-            lodash(collections)
-                .keys()
-                .sort()
-                .each(function(key) {
-                    ordered[key] = collections[key];
-                });
-
-            return ordered;
-        }
-
-        function groupByGenre(data) {
-            let genre;
-            let collections = data.filter(item => item.data.classifications);
-            collections = groupBy(collections, collection => {
-                genre = collection.data.classifications.filter(c => c.genre)[0]
-                    .genre;
-                return genre;
-            });
-            var ordered = {};
-            lodash(collections)
-                .keys()
-                .sort()
-                .each(function(key) {
-                    ordered[key] = collections[key];
-                });
-
-            return ordered;
-        }
-
-        function groupBySpeaker(data) {
-            let collectionsBySpeaker = {};
-            let speakers, roles, speakerRole;
-            let collections = data.filter(item => item.data.classifications);
-            collections.forEach(collection => {
-                roles = collection.index.speakerRoles;
-                speakers = collection.data.speakers.filter(speaker =>
-                    includes(roles, speaker.role)
-                );
-                speakers.forEach(speaker => {
-                    speakerRole = `${speaker.name} (${speaker.role})`;
-                    if (!collectionsBySpeaker[speakerRole])
-                        collectionsBySpeaker[speakerRole] = [];
-                    collectionsBySpeaker[speakerRole].push(collection);
-                });
-            });
-            var ordered = {};
-            lodash(collectionsBySpeaker)
-                .keys()
-                .sort()
-                .each(function(key) {
-                    ordered[key] = collectionsBySpeaker[key];
-                });
-
-            return ordered;
-        }
     }
 
     setupSite({ item }) {
@@ -210,12 +163,98 @@ class SiteGenerator {
         );
     }
 
-    createInformationPage({ item }) {
-        const file = `${item.path}/information/index.html`;
-        const template = `${__dirname}/templates/information.njk`;
-        const html = nunjucks.render(template, item);
+    createIndexPage() {
+        shelljs.mkdir("-p", `${this.target}/assets`);
+        shelljs.cp(
+            `${__dirname}/templates/styles.css`,
+            `${this.target}/assets/`
+        );
+        shelljs.cp(
+            `${__dirname}/../../node_modules/bootstrap/dist/css/bootstrap.min.css`,
+            `${this.target}/assets/`
+        );
+        const file = `${this.target}/index.html`;
+        const template = `${__dirname}/templates/index.njk`;
+        let data = {
+            byIdentifier: groupByIdentifier(this.index),
+            byGenre: isEmpty(groupByGenre(this.index))
+                ? undefined
+                : groupByGenre(this.index),
+            bySpeaker: isEmpty(groupBySpeaker(this.index))
+                ? undefined
+                : groupBySpeaker(this.index)
+        };
+        const html = nunjucks.render(template, { data });
         fs.writeFileSync(file, html);
+
+        function groupByIdentifier(index) {
+            let collections = groupBy(index, "collectionId");
+            var ordered = {};
+            lodash(collections)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = uniqBy(collections[key], "itemId");
+                });
+
+            return ordered;
+        }
+
+        function groupByGenre(data) {
+            let genre;
+            let collections = data.filter(item => item.classifications);
+            collections = groupBy(collections, collection => {
+                genre = collection.classifications.filter(c => c.genre)[0]
+                    .genre;
+                return genre;
+            });
+            var ordered = {};
+            lodash(collections)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = collections[key];
+                });
+
+            return ordered;
+        }
+
+        function groupBySpeaker(data) {
+            let collectionsBySpeaker = {};
+            let speakers, roles, speakerRole;
+            let collections = data.filter(item => item.speakers);
+            collections.forEach(collection => {
+                speakers = collection.speakers.filter(speaker =>
+                    includes(speakerRolesToDisplay, speaker.role)
+                );
+                speakers.forEach(speaker => {
+                    speakerRole = `${speaker.name} (${speaker.role})`;
+                    if (!collectionsBySpeaker[speakerRole])
+                        collectionsBySpeaker[speakerRole] = [];
+                    collectionsBySpeaker[speakerRole].push(collection);
+                });
+            });
+            var ordered = {};
+            lodash(collectionsBySpeaker)
+                .keys()
+                .sort()
+                .each(function(key) {
+                    ordered[key] = uniqBy(collectionsBySpeaker[key], [
+                        "collectionId",
+                        "itemId"
+                    ]);
+                });
+
+            return ordered;
+        }
     }
+
+    // createInformationPage({ item }) {
+    //     const file = `${item.path}/information/index.html`;
+    //     const template = `${__dirname}/templates/information.njk`;
+    //     const html = nunjucks.render(template, item);
+    //     fs.writeFileSync(file, html);
+    // }
 
     createFileBrowserPage({ item }) {
         const file = `${item.path}/files/index.html`;
@@ -226,34 +265,31 @@ class SiteGenerator {
 
     createImageBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/images/content`);
-        for (let i = 0; i < item.data.images.length; i++) {
-            let image = item.data.images[i];
+        for (let i = 0; i < item.images.length; i++) {
+            const first = `${item.images[0].path.split("/").pop()}.html`;
+            const last = `${item.images[item.images.length - 1].path
+                .split("/")
+                .pop()}.html`;
+            let image = item.images[i];
             item.currentContext = {
-                first:
-                    i === 0
-                        ? null
-                        : `${item.data.images[0].split("/").pop()}.html`,
+                first: i === 0 ? null : first,
                 previous:
                     i === 0
                         ? null
-                        : `${item.data.images[i - 1].split("/").pop()}.html`,
-                name: `./content/${image.split("/").pop()}`,
-                meta: `Image ${i + 1} of ${item.data.images.length}`,
+                        : `${item.images[i - 1].path.split("/").pop()}.html`,
+                name: `./content/${image.path.split("/").pop()}`,
+                meta: `Image ${i + 1} of ${item.images.length}`,
                 next:
-                    i === item.data.images.length - 1
+                    i === item.images.length - 1
                         ? null
-                        : `${item.data.images[i + 1].split("/").pop()}.html`,
-                last:
-                    i === item.data.images.length - 1
-                        ? null
-                        : `${item.data.images[item.data.images.length - 1]
-                              .split("/")
-                              .pop()}.html`
+                        : `${item.images[i + 1].path.split("/").pop()}.html`,
+                last: i === item.images.length - 1 ? null : last
             };
-            if (shelljs.test("-e", image)) {
-                shelljs.cp(image, `${item.path}/images/content`);
+            if (shelljs.test("-e", image.path)) {
+                this.copyFile(image.path, `${item.path}/images/content`);
+                this.copyFile(image.thumbnail, `${item.path}/images/content`);
 
-                const file = `${item.path}/images/${image
+                const file = `${item.path}/images/${image.path
                     .split("/")
                     .pop()}.html`;
                 const template = `${__dirname}/templates/image-browser.njk`;
@@ -261,22 +297,18 @@ class SiteGenerator {
                 fs.writeFileSync(file, html);
             }
         }
-        item.data.thumbnails.forEach(image => {
-            shelljs.cp(image, `${item.path}/images/content`);
-        });
-        return item;
     }
 
     createMediaBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/media/content`);
-        for (let i = 0; i < item.data.media.length; i++) {
-            const medium = item.data.media[i];
+        for (let i = 0; i < item.media.length; i++) {
+            const medium = item.media[i];
             item.currentContext = {
                 item: medium
             };
             medium.files.forEach(file => {
                 if (shelljs.test("-e", file)) {
-                    shelljs.cp(file, `${item.path}/media/content`);
+                    this.copyFile(file, `${item.path}/media/content`);
                 }
             });
             const file = `${item.path}/media/${medium.name}.html`;
@@ -288,12 +320,19 @@ class SiteGenerator {
 
     createDocumentsBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/documents/content`);
-        item.data.documents.forEach(document => {
+        item.documents.forEach(document => {
             if (shelljs.test("-e", document.path)) {
-                shelljs.cp(document.path, `${item.path}/documents/content`);
+                this.copyFile(document.path, `${item.path}/documents/content`);
             }
         });
     }
-}
 
-module.exports = SiteGenerator;
+    async copyFile(source, target) {
+        let filename = basename(source);
+        try {
+            await copy(source, `${target}/${filename}`);
+        } catch (error) {
+            // do nothing
+        }
+    }
+}

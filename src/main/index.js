@@ -11,7 +11,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 let mainWindow;
 
 function createMainWindow() {
-    const window = new BrowserWindow({ width: 950, height: 1100 });
+    const window = new BrowserWindow({ width: 950, height: 1000 });
     window.webContents.session.clearCache(() => {});
 
     if (isDevelopment) {

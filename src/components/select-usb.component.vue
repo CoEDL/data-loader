@@ -1,15 +1,16 @@
 <template>
     <div>
         <el-form ref="form" :model="form" label-width="200px">
-            <el-form-item label="Data Path">
-                <span v-if="!dataPath">
-                    <select-folder-component name="setLocalDataPath"></select-folder-component>
-                    <p
-                        class="text-muted"
-                    >Please specify the folder that contains the data you wish to load onto the device.</p>
+            <el-form-item label="USB Disk">
+                <span v-if="!usbDisk">
+                    <select-folder-component name="setUsbPath"></select-folder-component>
+                    <p class="text-muted">
+                        Please specify the folder where the USB disk is mounted
+                        <em>on your computer</em>. This applies to all devices.
+                    </p>
                 </span>
-                <span v-if="dataPath">
-                    {{dataPath}}
+                <span v-if="usbDisk">
+                    {{usbDisk}}
                     <span class="px-4">
                         <el-button type="danger" v-on:click="reset" circle size="mini">
                             <i class="fas fa-times fa-fw"></i>
@@ -30,8 +31,11 @@ export default {
         };
     },
     computed: {
-        dataPath() {
-            return this.$store.state.localDataPath;
+        targetDevice: function() {
+            return this.$store.state.targetDevice;
+        },
+        usbDisk() {
+            return this.$store.state.usbMountPoint;
         }
     },
     components: {
@@ -39,7 +43,7 @@ export default {
     },
     methods: {
         reset() {
-            this.$store.commit("resetDataPathSelection");
+            this.$store.commit("resetUsbDiskSelection");
         }
     }
 };

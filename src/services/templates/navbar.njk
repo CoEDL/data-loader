@@ -19,23 +19,23 @@
                 File Browser
             </a>
         </li>
-        {% if data.images.length > 0 %}
+        {% if images.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../images/{{data.images[0].split('/').pop()}}.html">
+            <a class="nav-link" href="../images/{{images[0].path.split('/').pop()}}.html">
                 <i class="far fa-image"></i>
                 Image
             </a>
         </li>
         {% endif %}
-        {% if data.media.length > 0 %}
+        {% if media.length > 0 %}
         <li class="nav-item">
-            <a class="nav-link" href="../media/{{data.media[0].name}}.html">
+            <a class="nav-link" href="../media/{{media[0].name}}.html">
                 <i class="far fa-file-audio"></i>
                 Audio / Video
             </a>
         </li>
         {% endif %}
-        {# {% if data.documents.length > 0 %}
+        {# {% if documents.length > 0 %}
         <li class="nav-item">
             <a class="nav-link" href="../documents">
                 <i class="far fa-file-pdf"></i>

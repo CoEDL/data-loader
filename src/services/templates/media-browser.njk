@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col text-center">
-            <h2>{{data.title}}</h2>
+            <h2>{{title}}</h2>
         </div>
     </div>
 
@@ -15,7 +15,7 @@
             <div class="row text-center py-4">
                 <div class="col">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        {% for item in data.media %}
+                        {% for item in media %}
                             {% if item.name === currentContext.item.name %}
                                 <a href="{{item.name}}.html" type="button" class="btn" style="text-decoration: underline;">
                                     {{item.name}}
