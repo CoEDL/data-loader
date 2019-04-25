@@ -1,7 +1,16 @@
-# pdsc-librarybox-installer
+# PARADISEC Repatriation Device Data Loader
 
-A GUI to deploy a PARADISEC collection to a LibraryBox and configure the box for use. This GUI
-can also build a static html site on a disk that does not require a webserver to operate.
+- [PARADISEC Repatriation Device Data Loader](#paradisec-repatriation-device-data-loader)
+  - [Setup](#setup)
+  - [To develop the GUI](#to-develop-the-gui)
+  - [Running the tests](#running-the-tests)
+  - [To package up a new version](#to-package-up-a-new-version)
+  - [Updating the version of the viewer that gets bundled with the application](#updating-the-version-of-the-viewer-that-gets-bundled-with-the-application)
+
+A GUI to deploy a PARADISEC collection to a Raspberry Pi configured as a repatriation device or to build
+a static site on a USB disk. A previous version of this application was able to configure a LibraryBox
+as a repatriation device though this functionality has since been deprecated as LibraryBox's are no longer
+available.
 
 ## Setup
 
@@ -23,17 +32,19 @@ system. Once nodejs is setup run `npm install` to install the packages.
 ## To package up a new version
 
 ```
-> npm run package
+> npm run build:mac
 ```
+
+At this stage we are only building for MacOS Clients though it won't require too much to add
+Windows and Linux builds.
+
+When complete the packaged version can be found in the `dist/main` folder named something
+like `PARADISEC Data Loader-1.0.0-mac.zip`. Rename it to `paradisec-data-loader.zip` and
+then scp it to `language-archives.services/srv/downloads`.
 
 ## Updating the version of the viewer that gets bundled with the application
 
-This requires the [collection viewer repo](https://github.com/marcolarosa/pdsc-collection-viewer). Download that repo and set it up. Then, follow the notes to [`Deploy it LibraryBox`](https://github.com/marcolarosa/pdsc-collection-viewer#deploy-to-librarybox). This will package up a version
-of the viewer suitable for the LibraryBox in the `dist` folder of that repo.
+This application requires the [mobile collection viewer](https://github.com/marcolarosa/pdsc-collection-viewer-v2). Download that repo and set it up as per those instructions.
 
-Once complete, copy the files in dist into `/src/viewer/` of this repository. Commit and push the new
-version of this repo.
-
-## Building a catalog for LibraryBox Development
-
-[Read the notes here](scripts/README.md).
+Once set up, you can build a version of that viewer for integration into this application by following
+the notes Then, follow the notes to `Deploying to the PARADISEC data loader`
