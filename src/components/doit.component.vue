@@ -11,7 +11,7 @@
                     Stop data load
                 </el-button>
                 <p class="text-muted">This will wipe any other content currently on the Disk.</p>
-                <el-progress :percentage="loadProgress" class="style-progress-bar"/>
+                <el-progress :percentage="loadProgress" class="style-progress-bar" />
             </el-form-item>
         </el-form>
     </div>
