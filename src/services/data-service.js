@@ -101,7 +101,7 @@ export class DataLoader {
             let target;
             switch (targetDevice) {
                 case "Raspberry Pi":
-                    target = `${usbMountPoint}`;
+                    target = `${usbMountPoint}/html`;
                     this.log({
                         msg: "Installing the viewer.",
                         level: "info"
@@ -175,12 +175,11 @@ export class DataLoader {
     }
 
     async prepareTarget({ targetDevice, usbMountPoint }) {
-        let s;
         switch (targetDevice) {
             case "Raspberry Pi":
-                fs.removeSync(`${usbMountPoint}`);
-                fs.ensureDirSync(`${usbMountPoint}`);
-                fs.ensureDirSync(`${usbMountPoint}/repository`);
+                fs.removeSync(`${usbMountPoint}/html`);
+                fs.ensureDirSync(`${usbMountPoint}/html`);
+                fs.ensureDirSync(`${usbMountPoint}/html/repository`);
                 break;
 
             case "LibraryBox":
