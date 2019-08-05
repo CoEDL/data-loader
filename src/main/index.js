@@ -11,7 +11,13 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 let mainWindow;
 
 function createMainWindow() {
-    const window = new BrowserWindow({ width: 950, height: 1000 });
+    const window = new BrowserWindow({
+        width: 950,
+        height: 1000,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
     window.webContents.session.clearCache(() => {});
 
     if (isDevelopment) {
@@ -40,8 +46,7 @@ function createMainWindow() {
         });
     });
 
-    // autoUpdater.on("update-downloaded", onUpdateDownloaded);
-    // autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdatesAndNotify();
 
     return window;
 }
@@ -66,16 +71,16 @@ app.on("ready", () => {
     mainWindow = createMainWindow();
 });
 
-function onUpdateDownloaded() {
-    let buttonPressed = dialog.showMessageBox({
-        type: "info",
-        buttons: ["Update now and restart", "Update later"],
-        defaultId: 0,
-        title: "Update Available",
-        message: `A new version of the application is available.`
-    });
+// function onUpdateDownloaded() {
+//     let buttonPressed = dialog.showMessageBox({
+//         type: "info",
+//         buttons: ["Update now and restart", "Update later"],
+//         defaultId: 0,
+//         title: "Update Available",
+//         message: `A new version of the application is available.`
+//     });
 
-    if (buttonPressed === 0) {
-        autoUpdater.quitAndInstall();
-    }
-}
+//     if (buttonPressed === 0) {
+//         autoUpdater.quitAndInstall();
+//     }
+// }
