@@ -15,12 +15,12 @@ export default {
         };
     },
     methods: {
-        open() {
-            this.folder = dialog.showOpenDialog({
+        async open() {
+            this.folder = await dialog.showOpenDialog({
                 properties: ["openDirectory"]
             });
-            if (this.folder) {
-                this.$store.commit(this.name, this.folder[0]);
+            if (!this.folder.canceled && this.folder.filePaths) {
+                this.$store.commit(this.name, this.folder.filePaths[0]);
             }
         }
     }
