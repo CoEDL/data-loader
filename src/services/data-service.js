@@ -570,9 +570,11 @@ export class DataLoader {
             for (let folder of dataFolders) {
                 if (folder.dataFile.length > 1) {
                     errors.push(
-                        `${folder.dataPath} has more than 1 Catalog file ${
-                            folder.dataFile
-                        }. Skipping this folder.`
+                        `${
+                            folder.dataPath
+                        } has more than 1 Catalog file: "${folder.dataFile.join(
+                            ", "
+                        )}". Skipping this folder.`
                     );
                 } else {
                     const cid = folder.dataFile[0].split("-")[0];
