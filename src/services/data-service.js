@@ -570,9 +570,9 @@ export class DataLoader {
             for (let folder of dataFolders) {
                 if (folder.dataFile.length > 1) {
                     errors.push(
-                        `${
-                            folder.dataPath
-                        } has more than 1 Catalog file. Skipping this folder.`
+                        `${folder.dataPath} has more than 1 Catalog file ${
+                            folder.dataFile
+                        }. Skipping this folder.`
                     );
                 } else {
                     const cid = folder.dataFile[0].split("-")[0];
@@ -619,7 +619,10 @@ export class DataLoader {
         }
 
         function containsCatXMLFile(content) {
-            return content.filter(f => f.match(/CAT-PDSC_ADMIN.xml/));
+            let files = content
+                .filter(f => f.match(/CAT-PDSC_ADMIN\.xml/))
+                .filter(f => !f.match(/^\..*/));
+            return files;
         }
     }
 }
