@@ -35,7 +35,7 @@ export default {
             return data.includes(undefined) ? false : true;
         },
         loadProgress: function() {
-            return this.$store.state.loadProgress;
+            return this.$store.state.loadProgress || 100;
         }
     },
     methods: {
