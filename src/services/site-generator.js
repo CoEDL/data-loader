@@ -28,7 +28,7 @@ const speakerRolesToDisplay = [
 export class SiteGenerator {
     constructor({ store, index, target }) {
         this.index = index;
-        this.target = target;
+        this.target = `${target}/catalog`;
         this.store = store;
         this.contentBase =
             process.env.NODE_ENV === "development"
