@@ -296,6 +296,8 @@ export class DataLoader {
                         [c.split(":")[0]]: c.split(":")[1].trim()
                     };
                 });
+            } else {
+                classifications = undefined;
             }
             data = {
                 speakers: getSpeakers({ data }),
