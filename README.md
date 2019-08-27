@@ -1,3 +1,7 @@
+> # Development of this application has moved to https://github.com/CoEDL/data-loader.
+>
+> ## Issues raised in this repository will be ignored.
+
 # PARADISEC Repatriation Device Data Loader
 
 - [PARADISEC Repatriation Device Data Loader](#paradisec-repatriation-device-data-loader)
