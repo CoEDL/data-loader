@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar-component/>
+        <navbar-component />
         <div class="container-fluid">
             <router-view></router-view>
         </div>
@@ -17,9 +17,7 @@ export default {
     data() {
         return {};
     },
-    mounted() {
-        this.$router.push({ path: "/" });
-    }
+    mounted() {}
 };
 </script>
 
