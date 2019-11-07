@@ -1,71 +1,56 @@
-"use strict";
+'use strict';
 
-const chai = require("chai");
-chai.use(require("chai-json-schema"));
+const chai = require('chai');
+chai.use(require('chai-json-schema'));
 const expect = chai.expect;
-const { each } = require("lodash");
-const fs = require("fs");
-const util = require("util");
+const fs = require('fs-extra');
+const util = require('util');
 const stat = util.promisify(fs.stat);
-const shell = require("shelljs");
+import path from 'path';
+import {DataLoader} from './data-service';
+import {SiteGenerator} from './site-generator';
 
-const { buildDataTree, buildIndex } = require("./data-service");
-
-const SiteGenerator = require("./site-generator");
-
-describe.only("test static site generation capability", () => {
+describe('test static site generation capability', () => {
+    let dataLoader;
+    const localDataPath = path.join(__dirname, 'test-data');
+    const usbMountPoint = path.join(__dirname, './tmp');
     before(() => {
-        if (!process.env.DATA_PATH) {
-            console.log("Please set DATA_PATH in the environment. It needs to");
-            console.log(
-                "  point to the location of the datafiles to be loaded."
-            );
-            process.exit();
-        }
-
-        if (!process.env.STATIC_SITE_PATH) {
-            console.log(
-                "Please set STATIC_SITE_PATH in the environment. It needs to"
-            );
-            console.log(
-                "  point to the location where the site is to be created."
-            );
-            process.exit();
+        dataLoader = new DataLoader({
+            params: {
+                usbMountPoint,
+                targetDevice: 'USB Disk',
+                localDataPath,
+            },
+        });
+        try {
+            fs.mkdirSync(usbMountPoint, {recursive: true});
+        } catch (error) {
+            // do nothing
         }
     });
-    it("should be able to create a static site", async () => {
-        let { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        const loggers = {
-            logInfo: msg => {
-                console.log(msg);
-            },
-            logError: msg => {
-                console.log(msg);
-            },
-            logComplete: () => {}
-        };
-        let index = { type: "id", speakerRoles: ["performer", "speaker"] };
-        index = buildIndex({ items, index, loggers });
+    after(async () => {
+        fs.remove(usbMountPoint);
+    });
+    it('should be able to create a static site', async () => {
+        let result = await dataLoader.prepareTarget();
+        const {folders, errors} = await dataLoader.walk();
+        let {items, collections} = dataLoader.buildIndex({folders});
         const siteGenerator = new SiteGenerator({
-            data: index,
-            siteLocation: process.env.STATIC_SITE_PATH,
-            loggers
+            store: undefined,
+            index: items,
+            target: usbMountPoint,
         });
         siteGenerator.generate();
 
-        index.forEach(async item => {
-            const path = `${process.env.STATIC_SITE_PATH}/${
-                item.collectionId
-            }/${item.itemId}`;
+        items.forEach(async item => {
+            const path = `${usbMountPoint}/catalog/${item.collectionId}/${item.itemId}`;
             expect((await stat(path)).isDirectory()).to.be.true;
-            ["files", "information", "images", "media", "documents"].forEach(
+            ['files', 'information', 'images', 'media', 'documents'].forEach(
                 async component => {
                     expect((await stat(`${path}/${component}`)).isDirectory())
                         .to.be.true;
                 }
             );
         });
-
-        // console.log(siteGenerator.data);
     }).timeout(20000);
 });

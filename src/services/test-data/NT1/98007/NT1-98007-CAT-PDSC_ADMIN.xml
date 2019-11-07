@@ -1,0 +1,605 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<item>
+<identifier>NT1-98007</identifier>
+<collectionId>154</collectionId>
+<private>false</private>
+<title>Recordings in South Efate</title>
+<description>NT1-98007. Text #047 (speaker is John Maklen. Text title: History of villages before Erakor); Text #048 (speaker is John Maklen. Text title: Mantu the flying fox and Erromango); Text #049. Text title: Asaraf (speaker is John Maklen);Text #050. Text title: Mumu and Kotkot (speaker is John Maklen); Text #051. Text title: Natopu ni Erakor—the spirit who lives at Erakor (speaker is John Maklen);Text #038. Text title: The need for respect (speaker is Iokopeth) Stories can be seen at NT8-TEXT. There are time-aligned transcripts of this item and handwritten transcripts by Manuel Wayane scanned as jpgs. </description>
+<originationDate>1998-10-03</originationDate>
+<originationNarrative></originationNarrative>
+<archiveLink>http://catalog.paradisec.org.au/collections/NT1/items/98007</archiveLink>
+<url></url>
+<collector>Nick Thieberger</collector>
+<countries>
+<country>Vanuatu - VU</country>
+</countries>
+<language>Nafsan</language>
+<subjectLanguages>
+<language>Efate, South - erk</language>
+</subjectLanguages>
+<contentLanguages>
+<language>Bislama - bis</language>
+<language>Efate, South - erk</language>
+</contentLanguages>
+<dialect></dialect>
+<region>Erakor village</region>
+<geographicLocation>
+<south_limit>-17.8235</south_limit>
+<north_limit>-17.7235</north_limit>
+<east_limit>168.317</east_limit>
+<west_limit>168.217</west_limit>
+</geographicLocation>
+<university>University of Melbourne</university>
+<operator>Corin Bone</operator>
+<dataCategories>
+<category>primary text</category>
+</dataCategories>
+<dataTypes>
+<type>Sound</type>
+</dataTypes>
+<discourseType></discourseType>
+<agents>
+<agent role='depositor'>
+Nick Thieberger
+</agent>
+<agent role='recorder'>
+Nick Thieberger
+</agent>
+<agent role='speaker'>
+Kalsarap Namaf
+</agent>
+<agent role='speaker'>
+Iokopeth 
+</agent>
+<agent role='speaker'>
+John Maklen
+</agent>
+<agent role='speaker'>
+Waia Tenene
+</agent>
+</agents>
+<citation>Nick Thieberger (collector), Nick Thieberger (depositor, recorder), Kalsarap Namaf (speaker), Iokopeth  (speaker), John Maklen (speaker), Waia Tenene (speaker), 1998; Recordings in South Efate, JPEG/MPEG/X-WAV/XML/PLAIN,  2017-09-27. DOI: 10.4225/72/56F94A61DA9EC</citation>
+<files numFiles='46'>
+<file>
+<name>NT1-98007-001.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.58 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-002.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.73 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-003.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.73 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-004.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.74 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-005.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-006.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.71 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-007.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.7 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-008.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.66 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-009.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.7 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-010.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.71 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-011.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.72 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-012.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.74 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-013.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.73 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-014.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.74 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-015.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.55 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-016.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.56 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-017.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.78 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-018.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-019.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-020.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.75 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-021.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-022.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.75 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-023.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.74 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-024.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.72 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-025.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.82 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-026.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.8 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-027.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.79 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-028.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.78 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-029.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-030.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.77 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-031.jpg</name>
+<mimeType>image/jpeg</mimeType>
+<fileSize>1.63 MB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.mp3</name>
+<mimeType>audio/mpeg</mimeType>
+<fileSize>41.5 MB</fileSize>
+<duration>00:45:22.769</duration>
+<bitrate>125 KB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.wav</name>
+<mimeType>audio/x-wav</mimeType>
+<fileSize>459 MB</fileSize>
+<duration>00:45:28.980</duration>
+<bitrate>1.35 MB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007B.mp3</name>
+<mimeType>audio/mpeg</mimeType>
+<fileSize>33.6 MB</fileSize>
+<duration>00:36:41.449</duration>
+<bitrate>125 KB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007B.wav</name>
+<mimeType>audio/x-wav</mimeType>
+<fileSize>371 MB</fileSize>
+<duration>00:36:46.449</duration>
+<bitrate>1.35 MB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007az.xml</name>
+<mimeType>application/xml</mimeType>
+<fileSize>47.6 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-A.tab</name>
+<mimeType>text/plain</mimeType>
+<fileSize>27.2 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-A.xml</name>
+<mimeType>application/xml</mimeType>
+<fileSize>47.6 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-B.tab</name>
+<mimeType>text/plain</mimeType>
+<fileSize>19.8 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-B.xml</name>
+<mimeType>application/xml</mimeType>
+<fileSize>34.5 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.ixt</name>
+<mimeType>application/xml</mimeType>
+<fileSize>39.4 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.eopas1.ixt</name>
+<mimeType>application/xml</mimeType>
+<fileSize>39.4 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.trs</name>
+<mimeType>application/xml</mimeType>
+<fileSize>27.6 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.flextext</name>
+<mimeType>application/xml</mimeType>
+<fileSize>138 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007A.eaf</name>
+<mimeType>application/xml</mimeType>
+<fileSize>162 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT1-98007-98007B.eaf</name>
+<mimeType>application/xml</mimeType>
+<fileSize>116 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+</files>
+<archiveInfo>
+<bornDigital>false</bornDigital>
+<tapesReturned>false</tapesReturned>
+<originalMedia>audiocassette</originalMedia>
+<dateReceived></dateReceived>
+<dateDigitised>2000-12-31 13:00:00 UTC</dateDigitised>
+<ingestNotes></ingestNotes>
+<metadataImportedOn></metadataImportedOn>
+<metadataExportedOn></metadataExportedOn>
+<tracking>2 CDs given to the Vanuatu Cultural Centre</tracking>
+</archiveInfo>
+<adminInfo>
+<recordCreated>2012-09-27 10:08:01 UTC</recordCreated>
+<recordLastModified>2017-09-27 06:13:09 UTC</recordLastModified>
+<adminAccess>
+</adminAccess>
+<dataAccessConditions>Open (subject to agreeing to PDSC access conditions)</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+<adminComment></adminComment>
+</adminInfo>
+<userComments numComments='0'>
+</userComments>
+<collection>
+<identifier>NT1</identifier>
+<readyForExport>true</readyForExport>
+<private>false</private>
+<title>South Efate (Vanuatu)</title>
+<description>Records in this collection were made during fieldwork, mainly in Erakor Village, Efate, Vanuatu since 1996. They consist of audio recordings of South Efate speakers, originally on audio cassettes (hence there are often A and B sides of a single item). There is a total of 38 hours of language material, and the collection includes time-aligned transcripts for many recordings, and interlinear text for a small proportion of them. It also includes field notes. The material here is the basis for Thieberger's grammar of South Efate which also cites primary material in this collection. Where there is a transcript the file has the same name as the recording with a .txt extension. These transcriptions are not as accurate as the versions that are found in the interlinear annotation, and also have relics of earlier transcription conventions (p$ and m$ for coarticulated p̃ and m̃). 
+Many of these transcripts have then been interlinearised in the version that can be found in NT8. More recordings and other material in South Efate can be found in collections NT1 to NT7 in PARADISEC. A description of the collection given here: http://bit.ly/SouthEfate</description>
+<collector>Nick Thieberger</collector>
+<operator></operator>
+<university>University of Melbourne</university>
+<countries>
+<country>Vanuatu - VU</country>
+</countries>
+<languages>
+<language>Bislama - bis</language>
+<language>Efate, South - erk</language>
+<language>Lelepa - lpa</language>
+</languages>
+<region>Erakor, Eratap, Lelepa</region>
+<geographicLocation>
+<south_limit>-17.882</south_limit>
+<north_limit>-17.418</north_limit>
+<east_limit>168.652</east_limit>
+<west_limit>168.033</west_limit>
+</geographicLocation>
+<accessInfo>
+<adminAccess>
+<userName>Nick Thieberger</userName>
+<userName>Linda Barwick</userName>
+<userName>Steve Cassidy</userName>
+<userName>Various Various</userName>
+<userName>Amanda test Harris</userName>
+</adminAccess>
+<dataAccessConditions>Open (subject to agreeing to PDSC access conditions)</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+</accessInfo>
+<depositInfo>
+<metadataSource>depositor</metadataSource>
+<orthographicNotes>p$ and m$ are co-articulated labio-velars</orthographicNotes>
+<media></media>
+<recordCreated>2012-09-27 10:02:15 UTC</recordCreated>
+<recordLastModified>2016-03-16 15:02:50 UTC</recordLastModified>
+<adminComment>Collection digitised in 2001. NICK THIEBERGER COLLECTION DATA  51 CDs, total of 38 hours of language material original medium: audio cassette date of recordings: 1996-2000  All burned as .AIFF data CDs. Archive copy of each CD in .AIFF data format.</adminComment>
+</depositInfo>
+<adminInfo>
+<depositFormReceived>true</depositFormReceived>
+<tapeLocation>returned to depositor</tapeLocation>
+<fieldOfResearch>200320 - Pacific Languages</fieldOfResearch>
+<grants>
+<grant>
+<fundingBody>ARC - Australian Research Council</fundingBody>
+<grantIdentifier>http://purl.org/au-research/grants/arc/DP0450342 </grantIdentifier>
+</grant>
+</grants>
+</adminInfo>
+
+</collection>
+
+</item>
+

@@ -1,23 +1,13 @@
-"use strict";
+'use strict';
 
-const chai = require("chai");
-chai.use(require("chai-json-schema"));
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+const chai = require('chai');
+chai.use(require('chai-json-schema'));
 const expect = chai.expect;
-const { each } = require("lodash");
-const fs = require("fs");
-const shell = require("shelljs");
-const schema = require("./schema/item-data.schema");
-const {
-    buildDataTree,
-    readCatalogFile,
-    buildIndex,
-    prepareTarget,
-    installTheData,
-    writeIndexFile,
-    updateLibraryBoxConfigurationFiles
-} = require("./data-service");
-const installationTargetFolder = "/tmp/LB/LibraryBox";
-const collectionViewer = "./src/viewer";
+const fs = require('fs-extra');
+import path from 'path';
+import {DataLoader} from './data-service';
 
 const loggers = {
     logInfo: msg => {
@@ -28,149 +18,118 @@ const loggers = {
     },
     logError: msg => {
         // console.log(msg);
-    }
+    },
 };
 
-describe("test data service methods", () => {
+describe('test data service methods', () => {
+    let dataLoader;
+    const localDataPath = path.join(__dirname, 'test-data');
+    const usbMountPoint = path.join(__dirname, './tmp');
     before(() => {
-        if (!process.env.DATA_PATH) {
-            console.log("Please set DATA_PATH in the environment. It needs to");
-            console.log(
-                "  point to the location of the datafiles to be loaded."
-            );
-            process.exit();
-        }
-
-        if (!process.env.LIBRARYBOX_MOUNTPOINT) {
-            console.log(
-                "Please set LIBRARYBOX_MOUNTPOINT in the environment. It "
-            );
-            console.log(
-                "needs to point to the mountpoint of the LibraryBox USB disk."
-            );
-            process.exit();
+        dataLoader = new DataLoader({
+            params: {
+                usbMountPoint,
+                targetDevice: 'Raspberry Pi',
+                localDataPath,
+            },
+        });
+        try {
+            fs.mkdirSync(usbMountPoint, {recursive: true});
+        } catch (error) {
+            // do nothing
         }
     });
-    afterEach(() => {
-        shell.exec(`rm -rf ${installationTargetFolder}`);
+    after(async () => {
+        fs.remove(usbMountPoint);
     });
-    it("should be able to build a tree of data files to load", async () => {
-        const { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        // console.log(items, errors);
-        expect(items).to.be.an("array");
-        items.forEach(item => {
-            expect(item).to.have.keys(
-                "collectionId",
-                "itemId",
-                "dataPath",
-                "dataFile"
-            );
-        });
+    it('should be able to prepare the target device for data loading', async () => {
+        let result = await dataLoader.prepareTarget();
+        expect(result).to.be.true;
+        let content = fs.readdirSync(usbMountPoint);
+        expect(content).to.deep.equal(['html']);
+        content = fs.readdirSync(`${usbMountPoint}/html`);
+        expect(content).to.deep.equal(['repository']);
     });
-
-    it("should be able to read and convert a datafile to JSON", async () => {
-        const { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        const data = readCatalogFile({ item: items[3], loggers });
-        expect(data).to.be.jsonSchema(schema);
-    });
-
-    it("should be able to create an index file with all of the data", async () => {
-        const { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        let index = {
-            type: "id",
-            speakerRoles: undefined
-        };
-        index = buildIndex({ items, index, loggers });
-        expect(index).to.be.an("array");
-        each(index, item => {
-            expect(item.data).to.be.jsonSchema(schema);
-        });
-    });
-
-    it("should be able to wipe a library box (fake) target", () => {
-        shell.mkdir("-p", installationTargetFolder);
-        prepareTarget(installationTargetFolder);
-        expect(statDirectory(`${installationTargetFolder}/www`)).to.be.true;
-        expect(statDirectory(`${installationTargetFolder}/www/repository`)).to
-            .be.true;
-    });
-
-    it("should be able to install the collection viewer", () => {
-        shell.mkdir("-p", installationTargetFolder);
-        prepareTarget(installationTargetFolder);
-        shell.cp(
-            "-r",
-            `${collectionViewer}/*`,
-            `${installationTargetFolder}/www/`
+    it('should be able to build a tree of data files to load', async () => {
+        const {folders, errors} = await dataLoader.walk();
+        expect(folders).to.be.an('array');
+        const folder = folders.filter(
+            f => f.file === 'DT1-214-CAT-PDSC_ADMIN.xml'
         );
-        const file = `${collectionViewer}/index.html`;
-        statFile(file);
+        expect(folder).to.deep.equal([
+            {
+                folder:
+                    '/Users/mlarosa/src/pdsc/data-loader/src/services/test-data/DT1/214',
+                type: 'CAT-XML',
+                file: 'DT1-214-CAT-PDSC_ADMIN.xml',
+            },
+        ]);
     });
-
-    it("should be able to install the data and write the index file", async () => {
-        shell.mkdir("-p", installationTargetFolder);
-        prepareTarget(installationTargetFolder);
-        let { items, errors } = await buildDataTree(process.env.DATA_PATH);
-        let index = buildIndex({ items, loggers });
-        const result = installTheData({
-            dataPath: process.env.DATA_PATH,
-            target: installationTargetFolder,
-            index,
-            loggers
-        });
-        index = result.index;
-        each(index, item => {
-            item.data.images.map(
-                image =>
-                    expect(statFile(`${installationTargetFolder}/www/${image}`))
-                        .to.be.true
-            );
-            item.data.media.map(m =>
-                m.files.map(
-                    file =>
-                        expect(
-                            statFile(`${installationTargetFolder}/www/${file}`)
-                        ).to.be.true
-                )
-            );
-            item.data.transcriptions.map(
-                t =>
-                    expect(statFile(`${installationTargetFolder}/www/${t.url}`))
-                        .to.be.true
-            );
-            item.data.documents.map(d => {
-                expect(statFile(`${installationTargetFolder}/www/${d.url}`)).to
+    it('should be able to create an index file with all of the data', async () => {
+        const {folders, errors} = await dataLoader.walk();
+        let {items, collections} = dataLoader.buildIndex({folders});
+        expect(items).to.be.an('array');
+        const itemIds = items.map(item => item.itemId).sort();
+        expect(itemIds).to.deep.equal([
+            '214',
+            '521',
+            '940',
+            '98007',
+            'TokelauOf',
+        ]);
+        expect(collections.map(c => c.collectionId).sort()).to.deep.equal([
+            'DT1',
+            'NT1',
+            'NT5',
+        ]);
+    });
+    it('should be able to install the collection viewer', async () => {
+        let result = await dataLoader.prepareTarget();
+        dataLoader.installCollectionViewer();
+        const content = fs.readdirSync(`${usbMountPoint}/html`);
+        expect(content.includes('index.html')).to.be.true;
+        expect(content.includes('main.css')).to.be.true;
+        expect(content.includes('repository')).to.be.true;
+        expect(content.includes('res')).to.be.true;
+    });
+    it('should be able to install the data and write the index file', async () => {
+        let result = await dataLoader.prepareTarget();
+        const {folders, errors} = await dataLoader.walk();
+        let {items, collections} = dataLoader.buildIndex({folders});
+        const index = await dataLoader.installTheData({collections, items});
+        const content = fs.readdirSync(`${usbMountPoint}/html/repository`);
+        const installationTargetFolder = `${usbMountPoint}/html`;
+        index.items.forEach(item => {
+            item.images.forEach(image => {
+                if (image.path)
+                    expect(
+                        statFile(`${installationTargetFolder}/${image.path}`)
+                    ).to.be.true;
+            });
+            item.audio.forEach(file => {
+                if (file.path)
+                    expect(statFile(`${installationTargetFolder}/${file.path}`))
+                        .to.be.true;
+            });
+            item.video.forEach(file => {
+                if (file.path)
+                    expect(statFile(`${installationTargetFolder}/${file.path}`))
+                        .to.be.true;
+            });
+            item.transcriptions.forEach(file => {
+                expect(statFile(`${installationTargetFolder}/${file.path}`)).to
                     .be.true;
             });
+            item.documents.forEach(d => {
+                expect(statFile(`${installationTargetFolder}/${d.url}`)).to.be
+                    .true;
+            });
         });
-        writeIndexFile(`${installationTargetFolder}`, index);
-        expect(
-            statFile(`${installationTargetFolder}/www/repository/index.json`)
-        ).to.be.true;
+        expect(statFile(`${installationTargetFolder}/repository/index.json`)).to
+            .be.true;
     }).timeout(10000);
-
-    it("should be able to configure the defaults", () => {
-        shell.mkdir(
-            "-p",
-            `${process.env.LIBRARYBOX_MOUNTPOINT}/LibraryBox/Config`
-        );
-        expect(
-            statDirectory(
-                `${process.env.LIBRARYBOX_MOUNTPOINT}/LibraryBox/Config`
-            )
-        ).to.be.true;
-        updateLibraryBoxConfigurationFiles({
-            target: process.env.LIBRARYBOX_MOUNTPOINT,
-            hostname: "catalog.paradisec.offline",
-            ssid: "PARADISEC Catalog"
-        });
-    });
 });
 
 function statFile(file) {
     return fs.statSync(file).isFile();
-}
-
-function statDirectory(dir) {
-    return fs.statSync(dir).isDirectory();
 }

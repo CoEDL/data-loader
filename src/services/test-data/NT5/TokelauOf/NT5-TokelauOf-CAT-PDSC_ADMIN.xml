@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<item>
+<identifier>NT5-TokelauOf</identifier>
+<collectionId>160</collectionId>
+<private>false</private>
+<title>Of go Nmakou, The Heron and the shrimp</title>
+<description>Of go Nmakou, The Heron and the shrimp</description>
+<originationDate>2005-11-07</originationDate>
+<originationNarrative></originationNarrative>
+<archiveLink>http://catalog.paradisec.org.au/collections/NT5/items/TokelauOf</archiveLink>
+<url></url>
+<collector>Nick Thieberger</collector>
+<countries>
+<country>Vanuatu - VU</country>
+</countries>
+<language></language>
+<subjectLanguages>
+<language>Efate, South - erk</language>
+</subjectLanguages>
+<contentLanguages>
+<language>Efate, South - erk</language>
+</contentLanguages>
+<dialect></dialect>
+<region></region>
+<geographicLocation>
+<south_limit>-17.886</south_limit>
+<north_limit>-17.728</north_limit>
+<east_limit>168.518</east_limit>
+<west_limit>168.219</west_limit>
+</geographicLocation>
+<university>University of Melbourne</university>
+<operator>Nick Thieberger</operator>
+<dataCategories>
+<category>primary text</category>
+<category>song</category>
+<category>sound</category>
+<category>moving image</category>
+</dataCategories>
+<discourseType></discourseType>
+<agents>
+<agent role='depositor'>
+Nick Thieberger
+</agent>
+<agent role='recorder'>
+Nick Thieberger
+</agent>
+<agent role='speaker'>
+Tokelau Takau
+</agent>
+</agents>
+<citation>Nick Thieberger (collector), Nick Thieberger (depositor, recorder), Tokelau Takau (speaker), 2005; Of go Nmakou, The Heron and the shrimp, QUICKTIME/MP4/XML,  2016-07-06. DOI: 10.4225/72/56F94FB8D2F30</citation>
+<files numFiles='6'>
+<file>
+<name>NT5-TokelauOf-vid.mov</name>
+<mimeType>video/quicktime</mimeType>
+<fileSize>3.14 GB</fileSize>
+<duration>00:10:36.480</duration>
+<bitrate>40.5 MB</bitrate>
+<sampleRate>48000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate>25 FPS</frameRate>
+</file>
+<file>
+<name>NT5-TokelauOf-vid.m4v</name>
+<mimeType>video/mp4</mimeType>
+<fileSize>230 MB</fileSize>
+<duration>00:10:36.480</duration>
+<bitrate>2.89 MB</bitrate>
+<sampleRate>48000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate>25 FPS</frameRate>
+</file>
+<file>
+<name>NT5-TokelauOf-vid.ixt</name>
+<mimeType>application/xml</mimeType>
+<fileSize>127 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT5-TokelauOf-vid.eopas2.ixt</name>
+<mimeType>application/xml</mimeType>
+<fileSize>51.7 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT5-TokelauOf-vid.eopas1.ixt</name>
+<mimeType>application/xml</mimeType>
+<fileSize>127 KB</fileSize>
+<duration></duration>
+<bitrate></bitrate>
+<sampleRate></sampleRate>
+<channels></channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>NT5-TokelauOf-vid.mp4</name>
+<mimeType>video/mp4</mimeType>
+<fileSize>85.2 MB</fileSize>
+<duration>00:10:36.566</duration>
+<bitrate>1.07 MB</bitrate>
+<sampleRate>48000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate>25 FPS</frameRate>
+</file>
+</files>
+<archiveInfo>
+<bornDigital>false</bornDigital>
+<tapesReturned>false</tapesReturned>
+<originalMedia>video cassette</originalMedia>
+<dateReceived></dateReceived>
+<dateDigitised>2006-02-05 00:00:00 +1100</dateDigitised>
+<ingestNotes></ingestNotes>
+<metadataImportedOn></metadataImportedOn>
+<metadataExportedOn></metadataExportedOn>
+<tracking></tracking>
+</archiveInfo>
+<adminInfo>
+<recordCreated>2006-02-04 00:00:00 +1100</recordCreated>
+<recordLastModified>2016-03-29 02:37:33 +1100</recordLastModified>
+<adminAccess>
+</adminAccess>
+<dataAccessConditions>Open (subject to agreeing to PDSC access conditions)</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+<adminComment></adminComment>
+</adminInfo>
+<userComments numComments='0'>
+</userComments>
+<collection>
+<identifier>NT5</identifier>
+<readyForExport>true</readyForExport>
+<private>false</private>
+<title>South Efate, Vanuatu</title>
+<description>NT5 is a set of audio and video recordings and transcripts from fieldwork between 2000 and 2008. 
+It includes additional fieldwork in the Lelepa language, mainly on Lelepa Island. 
+</description>
+<collector>Nick Thieberger</collector>
+<operator>Nick Thieberger</operator>
+<university>University of Melbourne</university>
+<countries>
+<country>Vanuatu - VU</country>
+</countries>
+<languages>
+<language>Efate, South - erk</language>
+<language>Lelepa - lpa</language>
+</languages>
+<region>Erakor, Lelepa</region>
+<geographicLocation>
+<south_limit>-17.81</south_limit>
+<north_limit>-17.75</north_limit>
+<east_limit>168.38</east_limit>
+<west_limit>168.31</west_limit>
+</geographicLocation>
+<accessInfo>
+<adminAccess>
+<userName>Linda Barwick</userName>
+</adminAccess>
+<dataAccessConditions>Open (subject to agreeing to PDSC access conditions)</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+</accessInfo>
+<depositInfo>
+<metadataSource>depositor</metadataSource>
+<orthographicNotes></orthographicNotes>
+<media></media>
+<recordCreated>2005-12-06 00:00:00 +1100</recordCreated>
+<recordLastModified>2016-03-17 02:03:23 +1100</recordLastModified>
+<adminComment></adminComment>
+</depositInfo>
+<adminInfo>
+<depositFormReceived>true</depositFormReceived>
+<tapeLocation></tapeLocation>
+<fieldOfResearch>200320 - Pacific Languages</fieldOfResearch>
+<grants>
+<grant>
+<fundingBody>ARC - Australian Research Council</fundingBody>
+<grantIdentifier>http://purl.org/au-research/grants/arc/DP0984419</grantIdentifier>
+</grant>
+</grants>
+</adminInfo>
+
+</collection>
+
+</item>
+

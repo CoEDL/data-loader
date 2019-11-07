@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<item>
+<identifier>DT1-521</identifier>
+<collectionId>77</collectionId>
+<private>true</private>
+<title>Conversational Tahitian Tape (1)</title>
+<description>On Tape Box:
+Tape (1)
+
+On Tape:
+Side 1: Tahitian (1) TR Tahitian 1
+Side 2: Tahitian (2) TR Tahitian 1</description>
+<originationDate></originationDate>
+<originationNarrative></originationNarrative>
+<archiveLink>http://catalog.paradisec.org.au/collections/DT1/items/521</archiveLink>
+<url></url>
+<collector>Darrell Tryon</collector>
+<countries>
+<country>French Polynesia - PF</country>
+</countries>
+<language></language>
+<subjectLanguages>
+<language>Tahitian - tah</language>
+</subjectLanguages>
+<contentLanguages>
+<language>Tahitian - tah</language>
+</contentLanguages>
+<dialect></dialect>
+<region></region>
+<geographicLocation>
+<south_limit>-19.8494</south_limit>
+<north_limit>24.3689</north_limit>
+<east_limit>-148.13</east_limit>
+<west_limit>112.91</west_limit>
+</geographicLocation>
+<university>Australian National University</university>
+<operator>Daniela Diedrich</operator>
+<dataCategories>
+<category>primary text</category>
+</dataCategories>
+<dataTypes>
+<type>Sound</type>
+</dataTypes>
+<discourseType>narrative</discourseType>
+<agents>
+</agents>
+<citation>Darrell Tryon (collector); Conversational Tahitian Tape (1), X-WAV/MPEG,  2018-05-27. DOI: 10.4225/72/57068ED1E9A83</citation>
+<files numFiles='4'>
+<file>
+<name>DT1-521-B.wav</name>
+<mimeType>audio/x-wav</mimeType>
+<fileSize>1.58 GB</fileSize>
+<duration>00:49:02.909</duration>
+<bitrate>4.4 MB</bitrate>
+<sampleRate>96000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>DT1-521-A.mp3</name>
+<mimeType>audio/mpeg</mimeType>
+<fileSize>44.8 MB</fileSize>
+<duration>00:49:00.30</duration>
+<bitrate>125 KB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>DT1-521-A.wav</name>
+<mimeType>audio/x-wav</mimeType>
+<fileSize>1.58 GB</fileSize>
+<duration>00:49:00.19</duration>
+<bitrate>4.4 MB</bitrate>
+<sampleRate>96000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>DT1-521-B.mp3</name>
+<mimeType>audio/mpeg</mimeType>
+<fileSize>44.8 MB</fileSize>
+<duration>00:49:02.929</duration>
+<bitrate>125 KB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+</files>
+<archiveInfo>
+<bornDigital>false</bornDigital>
+<tapesReturned>false</tapesReturned>
+<originalMedia>R2R</originalMedia>
+<dateReceived></dateReceived>
+<dateDigitised>2017-10-31 13:00:00 UTC</dateDigitised>
+<ingestNotes>Operator: 
+Cassette machine: TASCAM 122mkll
+Soundcard: Hammerfall DSP 9632
+A/D Converter: DAD ADDA 2402
+File output: 96Hz, 24bit stereo 
+Other: 
+
+Side A: some white noise on tape. Duration 49:00.
+Side B: clear, signal stronger in last part of recording 44:22-49:03. Duration 49:03.</ingestNotes>
+<metadataImportedOn></metadataImportedOn>
+<metadataExportedOn>2015-03-17 13:00:00 UTC</metadataExportedOn>
+<tracking></tracking>
+</archiveInfo>
+<adminInfo>
+<recordCreated>2015-02-13 05:08:14 UTC</recordCreated>
+<recordLastModified>2017-11-02 00:17:22 UTC</recordLastModified>
+<adminAccess>
+<userName>Daniela Diedrich</userName>
+<userName>Jennifer Plaistowe</userName>
+<userName>Tina Gregor</userName>
+</adminAccess>
+<dataAccessConditions>Closed (subject to the access condition details)</dataAccessConditions>
+<dataAccessNarrative>All recordings from the Vanuatu Cultural Centre's fieldworker workshops are closed and require permission from the Director of the VCC. Other material should be requested from PARADISEC.</dataAccessNarrative>
+<adminComment></adminComment>
+</adminInfo>
+<userComments numComments='0'>
+</userComments>
+<collection>
+<identifier>DT1</identifier>
+<readyForExport>true</readyForExport>
+<private>true</private>
+<title>Darrell Tryon Collection</title>
+<description>Darrell Tryon Collection</description>
+<collector>Darrell Tryon</collector>
+<operator>Jennifer Plaistowe</operator>
+<university>Australian National University</university>
+<countries>
+<country>Australia - AU</country>
+<country>Cook Islands - CK</country>
+<country>Fiji - FJ</country>
+<country>Micronesia - FM</country>
+<country>France - FR</country>
+<country>Ghana - GH</country>
+<country>Indonesia - ID</country>
+<country>Italy - IT</country>
+<country>Kiribati - KI</country>
+<country>Monaco - MC</country>
+<country>Madagascar - MG</country>
+<country>Malaysia - MY</country>
+<country>New Caledonia - NC</country>
+<country>Nigeria - NG</country>
+<country>French Polynesia - PF</country>
+<country>Papua New Guinea - PG</country>
+<country>Solomon Islands - SB</country>
+<country>Tonga - TO</country>
+<country>Vatican State - VA</country>
+<country>Vanuatu - VU</country>
+<country>Wallis and Futuna - WF</country>
+<country>Samoa - WS</country>
+</countries>
+<languages>
+<language>Kahua - agw</language>
+<language>Akan - aka</language>
+<language>Arabana - ard</language>
+<language>Aneityum - aty</language>
+<language>Asumboa - aua</language>
+<language>Babatana - baa</language>
+<language>Bislama - bis</language>
+<language>Baki - bki</language>
+<language>Bierebo - bnk</language>
+<language>Baruya - byr</language>
+<language>Dehu - dhv</language>
+<language>Dieri - dif</language>
+<language>English - eng</language>
+<language>Enga - enq</language>
+<language>Sie - erg</language>
+<language>Efate, South - erk</language>
+<language>Fataleka - far</language>
+<language>Fijian - fij</language>
+<language>French - fra</language>
+<language>Futuna, East - fud</language>
+<language>Futuna-Aniwa - fut</language>
+<language>Ga - gaa</language>
+<language>Kiribati - gil</language>
+<language>Motu, Hiri - hmo</language>
+<language>Iaai - iai</language>
+<language>Iban - iba</language>
+<language>Indonesian - ind</language>
+<language>Italian - ita</language>
+<language>Numee - kdk</language>
+<language>Kiwai, Northeast - kiw</language>
+<language>Kiwai, Southern - kjd</language>
+<language>Kokota - kkk</language>
+<language>Maskelynes - klv</language>
+<language>Kuanua - ksd</language>
+<language>Lakon - lkn</language>
+<language>Efate, North - llp</language>
+<language>Lau - llu</language>
+<language>Hano - lml</language>
+<language>Lamenu - lmu</language>
+<language>Lelepa - lpa</language>
+<language>Larevat - lrv</language>
+<language>Lemerig - lrz</language>
+<language>Mwotlap - mlv</language>
+<language>Ambrym, North - mmg</language>
+<language>Maii - mmm</language>
+<language>Marquesan, North - mrq</language>
+<language>Vurës - msn</language>
+<language>Mota - mtt</language>
+<language>Maewo, Central - mwo</language>
+<language>Nengone - nen</language>
+<language>Ngatik Men's Creole - ngm</language>
+<language>V'ënen Taut - nmb</language>
+<language>Ambae, West - nnd</language>
+<language>Tanna, Southwest - nwi</language>
+<language>Ambae, East - omb</language>
+<language>Pijin - pis</language>
+<language>Vaeakau-Taumako - piv</language>
+<language>Pohnpeian - pon</language>
+<language>Rarotongan - rar</language>
+<language>Kriol - rop</language>
+<language>Rotuman - rtm</language>
+<language>Sahu - saj</language>
+<language>Sakao - sku</language>
+<language>Sikaiana - sky</language>
+<language>Samoan - smo</language>
+<language>Savosavo - svs</language>
+<language>Tahitian - tah</language>
+<language>Tanibili - tbe</language>
+<language>Tangoa - tgp</language>
+<language>Nume - tgs</language>
+<language>Tutuba - tmi</language>
+<language>Lenakel - tnl</language>
+<language>Tanna, North - tnn</language>
+<language>Whitesands - tnp</language>
+<language>Tongan - ton</language>
+<language>Tok Pisin - tpi</language>
+<language>Lehali - tql</language>
+<language>Touo - tqu</language>
+<language>Ambrym, Southeast - tvk</language>
+<language>Uripiv-Wala-Rano-Atchin - upv</language>
+<language>Löyöp - urr</language>
+<language>Lovono - vnk</language>
+<language>Vera'a - vra</language>
+<language>Wallisian - wls</language>
+<language>Wusi - wsi</language>
+<language>Multiple languages - mul</language>
+<language>Undetermined language - und</language>
+<language>Ura (retired) - uur</language>
+<language>Mono (retired) - mte</language>
+<language>Amba (retired) - utp</language>
+<language>Aranda, Lower Southern - axl</language>
+<language>Malagasy - mlg</language>
+<language>Maba - mqa</language>
+<language>Wirangu - wgu</language>
+</languages>
+<region></region>
+<geographicLocation>
+<south_limit>-19.8494</south_limit>
+<north_limit>24.3689</north_limit>
+<east_limit>-148.13</east_limit>
+<west_limit>112.91</west_limit>
+</geographicLocation>
+<accessInfo>
+<adminAccess>
+<userName>Linda Barwick</userName>
+<userName>Miles Tryon</userName>
+<userName>Tina Gregor</userName>
+</adminAccess>
+<dataAccessConditions>As yet unspecified</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+</accessInfo>
+<depositInfo>
+<metadataSource></metadataSource>
+<orthographicNotes></orthographicNotes>
+<media></media>
+<recordCreated>2012-03-13 13:00:00 UTC</recordCreated>
+<recordLastModified>2018-03-23 00:31:26 UTC</recordLastModified>
+<adminComment></adminComment>
+</depositInfo>
+<adminInfo>
+<depositFormReceived>true</depositFormReceived>
+<tapeLocation></tapeLocation>
+<fieldOfResearch>200319 - Aboriginal and Torres Strait Islander Languages</fieldOfResearch>
+<grants>
+</grants>
+</adminInfo>
+
+</collection>
+
+</item>
+

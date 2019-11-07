@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<item>
+<identifier>DT1-940</identifier>
+<collectionId>77</collectionId>
+<private>true</private>
+<title>EoF Epi 193</title>
+<description>On Tape Label:
+EoF Epi 193
+
+Operator note: Appears to contain samples from a church service (sermon &amp; song), as well as various conversations and stories (all in Bislama).</description>
+<originationDate></originationDate>
+<originationNarrative></originationNarrative>
+<archiveLink>http://catalog.paradisec.org.au/collections/DT1/items/940</archiveLink>
+<url></url>
+<collector>Darrell Tryon</collector>
+<countries>
+<country>Australia - AU</country>
+<country>New Caledonia - NC</country>
+<country>French Polynesia - PF</country>
+<country>Vanuatu - VU</country>
+</countries>
+<language>Bislama</language>
+<subjectLanguages>
+<language>Bislama - bis</language>
+<language>Multiple languages - mul</language>
+</subjectLanguages>
+<contentLanguages>
+<language>Bislama - bis</language>
+<language>Multiple languages - mul</language>
+</contentLanguages>
+<dialect></dialect>
+<region></region>
+<geographicLocation>
+<south_limit>-17.1723</south_limit>
+<north_limit>-16.508</north_limit>
+<east_limit>168.935</east_limit>
+<west_limit>167.82</west_limit>
+</geographicLocation>
+<university>Australian National University</university>
+<operator>Geneva Goldenberg</operator>
+<dataCategories>
+<category>primary text</category>
+<category>song</category>
+</dataCategories>
+<dataTypes>
+<type>Sound</type>
+</dataTypes>
+<discourseType></discourseType>
+<agents>
+</agents>
+<citation>Darrell Tryon (collector); EoF Epi 193, MPEG/X-WAV,  2018-05-27. DOI: 10.4225/72/570927D5CBE19</citation>
+<files numFiles='2'>
+<file>
+<name>DT1-940-A.mp3</name>
+<mimeType>audio/mpeg</mimeType>
+<fileSize>9.9 MB</fileSize>
+<duration>00:10:52.355</duration>
+<bitrate>124 KB</bitrate>
+<sampleRate>44100 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+<file>
+<name>DT1-940-A.wav</name>
+<mimeType>audio/x-wav</mimeType>
+<fileSize>359 MB</fileSize>
+<duration>00:10:44.865</duration>
+<bitrate>4.45 MB</bitrate>
+<sampleRate>96000 Hz</sampleRate>
+<channels>Stereo</channels>
+<frameRate></frameRate>
+</file>
+</files>
+<archiveInfo>
+<bornDigital>false</bornDigital>
+<tapesReturned>false</tapesReturned>
+<originalMedia>TDK-D90 Audio Cassette</originalMedia>
+<dateReceived></dateReceived>
+<dateDigitised>2015-05-06 14:00:00 UTC</dateDigitised>
+<ingestNotes>Times indicated correspond to timing on original media. AUDIO NOTES: SIDE A: 2:49 sudden cut from sermon to singing. Frequent audio faults (brief cutting out). 18:02 changes to new session (conversation and story). Lots of clipping on original. Stereo sound unbalanced. Multiple subsequent stop/starts. 29:30 short pause between sessions. 31:54 recording ends. | SIDE B: Blank.</ingestNotes>
+<metadataImportedOn></metadataImportedOn>
+<metadataExportedOn></metadataExportedOn>
+<tracking></tracking>
+</archiveInfo>
+<adminInfo>
+<recordCreated>2015-04-21 07:24:43 UTC</recordCreated>
+<recordLastModified>2017-05-29 05:00:23 UTC</recordLastModified>
+<adminAccess>
+<userName>Jennifer Plaistowe</userName>
+<userName>Tina Gregor</userName>
+</adminAccess>
+<dataAccessConditions>Closed (subject to the access condition details)</dataAccessConditions>
+<dataAccessNarrative>All recordings from the Vanuatu Cultural Centre's fieldworker workshops are closed and require permission from the Director of the VCC. Other material should be requested from PARADISEC.</dataAccessNarrative>
+<adminComment></adminComment>
+</adminInfo>
+<userComments numComments='0'>
+</userComments>
+<collection>
+<identifier>DT1</identifier>
+<readyForExport>true</readyForExport>
+<private>true</private>
+<title>Darrell Tryon Collection</title>
+<description>Darrell Tryon Collection</description>
+<collector>Darrell Tryon</collector>
+<operator>Jennifer Plaistowe</operator>
+<university>Australian National University</university>
+<countries>
+<country>Australia - AU</country>
+<country>Cook Islands - CK</country>
+<country>Fiji - FJ</country>
+<country>Micronesia - FM</country>
+<country>France - FR</country>
+<country>Ghana - GH</country>
+<country>Indonesia - ID</country>
+<country>Italy - IT</country>
+<country>Kiribati - KI</country>
+<country>Monaco - MC</country>
+<country>Madagascar - MG</country>
+<country>Malaysia - MY</country>
+<country>New Caledonia - NC</country>
+<country>Nigeria - NG</country>
+<country>French Polynesia - PF</country>
+<country>Papua New Guinea - PG</country>
+<country>Solomon Islands - SB</country>
+<country>Tonga - TO</country>
+<country>Vatican State - VA</country>
+<country>Vanuatu - VU</country>
+<country>Wallis and Futuna - WF</country>
+<country>Samoa - WS</country>
+</countries>
+<languages>
+<language>Kahua - agw</language>
+<language>Akan - aka</language>
+<language>Arabana - ard</language>
+<language>Aneityum - aty</language>
+<language>Asumboa - aua</language>
+<language>Babatana - baa</language>
+<language>Bislama - bis</language>
+<language>Baki - bki</language>
+<language>Bierebo - bnk</language>
+<language>Baruya - byr</language>
+<language>Dehu - dhv</language>
+<language>Dieri - dif</language>
+<language>English - eng</language>
+<language>Enga - enq</language>
+<language>Sie - erg</language>
+<language>Efate, South - erk</language>
+<language>Fataleka - far</language>
+<language>Fijian - fij</language>
+<language>French - fra</language>
+<language>Futuna, East - fud</language>
+<language>Futuna-Aniwa - fut</language>
+<language>Ga - gaa</language>
+<language>Kiribati - gil</language>
+<language>Motu, Hiri - hmo</language>
+<language>Iaai - iai</language>
+<language>Iban - iba</language>
+<language>Indonesian - ind</language>
+<language>Italian - ita</language>
+<language>Numee - kdk</language>
+<language>Kiwai, Northeast - kiw</language>
+<language>Kiwai, Southern - kjd</language>
+<language>Kokota - kkk</language>
+<language>Maskelynes - klv</language>
+<language>Kuanua - ksd</language>
+<language>Lakon - lkn</language>
+<language>Efate, North - llp</language>
+<language>Lau - llu</language>
+<language>Hano - lml</language>
+<language>Lamenu - lmu</language>
+<language>Lelepa - lpa</language>
+<language>Larevat - lrv</language>
+<language>Lemerig - lrz</language>
+<language>Mwotlap - mlv</language>
+<language>Ambrym, North - mmg</language>
+<language>Maii - mmm</language>
+<language>Marquesan, North - mrq</language>
+<language>Vurës - msn</language>
+<language>Mota - mtt</language>
+<language>Maewo, Central - mwo</language>
+<language>Nengone - nen</language>
+<language>Ngatik Men's Creole - ngm</language>
+<language>V'ënen Taut - nmb</language>
+<language>Ambae, West - nnd</language>
+<language>Tanna, Southwest - nwi</language>
+<language>Ambae, East - omb</language>
+<language>Pijin - pis</language>
+<language>Vaeakau-Taumako - piv</language>
+<language>Pohnpeian - pon</language>
+<language>Rarotongan - rar</language>
+<language>Kriol - rop</language>
+<language>Rotuman - rtm</language>
+<language>Sahu - saj</language>
+<language>Sakao - sku</language>
+<language>Sikaiana - sky</language>
+<language>Samoan - smo</language>
+<language>Savosavo - svs</language>
+<language>Tahitian - tah</language>
+<language>Tanibili - tbe</language>
+<language>Tangoa - tgp</language>
+<language>Nume - tgs</language>
+<language>Tutuba - tmi</language>
+<language>Lenakel - tnl</language>
+<language>Tanna, North - tnn</language>
+<language>Whitesands - tnp</language>
+<language>Tongan - ton</language>
+<language>Tok Pisin - tpi</language>
+<language>Lehali - tql</language>
+<language>Touo - tqu</language>
+<language>Ambrym, Southeast - tvk</language>
+<language>Uripiv-Wala-Rano-Atchin - upv</language>
+<language>Löyöp - urr</language>
+<language>Lovono - vnk</language>
+<language>Vera'a - vra</language>
+<language>Wallisian - wls</language>
+<language>Wusi - wsi</language>
+<language>Multiple languages - mul</language>
+<language>Undetermined language - und</language>
+<language>Ura (retired) - uur</language>
+<language>Mono (retired) - mte</language>
+<language>Amba (retired) - utp</language>
+<language>Aranda, Lower Southern - axl</language>
+<language>Malagasy - mlg</language>
+<language>Maba - mqa</language>
+<language>Wirangu - wgu</language>
+</languages>
+<region></region>
+<geographicLocation>
+<south_limit>-19.8494</south_limit>
+<north_limit>24.3689</north_limit>
+<east_limit>-148.13</east_limit>
+<west_limit>112.91</west_limit>
+</geographicLocation>
+<accessInfo>
+<adminAccess>
+<userName>Linda Barwick</userName>
+<userName>Miles Tryon</userName>
+<userName>Tina Gregor</userName>
+</adminAccess>
+<dataAccessConditions>As yet unspecified</dataAccessConditions>
+<dataAccessNarrative></dataAccessNarrative>
+</accessInfo>
+<depositInfo>
+<metadataSource></metadataSource>
+<orthographicNotes></orthographicNotes>
+<media></media>
+<recordCreated>2012-03-13 13:00:00 UTC</recordCreated>
+<recordLastModified>2018-03-23 00:31:26 UTC</recordLastModified>
+<adminComment></adminComment>
+</depositInfo>
+<adminInfo>
+<depositFormReceived>true</depositFormReceived>
+<tapeLocation></tapeLocation>
+<fieldOfResearch>200319 - Aboriginal and Torres Strait Islander Languages</fieldOfResearch>
+<grants>
+</grants>
+</adminInfo>
+
+</collection>
+
+</item>
+
