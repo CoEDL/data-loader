@@ -10,8 +10,9 @@ const shell = require('shelljs');
 const {basename: pathBasename, dirname: pathDirname} = require('path');
 const {findIndex} = require('lodash');
 const {SiteGenerator} = require('./site-generator');
-const rootPath = require('electron-root-path').rootPath;
 const walk = require('walk');
+const app = require('electron').remote.app;
+const rootPath = app.getAppPath();
 
 const ocflObjectFile = '0=ocfl_object_1.0';
 
@@ -45,8 +46,8 @@ export class DataLoader {
         this.store = store;
         this.contentBase =
             process.env.NODE_ENV === 'development'
-                ? `${rootPath}/src`
-                : `${rootPath}/Contents/Resources`;
+                ? `${rootPath}/../../src`
+                : `${rootPath.replace('/app.asar', '')}`;
     }
 
     log({msg, level}) {

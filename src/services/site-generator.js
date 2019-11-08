@@ -15,7 +15,8 @@ const {
     findIndex,
 } = require('lodash');
 const lodash = require('lodash');
-const rootPath = require('electron-root-path').rootPath;
+const app = require('electron').remote.app;
+const rootPath = app.getAppPath();
 
 const speakerRolesToDisplay = [
     'participant',
@@ -32,8 +33,8 @@ export class SiteGenerator {
         this.store = store;
         this.contentBase =
             process.env.NODE_ENV === 'development'
-                ? `${rootPath}/src/services/templates`
-                : `${rootPath}/Contents/Resources/templates`;
+                ? `${rootPath}/../../src`
+                : `${rootPath.replace('/app.asar', '')}`;
     }
 
     log({msg, level}) {
