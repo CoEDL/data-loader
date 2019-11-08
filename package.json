@@ -20,7 +20,16 @@
     "build": {
         "appId": "au.org.paradisec.data-loader.app",
         "productName": "PARADISEC Data Loader",
-        "mac": {},
+        "mac": {
+            "hardenedRuntime": true,
+            "gatekeeperAssess": false,
+            "entitlements": "./mac.plist",
+            "entitlementsInherit": "./mac.plist",
+            "target": [
+                "dmg",
+                "zip"
+            ]
+        },
         "win": {},
         "linux": {},
         "publish": [
