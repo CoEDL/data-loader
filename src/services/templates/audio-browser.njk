@@ -12,30 +12,28 @@
             {% include "./information.njk" %}
         </div>
         <div class="col">
-            {% for item in audio %}
-                <div class="row text-center py-4">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <a href="{{item.name}}.html" type="button" class="btn">
-                                    {{item.name}}
-                                </a>
-                            </div>
+            <div class="row text-center py-4">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{{item.name}}.html" type="button" class="btn">
+                                {{item.name}}
+                            </a>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <audio controls style="width: 60vw">
-                                    <source src="./content/{{item.name}}">
-                                    <p>
-                                        It looks like your browser can't play this audio. Are you
-                                        using an up to date version?
-                                    </p>
-                                </audio>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <audio controls style="width: 60vw">
+                                <source src="./content/{{item.name}}">
+                                <p>
+                                    It looks like your browser can't play this audio. Are you
+                                    using an up to date version?
+                                </p>
+                            </audio>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div> 
 {% endblock %}

@@ -23,9 +23,9 @@
                 <div class="row file-viewer-link-styling text-center">
                     <div class="col">
                         <a class="btn btn-default" href="#indexById">Jump to index by Identifier</a>
-                        {% if data.byGenre %}
+                        {# {% if data.byGenre %}
                             <a class="btn btn-default" href="#indexByGenre">Jump to index by Genre</a>
-                        {% endif %}
+                        {% endif %} #}
                         {% if data.bySpeaker %}
                             <a class="btn btn-default" href="#indexBySpeaker">Jump to index by Speaker</a>
                         {% endif %}
@@ -40,24 +40,9 @@
                             {% for item in items %}
                                 <div class="row">
                                     <div class="col">
-                                        {% if item.elements > 1 %}
-                                            <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                                {{item.collectionId}} / {{item.itemId}}
-                                            </a>
-                                        {% else %}
-                                            {% if item.images.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/images/{{item.images[0].path.split('/').pop()}}.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                                </a>
-                                            {% elif item.documents.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                            {% elif item.media.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/media/{{item.media[0].name}}.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                                </a>
-                                            {% endif %}
-                                        {% endif  %}
+                                        <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
+                                            {{item.collectionId}} / {{item.itemId}}
+                                        </a>
                                         : {{item.title}}
                                     </div>
                                 </div>
@@ -65,7 +50,7 @@
                         {% endfor %}
                     </div>
 
-                    {% if data.byGenre %}
+                    {# {% if data.byGenre %}
                     <div id="indexByGenre" class="mt-4 col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                         <h5>Browse items by Genre</h5>
                         <hr/>
@@ -98,7 +83,7 @@
                             {% endfor %}
                         {% endfor %}
                     </div>
-                    {% endif %}
+                    {% endif %} #}
 
                     {% if data.bySpeaker %}
                     <div id="indexBySpeaker" class="mt-4 col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
@@ -109,24 +94,9 @@
                             {% for item in items %}
                                 <div class="row">
                                     <div class="col">
-                                        {% if item.data.elements > 1 %}
-                                            <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                                {{item.collectionId}} / {{item.itemId}}
-                                            </a>
-                                        {% else %}
-                                            {% if item.images.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/images/{{item.images[0].path.split('/').pop()}}.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                                </a>
-                                            {% elif item.documents.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                            {% elif item.media.length %}
-                                                <a href="./{{item.collectionId}}/{{item.itemId}}/media/{{item.media[0].name}}.html">
-                                                    {{item.collectionId}} / {{item.itemId}}
-                                                </a>
-                                            {% endif %}
-                                        {% endif  %}
+                                        <a href="./{{item.collectionId}}/{{item.itemId}}/files/index.html">
+                                            {{item.collectionId}} / {{item.itemId}}
+                                        </a>
                                         : {{item.title}}
                                     </div>
                                 </div>

@@ -1,5 +1,7 @@
 'use strict';
 
+import {timeout} from 'q';
+
 const util = require('util');
 const fs = require('fs-extra');
 const {basename} = require('path');
@@ -287,14 +289,14 @@ export class SiteGenerator {
 
         function groupBySpeaker(data) {
             let collectionsBySpeaker = {};
-            let speakers, roles, speakerRole;
-            let collections = data.filter(item => item.speakers);
+            let people, speakerRole;
+            let collections = data.filter(item => item.people);
             collections.forEach(collection => {
-                speakers = collection.speakers.filter(speaker =>
+                people = collection.people.filter(speaker =>
                     includes(speakerRolesToDisplay, speaker.role)
                 );
-                speakers.forEach(speaker => {
-                    speakerRole = `${speaker.name} (${speaker.role})`;
+                people.forEach(person => {
+                    speakerRole = `${person.name} (${person.role})`;
                     if (!collectionsBySpeaker[speakerRole])
                         collectionsBySpeaker[speakerRole] = [];
                     collectionsBySpeaker[speakerRole].push(collection);
@@ -367,23 +369,36 @@ export class SiteGenerator {
 
     createMediaBrowserPage({item}) {
         shelljs.mkdir('-p', `${item.path}/media/content`);
+        let content;
         for (let file of item.audio) {
             if (shelljs.test('-e', file.path)) {
                 this.copyFile(file.path, `${item.path}/media/content`);
             }
+            content = {
+                title: item.title,
+                description: item.description,
+                people: item.people,
+                item: file,
+            };
             file = `${item.path}/media/${file.name}.html`;
             const template = `${this.contentBase}/src/services/templates/audio-browser.njk`;
-            const html = nunjucks.render(template, item);
+            const html = nunjucks.render(template, content);
             fs.writeFileSync(file, html);
         }
 
         for (let file of item.video) {
+            content = {
+                title: item.title,
+                description: item.description,
+                people: item.people,
+                item: file,
+            };
             if (shelljs.test('-e', file.path)) {
                 this.copyFile(file.path, `${item.path}/media/content`);
             }
             file = `${item.path}/media/${file.name}.html`;
             const template = `${this.contentBase}/src/services/templates/video-browser.njk`;
-            const html = nunjucks.render(template, item);
+            const html = nunjucks.render(template, content);
             fs.writeFileSync(file, html);
         }
     }
