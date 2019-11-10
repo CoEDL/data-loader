@@ -33,7 +33,7 @@ export class SiteGenerator {
         this.store = store;
         this.contentBase =
             process.env.NODE_ENV === 'development'
-                ? `${rootPath}/../../src`
+                ? `${rootPath}/../..`
                 : `${rootPath.replace('/app.asar', '')}`;
     }
 
@@ -183,28 +183,28 @@ export class SiteGenerator {
         });
         if (process.env.NODE_ENV === 'development') {
             shelljs.cp(
-                `${rootPath}/src/services/templates/styles.css`,
+                `${this.contentBase}/src/services/templates/styles.css`,
                 `${item.path}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
+                `${this.contentBase}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
                 `${item.path}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
+                `${this.contentBase}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
                 `${item.path}/assets/fontawesome.js`
             );
         } else {
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/styles.css`,
+                `${this.contentBase}/Contents/Resources/templates/styles.css`,
                 `${item.path}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/bootstrap.min.css`,
+                `${this.contentBase}/Contents/Resources/templates/bootstrap.min.css`,
                 `${item.path}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/fontawesome.js`,
+                `${this.cotnentBase}/Contents/Resources/templates/fontawesome.js`,
                 `${item.path}/assets/`
             );
         }
@@ -214,33 +214,33 @@ export class SiteGenerator {
         shelljs.mkdir('-p', `${this.target}/assets`);
         if (process.env.NODE_ENV === 'development') {
             shelljs.cp(
-                `${rootPath}/src/services/templates/styles.css`,
+                `${this.contentBase}/src/services/templates/styles.css`,
                 `${this.target}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
+                `${this.contentBase}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
                 `${this.target}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
+                `${this.contentBase}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
                 `${this.target}/assets/fontawesome.js`
             );
         } else {
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/styles.css`,
+                `${this.contentBase}/Contents/Resources/templates/styles.css`,
                 `${this.target}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/bootstrap.min.css`,
+                `${this.contentBase}/Contents/Resources/templates/bootstrap.min.css`,
                 `${this.target}/assets/`
             );
             shelljs.cp(
-                `${rootPath}/Contents/Resources/templates/fontawesome.js`,
+                `${this.contentBase}/Contents/Resources/templates/fontawesome.js`,
                 `${this.target}/assets/`
             );
         }
         const file = `${this.target}/index.html`;
-        const template = `${this.contentBase}/index.njk`;
+        const template = `${this.contentBase}/src/services/templates/index.njk`;
         let data = {
             byIdentifier: groupByIdentifier(this.index),
             byGenre: isEmpty(groupByGenre(this.index))
@@ -324,7 +324,7 @@ export class SiteGenerator {
 
     createFileBrowserPage({item}) {
         const file = `${item.path}/files/index.html`;
-        const template = `${this.contentBase}/file-browser.njk`;
+        const template = `${this.contentBase}/src/services/templates/file-browser.njk`;
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
     }
@@ -358,7 +358,7 @@ export class SiteGenerator {
                 const file = `${item.path}/images/${image.path
                     .split('/')
                     .pop()}.html`;
-                const template = `${this.contentBase}/image-browser.njk`;
+                const template = `${this.contentBase}/src/services/templates/image-browser.njk`;
                 const html = nunjucks.render(template, item);
                 fs.writeFileSync(file, html);
             }
@@ -367,31 +367,25 @@ export class SiteGenerator {
 
     createMediaBrowserPage({item}) {
         shelljs.mkdir('-p', `${item.path}/media/content`);
-        // console.log(item);
         for (let file of item.audio) {
             if (shelljs.test('-e', file.path)) {
                 this.copyFile(file.path, `${item.path}/media/content`);
             }
             file = `${item.path}/media/${file.name}.html`;
-            const template = `${this.contentBase}/media-browser.njk`;
+            const template = `${this.contentBase}/src/services/templates/audio-browser.njk`;
             const html = nunjucks.render(template, item);
             fs.writeFileSync(file, html);
         }
-        // for (let i = 0; i < item.media.length; i++) {
-        //     const medium = item.media[i];
-        //     item.currentContext = {
-        //         item: medium,
-        //     };
-        //     medium.files.forEach(file => {
-        //         if (shelljs.test('-e', file)) {
-        //             this.copyFile(file, `${item.path}/media/content`);
-        //         }
-        //     });
-        //     const file = `${item.path}/media/${medium.name}.html`;
-        //     const template = `${this.contentBase}/media-browser.njk`;
-        //     const html = nunjucks.render(template, item);
-        //     fs.writeFileSync(file, html);
-        // }
+
+        for (let file of item.video) {
+            if (shelljs.test('-e', file.path)) {
+                this.copyFile(file.path, `${item.path}/media/content`);
+            }
+            file = `${item.path}/media/${file.name}.html`;
+            const template = `${this.contentBase}/src/services/templates/video-browser.njk`;
+            const html = nunjucks.render(template, item);
+            fs.writeFileSync(file, html);
+        }
     }
 
     createDocumentsBrowserPage({item}) {

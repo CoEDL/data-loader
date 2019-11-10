@@ -24,20 +24,13 @@
                 <div class="col-xl-4 col-lg-4 col-12">
                     <div class="row py-4">
                         <div class="col">
-                        Media ({{media.length}})<br/>
-                            {% for item in media %}
-                                {% if item.type === 'audio' %}
-                                    > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
-                                {% endif %}
+                            Media ({{audio.length + video.length }})<br/>
+                            {% for item in audio %}
+                                    > <a href="../media/{{item.name}}.html">{{item.name}} (audio)</a><br/>
                             {% endfor %}
-                            {% for item in media %}
-                                {% if item.type === 'video' %}
-                                    > <a href="../media/{{item.name}}.html">{{item.name}} ({{item.type}})</a><br/>
-                                {% endif %}
+                            {% for item in video %}
+                                    > <a href="../media/{{item.name}}.html">{{item.name}} (video)</a><br/>
                             {% endfor %}
-                            {% if media.length === 0 %}
-                                No media registered.
-                            {% endif %}
                         </div>
                     </div>
                 </div>

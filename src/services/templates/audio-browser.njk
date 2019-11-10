@@ -1,0 +1,41 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h2>{{title}}</h2>
+        </div>
+    </div>
+
+    <div class="row py-4 file-viewer-link-styling">
+        <div class="col-xl-3 col-lg-3 col-md-4 col ml-4">
+            {% include "./information.njk" %}
+        </div>
+        <div class="col">
+            {% for item in audio %}
+                <div class="row text-center py-4">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{item.name}}.html" type="button" class="btn">
+                                    {{item.name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <audio controls style="width: 60vw">
+                                    <source src="./content/{{item.name}}">
+                                    <p>
+                                        It looks like your browser can't play this audio. Are you
+                                        using an up to date version?
+                                    </p>
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div> 
+{% endblock %}
