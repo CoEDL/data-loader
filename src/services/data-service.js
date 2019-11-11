@@ -162,12 +162,22 @@ export class DataLoader {
     }
 
     buildIndex({folders}) {
+        var self = this;
         let items = [];
         let collections = [];
         for (let folder of folders) {
             if (folder.type === 'CAT-XML') {
                 let {item, collection} = readCatalogFile({folder});
-                // console.log(JSON.stringify(data, null, 2));
+                // console.log(JSON.stringify(item, null, 2));
+                // console.log(JSON.stringify(collection, null, 2));
+                if (!item) {
+                    this.log({
+                        msg: `Skipping: ${folder.folder}`,
+                        level: 'error',
+                    });
+                    continue;
+                }
+
                 this.log({
                     msg: `Generated the index for item: ${item.collectionId}/${item.itemId}`,
                     level: 'info',
@@ -217,6 +227,13 @@ export class DataLoader {
                 data,
             });
             let item = createItemDataStructure({folder, data});
+            if (!item) {
+                self.log({
+                    msg: `No files listed in ${dataFile}`,
+                    level: 'error',
+                });
+                return {item: null, collection: null};
+            }
             item = {...item, people, classifications};
 
             let collection = createCollectionDataStructure({folder, data});
@@ -244,7 +261,7 @@ export class DataLoader {
             };
             function get(leaf, thing) {
                 try {
-                    return leaf[thing]['#text'];
+                    return leaf[thing]['#text'] || '';
                 } catch (e) {
                     return '';
                 }
@@ -255,11 +272,7 @@ export class DataLoader {
         function createItemDataStructure({folder, data}) {
             const files = getFiles(folder.folder, data);
             if (isEmpty(files)) {
-                this.log({
-                    msg: `No files found in CAT XML`,
-                    level: 'error',
-                });
-                return {};
+                return null;
             }
             const audioFiles = compact(
                 filterFiles({types: types.audioTypes, files})
