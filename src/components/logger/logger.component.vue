@@ -23,34 +23,24 @@
 import { mapState } from "vuex";
 import VueScrollTo from "vue-scrollto";
 import { clearTimeout } from "timers";
+import { throttle } from "lodash";
 
 export default {
     data() {
         return {
-            messages: [],
             timeoutHandler: undefined,
-            sliceSize: 20
-        };
-    },
-    mounted() {
-        setTimeout(this.getLogs, 200);
-    },
-    methods: {
-        getLogs() {
-            this.messages = [
-                ...this.messages,
-                ...this.$store.state.messages.slice(
-                    this.messages.length,
-                    this.messages.length + this.sliceSize
-                )
-            ];
-            setTimeout(() => {
+            sliceSize: 20,
+            scrollToBottom: throttle(() => {
                 VueScrollTo.scrollTo(this.$refs["bottom"], 0, {
                     container: "#logs-container"
                 });
-                if (this.messages[this.messages.length - 1].msg !== "Done.")
-                    this.getLogs();
-            }, 500);
+            }, 1000)
+        };
+    },
+    computed: {
+        messages: function() {
+            this.scrollToBottom();
+            return this.$store.state.messages;
         }
     }
 };
