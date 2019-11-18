@@ -502,9 +502,10 @@ export class DataLoader {
                                 )
                             );
                         } else {
-                            languages.push(
-                                data.item[languageType].language["#text"]
-                            );
+                            if (data.item[languageType.language])
+                                languages.push(
+                                    data.item[languageType].language["#text"]
+                                );
                         }
                     }
                 );
