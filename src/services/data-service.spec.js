@@ -88,6 +88,8 @@ describe("test data service methods", () => {
             "Efate, South - erk",
             "Nafsan"
         ]);
+        item = items.filter(i => i.itemId === "940")[0];
+        expect(item.categories).to.deep.equal(["music"]);
     });
     it("should be able to install the collection viewer", async () => {
         let result = await dataLoader.prepareTarget();

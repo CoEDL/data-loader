@@ -231,9 +231,11 @@ export class DataLoader {
             const data = parseXML(
                 fs.readFileSync(dataFile, { encoding: "utf8" })
             );
-            let { people, classifications, languages } = getFilters({
-                data
-            });
+            let { people, classifications, languages, categories } = getFilters(
+                {
+                    data
+                }
+            );
             let item = createItemDataStructure({ folder, data });
             if (!item) {
                 self.log({
@@ -242,7 +244,7 @@ export class DataLoader {
                 });
                 return { item: null, collection: null };
             }
-            item = { ...item, people, classifications, languages };
+            item = { ...item, people, classifications, languages, categories };
 
             let collection = createCollectionDataStructure({ folder, data });
             collection.people = uniqBy(
@@ -251,6 +253,7 @@ export class DataLoader {
             );
             collection.classifications = classifications;
             collection.languages = languages;
+            collection.categories = categories;
             collection.items = [item.itemId];
 
             return { item, collection };
@@ -435,7 +438,8 @@ export class DataLoader {
             const classifications = getClassifications({ data });
             const people = getPeople({ data });
             const languages = getLanguages({ data });
-            return { people, classifications, languages };
+            const categories = getDataCategories({ data });
+            return { people, classifications, languages, categories };
 
             function get(leaf, thing) {
                 try {
@@ -509,6 +513,31 @@ export class DataLoader {
                 languages = compact(languages);
                 languages = uniq(languages);
                 return languages.sort();
+            }
+
+            function getDataCategories({ data }) {
+                let categories = [];
+                if (isArray(data.item.dataCategories.category)) {
+                    categories.push(
+                        data.item.dataCategories.category.map(c => c["#text"])
+                    );
+                } else {
+                    if (data.item.dataCategories.category)
+                        categories.push(
+                            data.item.dataCategories.category["#text"]
+                        );
+                }
+                categories = flattenDeep(categories);
+                categories = compact(categories);
+                if (
+                    categories.includes("instrumental music") ||
+                    categories.includes("song")
+                ) {
+                    categories = ["music"];
+                } else {
+                    categories = [];
+                }
+                return categories;
             }
         }
     }
