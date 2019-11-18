@@ -65,7 +65,7 @@ describe("test data service methods", () => {
             }
         ]);
     });
-    it("should be able to create an index file with all of the data", async () => {
+    it.only("should be able to create an index file with all of the data", async () => {
         const { folders, errors } = await dataLoader.walk();
         let { items, collections } = dataLoader.buildIndex({ folders });
         expect(items).to.be.an("array");
@@ -82,6 +82,12 @@ describe("test data service methods", () => {
             "NT1",
             "NT5"
         ]);
+        let item = items.filter(i => i.itemId === "98007")[0];
+        expect(item.languages).to.deep.equal([
+            "Bislama - bis",
+            "Efate, South - erk",
+            "Nafsan"
+        ]);
     });
     it("should be able to install the collection viewer", async () => {
         let result = await dataLoader.prepareTarget();
@@ -95,7 +101,10 @@ describe("test data service methods", () => {
         let result = await dataLoader.prepareTarget();
         const { folders, errors } = await dataLoader.walk();
         let { items, collections } = dataLoader.buildIndex({ folders });
-        const index = await dataLoader.installTheData({ collections, items });
+        const index = await dataLoader.installTheData({
+            collections,
+            items
+        });
         const content = fs.readdirSync(`${usbMountPoint}/html/repository`);
         const installationTargetFolder = `${usbMountPoint}/html`;
         index.items.forEach(item => {

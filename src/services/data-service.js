@@ -21,6 +21,7 @@ const {
     isUndefined,
     compact,
     flattenDeep,
+    uniq,
     uniqBy,
     groupBy,
     orderBy,
@@ -230,7 +231,7 @@ export class DataLoader {
             const data = parseXML(
                 fs.readFileSync(dataFile, { encoding: "utf8" })
             );
-            let { people, classifications } = getItemPeopleAndClassifications({
+            let { people, classifications, languages } = getFilters({
                 data
             });
             let item = createItemDataStructure({ folder, data });
@@ -241,7 +242,7 @@ export class DataLoader {
                 });
                 return { item: null, collection: null };
             }
-            item = { ...item, people, classifications };
+            item = { ...item, people, classifications, languages };
 
             let collection = createCollectionDataStructure({ folder, data });
             collection.people = uniqBy(
@@ -249,6 +250,7 @@ export class DataLoader {
                 "name"
             );
             collection.classifications = classifications;
+            collection.languages = languages;
             collection.items = [item.itemId];
 
             return { item, collection };
@@ -429,10 +431,11 @@ export class DataLoader {
             ];
         }
 
-        function getItemPeopleAndClassifications({ data }) {
+        function getFilters({ data }) {
             const classifications = getClassifications({ data });
             const people = getPeople({ data });
-            return { people, classifications };
+            const languages = getLanguages({ data });
+            return { people, classifications, languages };
 
             function get(leaf, thing) {
                 try {
@@ -480,6 +483,32 @@ export class DataLoader {
                     };
                 });
                 return orderBy(agents, ["name"]);
+            }
+
+            function getLanguages({ data }) {
+                let languages = [];
+                languages.push(data.item.language["#text"]);
+
+                ["subjectLanguages", "contentLanguages"].forEach(
+                    languageType => {
+                        if (isArray(data.item[languageType].language)) {
+                            languages.push(
+                                data.item[languageType].language.map(
+                                    language => language["#text"]
+                                )
+                            );
+                        } else {
+                            languages.push(
+                                data.item[languageType].language["#text"]
+                            );
+                        }
+                    }
+                );
+
+                languages = flattenDeep(languages);
+                languages = compact(languages);
+                languages = uniq(languages);
+                return languages.sort();
             }
         }
     }
