@@ -1,7 +1,7 @@
 {
     "name": "paradisec-data-loader",
     "productName": "PARADISEC Data Loader",
-    "version": "1.3.2",
+    "version": "1.4.0",
     "description": "My Electron application description",
     "main": "src/index.js",
     "scripts": {
