@@ -572,6 +572,9 @@ export class DataLoader {
             });
             item = await this.copyMedia({ target, item: item });
             item = await this.copyDocuments({ target, item: item });
+            ["images", "audio", "video", "transcriptions"].forEach(type => {
+                item[type] = item[type].filter(thing => thing.path !== null);
+            });
             processedItems.push(item);
         }
         this.log({ msg: "Data loaded", level: "complete" });
