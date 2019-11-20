@@ -339,6 +339,7 @@ export class DataLoader {
                 }),
                 openAccess: get(data.item, "private") === "false",
                 rights: get(data.item.adminInfo, "dataAccessConditions"),
+                region: get(data.item, "region" || ''),
                 title: get(data.item, "title"),
                 transcriptions: transcriptionFiles.map(t => {
                     return { name: t.name, path: t.path };
