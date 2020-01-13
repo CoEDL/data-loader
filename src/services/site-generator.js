@@ -178,6 +178,14 @@ export class SiteGenerator {
         return item;
     }
 
+    getPath(file) {
+        if (process.env.NODE_ENV === "development") {
+            return `${this.contentBase}/src/services/templates/${file}`;
+        } else {
+            return `${this.contentBase}/templates/${file}`;
+        }
+    }
+
     setupSite({ item }) {
         shelljs.mkdir("-p", item.path);
         [
@@ -190,66 +198,24 @@ export class SiteGenerator {
         ].forEach(component => {
             shelljs.mkdir("-p", `${item.path}/${component}`);
         });
-        if (process.env.NODE_ENV === "development") {
-            shelljs.cp(
-                `${this.contentBase}/src/services/templates/styles.css`,
-                `${item.path}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
-                `${item.path}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
-                `${item.path}/assets/fontawesome.js`
-            );
-        } else {
-            shelljs.cp(
-                `${this.contentBase}/Contents/Resources/templates/styles.css`,
-                `${item.path}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/Contents/Resources/templates/bootstrap.min.css`,
-                `${item.path}/assets/`
-            );
-            shelljs.cp(
-                `${this.cotnentBase}/Contents/Resources/templates/fontawesome.js`,
-                `${item.path}/assets/`
-            );
-        }
+        shelljs.cp(this.getPath("styles.css"), `${item.path}/assets/`);
+        shelljs.cp(this.getPath("bootstrap.min.css"), `${item.path}/assets/`);
+        shelljs.cp(
+            this.getPath("fontawesome.min.js"),
+            `${item.path}/assets/fontawesome.js`
+        );
     }
 
     createIndexPage() {
         shelljs.mkdir("-p", `${this.target}/assets`);
-        if (process.env.NODE_ENV === "development") {
-            shelljs.cp(
-                `${this.contentBase}/src/services/templates/styles.css`,
-                `${this.target}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/node_modules/bootstrap/dist/css/bootstrap.min.css`,
-                `${this.target}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/node_modules/@fortawesome/fontawesome-free/js/all.js`,
-                `${this.target}/assets/fontawesome.js`
-            );
-        } else {
-            shelljs.cp(
-                `${this.contentBase}/Contents/Resources/templates/styles.css`,
-                `${this.target}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/Contents/Resources/templates/bootstrap.min.css`,
-                `${this.target}/assets/`
-            );
-            shelljs.cp(
-                `${this.contentBase}/Contents/Resources/templates/fontawesome.js`,
-                `${this.target}/assets/`
-            );
-        }
+        shelljs.cp(this.getPath("styles.css"), `${this.target}/assets/`);
+        shelljs.cp(this.getPath("bootstrap.min.css"), `${this.target}/assets/`);
+        shelljs.cp(
+            this.getPath("fontawesome.min.js"),
+            `${this.target}/assets/fontawesome.js`
+        );
         const file = `${this.target}/index.html`;
-        const template = `${this.contentBase}/src/services/templates/index.njk`;
+        const template = this.getPath("index.njk");
         let data = {
             byIdentifier: groupByIdentifier(this.index),
             byGenre: isEmpty(groupByGenre(this.index))
@@ -333,7 +299,7 @@ export class SiteGenerator {
 
     createFileBrowserPage({ item }) {
         const file = `${item.path}/files/index.html`;
-        const template = `${this.contentBase}/src/services/templates/file-browser.njk`;
+        const template = this.getPath("file-browser.njk");
         const html = nunjucks.render(template, item);
         fs.writeFileSync(file, html);
     }
@@ -367,7 +333,7 @@ export class SiteGenerator {
                 const file = `${item.path}/images/${image.path
                     .split("/")
                     .pop()}.html`;
-                const template = `${this.contentBase}/src/services/templates/image-browser.njk`;
+                const template = this.getPath("image-browser.njk");
                 const html = nunjucks.render(template, item);
                 fs.writeFileSync(file, html);
             }
@@ -388,7 +354,7 @@ export class SiteGenerator {
                 item: file
             };
             file = `${item.path}/media/${file.name}.html`;
-            const template = `${this.contentBase}/src/services/templates/audio-browser.njk`;
+            const template = this.getPath("audio-browser.njk");
             const html = nunjucks.render(template, content);
             fs.writeFileSync(file, html);
         }
@@ -404,7 +370,7 @@ export class SiteGenerator {
                 this.copyFile(file.path, `${item.path}/media/content`);
             }
             file = `${item.path}/media/${file.name}.html`;
-            const template = `${this.contentBase}/src/services/templates/video-browser.njk`;
+            const template = this.getPath("video-browser.njk");
             const html = nunjucks.render(template, content);
             fs.writeFileSync(file, html);
         }
