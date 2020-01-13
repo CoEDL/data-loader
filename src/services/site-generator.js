@@ -110,19 +110,19 @@ export class SiteGenerator {
                 msg: `Creating image browser for ${item.collectionId}/${item.itemId}`,
                 level: "info"
             });
-            this.createImageBrowserPage({ item });
+            await this.createImageBrowserPage({ item });
 
             this.log({
                 msg: `Creating media browser ${item.collectionId}/${item.itemId}`,
                 level: "info"
             });
-            this.createMediaBrowserPage({ item });
+            await this.createMediaBrowserPage({ item });
 
             this.log({
                 msg: `Creating documents browser ${item.collectionId}/${item.itemId}`,
                 level: "info"
             });
-            this.createDocumentsBrowserPage({ item });
+            await this.createDocumentsBrowserPage({ item });
 
             this.log({
                 msg: `Done generating ${item.collectionId}/${item.itemId}`,
@@ -304,7 +304,7 @@ export class SiteGenerator {
         fs.writeFileSync(file, html);
     }
 
-    createImageBrowserPage({ item }) {
+    async createImageBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/images/content`);
         for (let i = 0; i < item.images.length; i++) {
             const first = `${item.images[0].path.split("/").pop()}.html`;
@@ -327,8 +327,11 @@ export class SiteGenerator {
                 last: i === item.images.length - 1 ? null : last
             };
             if (shelljs.test("-e", image.path)) {
-                this.copyFile(image.path, `${item.path}/images/content`);
-                this.copyFile(image.thumbnail, `${item.path}/images/content`);
+                await this.copyFile(image.path, `${item.path}/images/content`);
+                await this.copyFile(
+                    image.thumbnail,
+                    `${item.path}/images/content`
+                );
 
                 const file = `${item.path}/images/${image.path
                     .split("/")
@@ -340,12 +343,12 @@ export class SiteGenerator {
         }
     }
 
-    createMediaBrowserPage({ item }) {
+    async createMediaBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/media/content`);
         let content;
         for (let file of item.audio) {
             if (shelljs.test("-e", file.path)) {
-                this.copyFile(file.path, `${item.path}/media/content`);
+                await this.copyFile(file.path, `${item.path}/media/content`);
             }
             content = {
                 title: item.title,
@@ -367,7 +370,7 @@ export class SiteGenerator {
                 item: file
             };
             if (shelljs.test("-e", file.path)) {
-                this.copyFile(file.path, `${item.path}/media/content`);
+                await this.copyFile(file.path, `${item.path}/media/content`);
             }
             file = `${item.path}/media/${file.name}.html`;
             const template = this.getPath("video-browser.njk");
@@ -376,13 +379,16 @@ export class SiteGenerator {
         }
     }
 
-    createDocumentsBrowserPage({ item }) {
+    async createDocumentsBrowserPage({ item }) {
         shelljs.mkdir("-p", `${item.path}/documents/content`);
-        item.documents.forEach(document => {
+        for (let document of item.documents) {
             if (shelljs.test("-e", document.path)) {
-                this.copyFile(document.path, `${item.path}/documents/content`);
+                await this.copyFile(
+                    document.path,
+                    `${item.path}/documents/content`
+                );
             }
-        });
+        }
     }
 
     async copyFile(source, target) {
