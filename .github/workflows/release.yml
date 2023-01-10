@@ -1,0 +1,35 @@
+name: Build/release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    # Platforms to build on/for
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Build the application
+        run: npm run build:app
+
+      - name: Make the packages and publish to github
+        run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}

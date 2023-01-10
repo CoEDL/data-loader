@@ -1,5 +1,5 @@
 node_modules
-out
-.npmrc
 dist
-src/viewer/repository
+out
+*.log*
+src/main/services/test-output
