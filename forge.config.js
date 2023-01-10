@@ -59,8 +59,8 @@ module.exports = {
             name: "@electron-forge/publisher-github",
             config: {
                 repository: {
-                    owner: "describo",
-                    name: "desktop"
+                    owner: "coedl",
+                    name: "data-loader"
                 },
                 prerelease: true
             }
