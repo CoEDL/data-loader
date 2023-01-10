@@ -2,7 +2,7 @@ const { execSync } = require("child_process")
 
 module.exports = {
     packagerConfig: {
-        asar: true,
+        asar: false,
         name: "paradisec-data-loader",
         ignore: [
             "^src",
