@@ -5,13 +5,13 @@ module.exports = {
         asar: false,
         name: "paradisec-data-loader",
         ignore: [
-            "^src",
-            "^build",
-            "^electron.vite.config.js",
-            "^forge.config.js",
-            "^postcss.config.js",
-            "^tailwind.config.js",
-            "^README.md"
+            "^/src",
+            "^/build",
+            "^/electron.vite.config.js",
+            "^/forge.config.js",
+            "^/postcss.config.js",
+            "^/tailwind.config.js",
+            "^/README.md"
         ],
         osxSign: {
             optionsForFile: (filePath) => {
