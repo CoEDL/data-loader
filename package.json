@@ -20,7 +20,11 @@
         "develop": "electron-vite dev",
         "build:app": "electron-vite build",
         "make": "electron-forge make",
+        "make:mac": "electron-forge make && npm run make:mac:x64",
+        "make:mac:x64": "electron-forge make --arch=x64",
         "publish": "electron-forge publish",
+        "publish:mac": "electron-forge publish && npm run publish:mac:x64",
+        "publish:mac:x64": "electron-forge publish --arch x64",
         "test": "./node_modules/.bin/jest --runInBand",
         "test:watch": "./node_modules/.bin/jest --watch --runInBand"
     },
