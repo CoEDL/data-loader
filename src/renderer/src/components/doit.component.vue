@@ -12,17 +12,14 @@
                             <i class="fas fa-cog" v-bind:class="{ 'fa-spin': data.loading }"></i
                             >&nbsp; Load the data
                         </el-button>
-                        <!-- <el-button type="danger" @click="stopDataLoad" :disabled="!data.loading">
-                            <i class="fas fa-ban" v-bind:class="{ 'fa-spin': data.loading }"></i
-                            >&nbsp; Stop data load
-                        </el-button> -->
                         <el-button type="danger" @click="reset" :disabled="!canLoad">
                             <i class="fas fa-ban"></i>
                             &nbsp; reset
                         </el-button>
                     </div>
                     <div class="text-lg text-red-600">
-                        **This will wipe any other content currently on the Disk**
+                        **This will wipe any other content currently inside the html folder on the
+                        Disk**
                     </div>
                 </div>
             </el-form-item>

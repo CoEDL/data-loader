@@ -2,7 +2,7 @@
     <div class="flex flex-col">
         <navbar-component class="bg-blue-200 p-4" />
         <div class="flex flex-row">
-            <div class="flex flex-col space-y-2 w-1/2 px-4 py-2">
+            <div class="flex flex-col space-y-2 w-3/5 px-4 py-2">
                 <div class="p-4">
                     <messages-component />
                 </div>
