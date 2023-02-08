@@ -2,11 +2,11 @@
 
 import EventEmitter from "events"
 import fsExtraPkg from "fs-extra"
-const { ensureDir, pathExists, remove, readdir, copy, readFile, writeFile } = fsExtraPkg
+const { ensureDir, pathExists, remove, readdir, copy, readFile, writeFile, stat } = fsExtraPkg
 import path from "path"
 const { basename: pathBasename, dirname: pathDirname } = path
 import SiteGenerator from "./site-generator.js"
-import walk from "walk"
+import { walk as walker } from "@root/walk"
 import lodashPkg from "lodash"
 const { isEmpty, isUndefined, compact, flattenDeep, uniq, uniqBy, groupBy, orderBy, isArray, sum } =
     lodashPkg
@@ -32,20 +32,23 @@ export default class DataLoader extends EventEmitter {
     }
 
     async load() {
-        let index
         try {
             if (!(await this.prepareTarget())) {
                 return
             }
 
             this.emit("info", "Processing the data to be loaded.")
-            let { folders, errors } = await this.walk()
+            let { objects, errors } = await this.walk()
             this.emit("complete", "Data processed")
+            if (!objects.length) {
+                this.emit("error", "No data folders found.")
+                return
+            }
 
             errors.forEach((error) => this.emit("error", error))
 
             this.emit("info", "Building the index.")
-            const { collections, items } = await this.buildIndex({ folders })
+            const { collections, items } = await this.buildIndex({ objects })
             this.emit("complete", "Index built")
 
             switch (this.targetDevice) {
@@ -95,13 +98,13 @@ export default class DataLoader extends EventEmitter {
         this.emit("complete", `Collection viewer has been installed`)
     }
 
-    async buildIndex({ folders }) {
+    async buildIndex({ objects }) {
         var self = this
         let items = []
         let collections = []
-        for (let folder of folders) {
-            if (folder.type === "CAT-XML") {
-                let { item, collection } = await readCatalogFile({ folder })
+        for (let obj of objects) {
+            if (obj.type === "CAT-XML") {
+                let { item, collection } = await readCatalogFile({ obj })
                 // console.log(JSON.stringify(item, null, 2));
                 // console.log(JSON.stringify(collection, null, 2));
                 if (!item) {
@@ -112,12 +115,11 @@ export default class DataLoader extends EventEmitter {
                     "info",
                     `Generated the index for item: ${item.collectionId}/${item.itemId}`
                 )
+                item.fs = obj
                 items.push(item)
 
                 this.emit("info", `Generated the index for collection: ${collection.collectionId}`)
                 collections.push(collection)
-            } else if (folder.type === "OCFL") {
-                // TODO: not yet implemented
             }
         }
         collections = groupBy(collections, "collectionId")
@@ -141,20 +143,20 @@ export default class DataLoader extends EventEmitter {
 
         return { items, collections }
 
-        async function readCatalogFile({ folder }) {
-            let dataFile = path.join(folder.folder, folder.file)
+        async function readCatalogFile({ obj }) {
+            let dataFile = path.join(obj.folder, obj.file)
             const data = parseXML(await readFile(dataFile, { encoding: "utf8" }))
             let { people, classifications, languages, categories } = getFilters({
                 data
             })
-            let item = createItemDataStructure({ folder, data })
+            let item = createItemDataStructure({ obj, data })
             if (!item) {
                 self.emit("error", `No files listed in ${dataFile}`)
                 return { item: null, collection: null }
             }
             item = { ...item, people, classifications, languages, categories }
 
-            let collection = createCollectionDataStructure({ folder, data })
+            let collection = createCollectionDataStructure({ data })
             collection.people = uniqBy([...getCollectionPeople({ data }), ...people], "name")
             collection.classifications = classifications
             collection.languages = languages
@@ -170,7 +172,7 @@ export default class DataLoader extends EventEmitter {
             }
         }
 
-        function createCollectionDataStructure({ folder, data }) {
+        function createCollectionDataStructure({ data }) {
             let collectionData = {
                 title: get(data.item.collection, "title"),
                 description: get(data.item.collection, "description"),
@@ -186,8 +188,8 @@ export default class DataLoader extends EventEmitter {
             return collectionData
         }
 
-        function createItemDataStructure({ folder, data }) {
-            const files = getFiles(folder.folder, data)
+        function createItemDataStructure({ obj, data }) {
+            const files = getFiles(data)
             if (isEmpty(files)) {
                 return null
             }
@@ -197,9 +199,7 @@ export default class DataLoader extends EventEmitter {
             imageFiles = compact(imageFiles.filter((image) => !image.name.match("thumb")))
             imageFiles = imageFiles.map((image) => {
                 let thumbnail = pathBasename(image.path)
-                thumbnail = `${thumbnail.split(".")[0]}-thumbuuPDSC_ADMIN.${
-                    thumbnail.split(".")[1]
-                }`
+                thumbnail = `${thumbnail.split(".")[0]}-thumb-PDSC_ADMIN.${thumbnail.split(".")[1]}`
                 image.thumbnail = `${pathDirname(image.path)}/${thumbnail}`
                 return image
             })
@@ -253,7 +253,7 @@ export default class DataLoader extends EventEmitter {
                 }
             }
 
-            function getFiles(path, data) {
+            function getFiles(data) {
                 const collectionId = get(data.item, "identifier").split("-")[0]
                 const itemId = get(data.item, "identifier").split("-")[1]
                 if (isUndefined(data.item.files.file)) return []
@@ -261,11 +261,15 @@ export default class DataLoader extends EventEmitter {
                     data.item.files.file = [data.item.files.file]
                 }
                 if (isEmpty(data.item.files.file)) return []
+                const target = `/repository/${collectionId}/${itemId}`
+
                 return data.item.files.file.map((file) => {
+                    const filename = get(file, "name")
+                    const mimetype = get(file, "mimeType")
                     return {
-                        name: `${get(file, "name")}`,
-                        path: `${path}/${get(file, "name")}`,
-                        type: get(file, "mimeType")
+                        name: filename,
+                        path: `${target}/${filename}`,
+                        type: mimetype
                     }
                 })
             }
@@ -422,7 +426,6 @@ export default class DataLoader extends EventEmitter {
         this.emit("info", "Loading the data (this can take some time).")
 
         let processedItems = []
-        this.emit("progress", { n: 0, total: items.length })
 
         for (let [idx, item] of items.entries()) {
             // remap file paths to path on target
@@ -442,9 +445,8 @@ export default class DataLoader extends EventEmitter {
                 }
             })
             this.emit("info", `Loading item ${item.collectionId}/${item.itemId}`)
-            this.emit("progress", { n: idx, total: items.length })
 
-            const source = `${this.localDataPath}/${item.collectionId}/${item.itemId}/`
+            const source = item.fs.folder
             const target = `${this.usbMountPoint}/html/repository/${item.collectionId}/${item.itemId}/`
 
             if (await pathExists(source)) {
@@ -459,7 +461,6 @@ export default class DataLoader extends EventEmitter {
             items: processedItems,
             collections
         })
-        this.emit("progress", { n: items.length, total: items.length })
         return { items, collections }
     }
 
@@ -468,57 +469,42 @@ export default class DataLoader extends EventEmitter {
         this.emit("info", "Index file written.")
     }
 
-    walk() {
+    async walk() {
         let errors = []
-        return new Promise((resolve, reject) => {
-            let walker = walk.walk(this.localDataPath, {})
-            let dataFolders = []
+        let objects = []
+        await walker(this.localDataPath, walkHandler)
 
-            walker.on("directories", async (root, subfolders, next) => {
-                for (let folder of subfolders) {
-                    dataFolders.push(await scandir({ folder: path.join(root, folder.name) }))
+        async function walkHandler(error, pathname, dirent) {
+            let isDirectory = await (await stat(pathname)).isDirectory()
+            if (error) {
+                errors.push(error)
+            } else {
+                if (isDirectory) {
+                    objects.push(await scandir({ folder: pathname }))
                 }
-                next()
-            })
-            walker.on("errors", (root, nodeStatsArray, next) => {
-                next()
-            })
+            }
+        }
 
-            walker.on("end", () => {
-                resolve({ folders: compact(dataFolders), errors })
-            })
-        })
+        return { objects: compact(objects), errors }
 
         async function scandir({ folder }) {
             let content = await readdir(folder)
-            let files = containsOCFLObject({ content })
-            if (files.length) {
-                return { folder, type: "OCFL" }
-            } else {
-                files = containsCatXMLFile({ content })
-                if (!files.length) return null
-                if (files.length !== 1) {
-                    errors.push({
-                        msg: `${folder} has more than one CAT XMl file.`,
-                        level: "error"
-                    })
-                    return null
-                }
-                return { folder, type: "CAT-XML", file: files[0] }
+            let files = containsCatXMLFile({ content })
+            if (!files.length) return null
+            if (files.length !== 1) {
+                errors.push({
+                    msg: `${folder} has more than one CAT XMl file.`,
+                    level: "error"
+                })
+                return null
             }
-            return null
+            return { folder, type: "CAT-XML", file: files[0] }
         }
 
         function containsCatXMLFile({ content }) {
             let files = content
                 .filter((f) => f.match(/CAT-PDSC_ADMIN\.xml/))
                 .filter((f) => !f.match(/^\..*/))
-            return files
-        }
-
-        function containsOCFLObject({ content }) {
-            const re = new RegExp(ocflObjectFile)
-            let files = content.filter((f) => f.match(re))
             return files
         }
     }

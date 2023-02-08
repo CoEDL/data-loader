@@ -45,9 +45,9 @@ describe("test data service methods", () => {
     })
     it("should be able to build a tree of data files to load", async () => {
         await dataloader.prepareTarget()
-        const { folders, errors } = await dataloader.walk()
-        expect(folders.length).toEqual(5)
-        const folder = folders.filter((f) => f.file === "DT1-214-CAT-PDSC_ADMIN.xml")
+        const { objects, errors } = await dataloader.walk()
+        expect(objects.length).toEqual(5)
+        const folder = objects.filter((f) => f.file === "DT1-214-CAT-PDSC_ADMIN.xml")
         expect(folder).toEqual([
             {
                 folder: "/Users/mlarosa/src/pdsc/data-loader/src/main/services/test-data/DT1/214",
@@ -58,8 +58,8 @@ describe("test data service methods", () => {
     })
     it("should be able to create an index file with all of the data", async () => {
         let result = await dataloader.prepareTarget()
-        const { folders, errors } = await dataloader.walk()
-        let { items, collections } = await dataloader.buildIndex({ folders })
+        const { objects, errors } = await dataloader.walk()
+        let { items, collections } = await dataloader.buildIndex({ objects })
         expect(items.length).toEqual(5)
         expect(collections.length).toEqual(3)
         const itemIds = items.map((item) => item.itemId).sort()
@@ -73,9 +73,9 @@ describe("test data service methods", () => {
     it("should be able to install the data and write the index file", async () => {
         let result = await dataloader.prepareTarget()
         await dataloader.installCollectionViewer()
-        const { folders, errors } = await dataloader.walk()
+        const { objects, errors } = await dataloader.walk()
 
-        let { items, collections } = await dataloader.buildIndex({ folders })
+        let { items, collections } = await dataloader.buildIndex({ objects })
         const index = await dataloader.installTheData({
             collections,
             items
