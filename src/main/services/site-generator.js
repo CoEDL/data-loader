@@ -11,24 +11,16 @@ const { uniqBy, isEmpty, compact, groupBy, includes, findIndex } = lodashPkg
 const speakerRolesToDisplay = ["participant", "performer", "signer", "singer", "speaker"]
 
 export default class SiteGenerator extends EventEmitter {
-    constructor({ index, usbMountPoint, applicationPath }) {
+    constructor({ items, usbMountPoint, applicationPath }) {
         super()
 
-        this.index = index
+        this.items = items
         this.usbMountPoint = `${usbMountPoint}/html`
         this.applicationPath = applicationPath
     }
 
     async generate() {
-        this.emit("progress", { n: 0, total: this.index.length })
-        for (let item of this.index) {
-            this.emit("progress", {
-                n: findIndex(this.index, {
-                    collectionId: item.collectionId,
-                    itemId: item.itemId
-                }),
-                total: this.index.length
-            })
+        for (let item of this.items) {
             item = await this.stripMissingFiles({ item })
             item.people = compact(
                 item.people.map((person) => {
@@ -48,7 +40,6 @@ export default class SiteGenerator extends EventEmitter {
             await this.createDocumentsBrowserPage({ item })
             this.emit("info", `Done generating ${item.collectionId}/${item.itemId}`)
         }
-        this.emit("progress", { n: this.index.length, total: this.index.length })
         await this.createIndexPage()
     }
 
@@ -111,9 +102,9 @@ export default class SiteGenerator extends EventEmitter {
         const file = `${this.usbMountPoint}/index.html`
         const template = this.getPath("index.njk")
         let data = {
-            byIdentifier: groupByIdentifier(this.index),
-            byGenre: isEmpty(groupByGenre(this.index)) ? undefined : groupByGenre(this.index),
-            bySpeaker: isEmpty(groupBySpeaker(this.index)) ? undefined : groupBySpeaker(this.index)
+            byIdentifier: groupByIdentifier(this.items),
+            byGenre: groupByGenre(this.items),
+            bySpeaker: groupBySpeaker(this.items)
         }
         const html = nunjucks.render(template, { data })
         await writeFile(file, html)
@@ -131,13 +122,7 @@ export default class SiteGenerator extends EventEmitter {
         }
 
         function groupByGenre(data) {
-            let genre
-            let collections = data.filter((item) => item.classifications)
-            // collections = groupBy(collections, collection => {
-            //     genre = collection.classifications.filter(c => c.genre)[0]
-            //         .genre;
-            //     return genre;
-            // });
+            let collections = data.filter((item) => item.classifications.length)
             var ordered = {}
             Object.keys(collections)
                 .sort()
@@ -183,23 +168,20 @@ export default class SiteGenerator extends EventEmitter {
     async createImageBrowserPage({ item }) {
         await ensureDir(`${item.path}/images/content`)
         for (let i = 0; i < item.images.length; i++) {
-            const first = `${item.images[0].path.split("/").pop()}.html`
-            const last = `${item.images[item.images.length - 1].path.split("/").pop()}.html`
+            const first = `${item.images[0].name}.html`
+            const last = `${item.images[item.images.length - 1].name}.html`
             let image = item.images[i]
             item.currentContext = {
                 first: i === 0 ? null : first,
-                previous: i === 0 ? null : `${item.images[i - 1].path.split("/").pop()}.html`,
-                name: `./content/${image.path.split("/").pop()}`,
+                previous: i === 0 ? null : `${item.images[i - 1].name}.html`,
+                name: `./content/${image.name}`,
                 meta: `Image ${i + 1} of ${item.images.length}`,
-                next:
-                    i === item.images.length - 1
-                        ? null
-                        : `${item.images[i + 1].path.split("/").pop()}.html`,
+                next: i === item.images.length - 1 ? null : `${item.images[i + 1].name}.html`,
                 last: i === item.images.length - 1 ? null : last
             }
             if (await pathExists(image.path)) {
                 await this.copyFile(image.path, `${item.path}/images/content`)
-                await this.copyFile(image.thumbnail, `${item.path}/images/content`)
+                await this.copyFile(image.thumbnailPath, `${item.path}/images/content`)
 
                 const file = `${item.path}/images/${image.path.split("/").pop()}.html`
                 const template = this.getPath("image-browser.njk")

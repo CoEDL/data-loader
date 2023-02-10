@@ -48,9 +48,8 @@ describe("test data service methods", () => {
         const { objects, errors } = await dataloader.walk()
         expect(objects.length).toEqual(5)
         const folder = objects.filter((f) => f.file === "DT1-214-CAT-PDSC_ADMIN.xml")
-        expect(folder).toEqual([
+        expect(folder).toMatchObject([
             {
-                folder: "/Users/mlarosa/src/pdsc/data-loader/src/main/services/test-data/DT1/214",
                 type: "CAT-XML",
                 file: "DT1-214-CAT-PDSC_ADMIN.xml"
             }
@@ -75,16 +74,33 @@ describe("test data service methods", () => {
         await dataloader.installCollectionViewer()
         const { objects, errors } = await dataloader.walk()
 
-        let { items, collections } = await dataloader.buildIndex({ objects })
+        let { items, collections, itemLocation } = await dataloader.buildIndex({ objects })
+
+        let messages = []
+        dataloader.on("info", (msg) => messages.push(msg))
+        dataloader.on("complete", (msg) => messages.push(msg))
+        dataloader.on("error", (msg) => messages.push(msg))
         const index = await dataloader.installTheData({
             collections,
-            items
+            items,
+            itemLocation
         })
+
+        expect(messages).toEqual([
+            "Loading the data (this can take some time).",
+            "Loading item DT1/214",
+            "Loading item DT1/521",
+            "Loading item DT1/940",
+            "Loading item NT1/98007",
+            "Loading item NT5/TokelauOf",
+            "Data loaded",
+            "Index file written."
+        ])
 
         index.items.forEach((item) => {
             item.images.forEach((image) => {
                 if (image.path) expect(pathExistsSync(image.path)).toBeTrue
-                if (image.thumbnail) expect(pathExistsSync(image.thumbnail)).toBeTrue
+                if (image.thumbnailPath) expect(pathExistsSync(image.thumbnail)).toBeTrue
             })
             item.audio.forEach((file) => {
                 if (file.path) expect(pathExistsSync(file.path)).toBeTrue
