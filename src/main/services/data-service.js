@@ -96,9 +96,20 @@ export default class DataLoader extends EventEmitter {
                 file: obj.file
             })
 
-            await extractor.readCatalogFile()
-            let { item, collection } = extractor.load()
-            this.emit("info", `Generated the index for item: ${item.collectionId}/${item.itemId}`)
+            this.emit("info", `Generating the index for item: ${obj.folder}`)
+            let item, collection
+            try {
+                await extractor.readCatalogFile()
+                ;({ item, collection } = extractor.load())
+            } catch (error) {
+                console.log(error)
+                this.emit("error", `Error generating the index for item: ${obj.folder}`)
+                continue
+            }
+            this.emit(
+                "complete",
+                `Generated the index for item: ${item.collectionId}/${item.itemId}`
+            )
 
             items.push(item)
             itemLocation[`${item.collectionId}-${item.itemId}`] = obj
