@@ -151,11 +151,13 @@ export default class CatXmlExtractor {
         let classifications = this.get(this.item.adminInfo, "adminComment")
         if (classifications && classifications.match(/\[.*\]/)) {
             classifications = classifications.replace("[", "").replace("]", "").split(":::")
-            classifications = compact(classifications.map((c) => (c !== "" ? c.trim() : undefined)))
+            classifications = compact(
+                classifications.map((c) => (c !== "" ? c?.trim() : undefined))
+            )
             classifications = classifications.map((c) => {
                 return {
                     name: c.split(":")[0],
-                    value: c.split(":")[1].trim()
+                    value: c.split(":")[1]?.trim()
                 }
             })
         } else {
@@ -173,7 +175,7 @@ export default class CatXmlExtractor {
         let agents = this.item.agents.agent.map((agent) => {
             return {
                 role: agent["@attributes"].role,
-                name: agent["#text"].trim()
+                name: agent["#text"]?.trim()
             }
         })
         return orderBy(agents, ["name"])
