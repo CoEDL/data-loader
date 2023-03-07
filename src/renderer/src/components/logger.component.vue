@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div ref="container" class="overflow-scroll" :style="{ height: height }">
+        <div ref="container" class="overflow-scroll" :style="{ height: props.height }">
             <ul class="fa-ul" v-if="props.messages.length">
                 <li v-for="(m, idx) in props.messages" :key="idx">
                     <span class="fa-li">
@@ -31,10 +31,13 @@ import { ref, watch } from "vue"
 
 const bottom = ref(null)
 const container = ref(null)
-const height = ref(`${window.innerHeight - 110}px`)
 const props = defineProps({
     messages: {
         type: Array,
+        required: true
+    },
+    height: {
+        type: String,
         required: true
     }
 })
