@@ -199,6 +199,8 @@ export default class CatXmlExtractor {
     }
     getCollectionLanguages() {
         let languages = []
+        if (!isArray(this.collection.languages.language))
+            this.collection.languages.language = [this.collection.languages.language]
         this.collection.languages.language.forEach((language) => {
             languages.push(language["#text"])
         })
